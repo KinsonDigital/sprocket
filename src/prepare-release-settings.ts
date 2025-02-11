@@ -1,3 +1,4 @@
+import { DotnetCopyrightUpdate } from "./dotnet-copyright-update.ts";
 import { ReleaseType } from "./release-type.ts";
 
 /**
@@ -49,4 +50,9 @@ export interface PrepareReleaseSettings {
 	 * Gets the list of strings to trim from the start of the version.
 	 */
 	trimFromStartOfVersion?: string[];
+
+	/**
+	 * Gets the dotnet copyright update settings.
+	 */
+	dotnetCopyrightUpdate?: DotnetCopyrightUpdate;
 }
