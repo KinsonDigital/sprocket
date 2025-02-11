@@ -21,6 +21,7 @@ import { GeneratorSettings } from "./generator-settings.ts";
 import { JsonVersionUpdater } from "./json-version-updater.ts";
 import { CSharpVersionUpdater } from "./csharp-version-updater.ts";
 import { resolve } from "../deps.ts";
+import { DotnetCopyrightUpdater } from "./dotnet-copyright-updater.ts";
 
 /**
  * Prepares for a release by creating various branches, release notes, updating the version, and creating a pr.
@@ -137,6 +138,7 @@ export class ReleasePrepper {
 
 		await this.createReleaseBranch(chosenReleaseType);
 
+		// Update the version
 		if (!Guards.isNothing(settings.versionFilePath)) {
 			try {
 				this.updateVersion(settings, chosenVersion);
@@ -151,6 +153,12 @@ export class ReleasePrepper {
 			// Commit version update
 			ConsoleLogColor.gray("   ⏳Creating version update commit.");
 			await this.createCommit(`release: update version to ${chosenVersion}`);
+		}
+
+		// Update the copyright
+		if (!Guards.isNothing(settings.dotnetCopyrightUpdate)) {
+			const copyrightUpdater = new DotnetCopyrightUpdater();
+			copyrightUpdater.updateCopyright(settings.dotnetCopyrightUpdate);
 		}
 
 		// Generate the release notes
