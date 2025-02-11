@@ -1,6 +1,7 @@
 import {
 	existsSync,
 	extname,
+	GitClient,
 	LabelClient,
 	MilestoneClient,
 	OrgClient,
@@ -38,6 +39,7 @@ export class ReleasePrepper {
 	private readonly milestoneClient: MilestoneClient;
 	private readonly tagClient: TagClient;
 	private readonly orgClient: OrgClient;
+	private readonly gitClient: GitClient;
 
 	/**
 	 * Creates a new instance of the {@link ReleasePrepper} class.
@@ -55,6 +57,7 @@ export class ReleasePrepper {
 		this.milestoneClient = new MilestoneClient(this.settings.ownerName, this.settings.repoName, this.token);
 		this.tagClient = new TagClient(this.settings.ownerName, this.settings.repoName, this.token);
 		this.orgClient = new OrgClient(this.settings.ownerName, this.token);
+		this.gitClient = new GitClient(this.settings.ownerName, this.settings.repoName, this.token);	
 	}
 
 	/**
@@ -134,6 +137,15 @@ export class ReleasePrepper {
 				ConsoleLogColor.red(errorMsg);
 				Deno.exit(1);
 			}
+		}
+
+		// Validate that the base branch exists
+		const baseBranchExists = await this.gitClient.branchExists(chosenReleaseType.baseBranch);
+
+		if (!baseBranchExists) {
+			const errorMsg = `The base branch '${chosenReleaseType.baseBranch}' does not exist.`;
+			ConsoleLogColor.red(`${errorMsg}`);
+			Deno.exit(1);
 		}
 
 		await this.createReleaseBranch(chosenReleaseType);
@@ -811,6 +823,12 @@ export class ReleasePrepper {
 		}
 	}
 
+	/**
+	 * Creates a pull request using the given {@link releasetype} and {@link chosenVersion}.
+	 * @param releaseType The type of release.
+	 * @param chosenVersion The version.
+	 * @returns A promise that resolves with the number of the created pull request.
+	 */
 	private async createPullRequest(releaseType: ReleaseType, chosenVersion: string): Promise<number> {
 		ConsoleLogColor.gray("   ⏳Creating pr.");
 
