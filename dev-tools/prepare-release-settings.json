@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/KinsonDigital/kd-admin/preview/schemas/prepare-release-schema.json",
+    "$schema": "../schemas/prepare-release-schema.json",
     "ownerName": "KinsonDigital",
     "repoName": "kd-admin",
     "orgProjectName": "KD-Team",

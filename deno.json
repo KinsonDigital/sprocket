@@ -4,7 +4,7 @@
         "check": "deno check **/*/*.ts",
         "lint": "deno lint **/*/*.ts",
         "tests": "deno test ./Tests/*Tests.ts",
-        "reload-cache": "deno cache --reload --lock=deno.lock \"*/**/*.ts\""
+        "reload-cache": "deno cache --reload \"*/**/*.ts\""
     },
     "lint": {
         "include": [

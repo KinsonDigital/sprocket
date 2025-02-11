@@ -21,6 +21,7 @@ import { GeneratorSettings } from "./generator-settings.ts";
 import { JsonVersionUpdater } from "./json-version-updater.ts";
 import { CSharpVersionUpdater } from "./csharp-version-updater.ts";
 import { resolve } from "../deps.ts";
+import { DotnetCopyrightUpdater } from "./dotnet-copyright-updater.ts";
 
 /**
  * Prepares for a release by creating various branches, release notes, updating the version, and creating a pr.
@@ -137,11 +138,13 @@ export class ReleasePrepper {
 
 		await this.createReleaseBranch(chosenReleaseType);
 
+		// Update the version
 		if (!Guards.isNothing(settings.versionFilePath)) {
 			try {
 				this.updateVersion(settings, chosenVersion);
 			} catch (error) {
-				ConsoleLogColor.red(error.message);
+				const errorMsg = error instanceof Error ? error.message : "There was a problem updating the version.";
+				ConsoleLogColor.red(errorMsg);
 			}
 
 			// Stage version update
@@ -151,6 +154,22 @@ export class ReleasePrepper {
 			// Commit version update
 			ConsoleLogColor.gray("   ⏳Creating version update commit.");
 			await this.createCommit(`release: update version to ${chosenVersion}`);
+		}
+
+		// Update the copyright
+		if (!Guards.isNothing(settings.dotnetCopyrightUpdate)) {
+			const copyrightUpdater = new DotnetCopyrightUpdater();
+			const { csProjFilePath, wasUpdated } = copyrightUpdater.updateCopyright(settings.dotnetCopyrightUpdate);
+
+			if (wasUpdated) {
+				// Stage copyright update
+				ConsoleLogColor.gray("   ⏳Staging copyright update.");
+				await this.stageFile(resolve(Deno.cwd(), csProjFilePath));
+				
+				// Commit copyright update
+				ConsoleLogColor.gray("   ⏳Creating copyright update commit.");
+				await this.createCommit(`release: update copyright to ${chosenVersion}`);
+			}
 		}
 
 		// Generate the release notes
@@ -262,8 +281,11 @@ export class ReleasePrepper {
 		try {
 			settings = JSON.parse(settingJsonData);
 		} catch (error) {
-			const errorMsg = `There was a problem parsing the file '${settingsFileName}'.\n${error.message}`;
-			ConsoleLogColor.red(`${errorMsg}`);
+			const errorMsg = error instanceof Error
+				? `\n${error.message}`
+				: "";
+
+			ConsoleLogColor.red(`There was a problem parsing the file '${settingsFileName}'.${errorMsg}`);
 			Deno.exit(1);
 		}
 
@@ -549,9 +571,10 @@ export class ReleasePrepper {
 		try {
 			settings = JSON.parse(settingJsonData);
 		} catch (error) {
-			const errorMsg =
-				`There was a problem parsing the file '${releaseType.genReleaseSettingsFilePath}'.\n${error.message}`;
-			ConsoleLogColor.red(`${errorMsg}`);
+			const errorMsg = error instanceof Error
+				? `\n${error.message}`
+				: "";
+			ConsoleLogColor.red(`There was a problem parsing the file '${releaseType.genReleaseSettingsFilePath}'.${errorMsg}`);
 			Deno.exit(1);
 		}
 
@@ -609,7 +632,7 @@ export class ReleasePrepper {
 		type AssignInputType = "manual" | "org members only" | "ignore";
 		const assignOptions: AssignInputType[] = ["org members only", "manual", "ignore"];
 
-		const selectedAssignType = <AssignInputType> (await Select.prompt({
+		const selectedAssignType = <AssignInputType>(await Select.prompt({
 			message: "Choose the type of reviewer member",
 			options: assignOptions,
 		}));
@@ -670,7 +693,7 @@ export class ReleasePrepper {
 		type AssignInputType = "manual" | "org members only" | "ignore";
 		const assignOptions: AssignInputType[] = ["org members only", "manual", "ignore"];
 
-		const selectedAssignType = <AssignInputType> (await Select.prompt({
+		const selectedAssignType = <AssignInputType>(await Select.prompt({
 			message: "Choose the type of assignee member",
 			options: assignOptions,
 		}));

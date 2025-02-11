@@ -46,7 +46,10 @@ export class VersionPuller {
 	
 			return jsonObj.version;
 		} catch (error) {
-			const errorMsg = `There was a problem parsing the file '${fileName}'.\n${error.message}`;
+			const errorMsg = error instanceof Error
+				? `There was a problem parsing the file '${fileName}'.\n${error.message}`
+				: "There was a problem parsing the file.";
+
 			console.log(`::error::${errorMsg}`);
 			Deno.exit(1);
 		}

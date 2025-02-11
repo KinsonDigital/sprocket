@@ -202,7 +202,11 @@ console.log("   %c⏳ Installing kd-admin ...", "color: gray");
 try {
 	await runAsync("deno", args);
 } catch (error) {
-	console.log(`%c${error.message}`, "color: red");
+	const errorMsg = error instanceof Error
+		? error.message
+		: "There was a problem installing the tool.";
+
+	console.log(`%c${errorMsg}`, "color: red");
 	Deno.exit(1);
 }
 
