@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/KinsonDigital/kd-admin/preview/schemas/gen-release-notes-schema.json",
+    "$schema": "../schemas/gen-release-notes-schema.json",
     "ownerName": "KinsonDigital",
     "repoName": "kd-admin",
     "githubTokenEnvVarName": "CICD_TOKEN",

@@ -17,7 +17,7 @@
 				"REPO_NAME": "kd-admin"
 			},
 			"windows": {
-				"runtimeExecutable": "${userHome}\\.deno\\bin\\deno.exe"
+				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},
 			"linux": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno"
@@ -37,7 +37,7 @@
 			"program": "${workspaceFolder}/src/main.ts",
 			"cwd": "${workspaceFolder}",
 			"windows": {
-				"runtimeExecutable": "${userHome}\\.deno\\bin\\deno.exe"
+				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},
 			"linux": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno"
@@ -62,7 +62,7 @@
 			"program": "${workspaceFolder}/src/main.ts",
 			"cwd": "${workspaceFolder}",
 			"windows": {
-				"runtimeExecutable": "${userHome}\\.deno\\bin\\deno.exe"
+				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},
 			"linux": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno"
@@ -99,7 +99,7 @@
 				"<node_internals>/**"
 			],
 			"windows": {
-				"runtimeExecutable": "${userHome}\\.deno\\bin\\deno.exe"
+				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},
 			"linux": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno"
@@ -112,7 +112,7 @@
 			"program": "${workspaceFolder}/.github/cicd/scripts/get-version.ts",
 			"cwd": "${workspaceFolder}",
 			"windows": {
-				"runtimeExecutable": "${userHome}\\.deno\\bin\\deno.exe"
+				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},
 			"linux": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno"
@@ -137,7 +137,7 @@
 				"VERSION": "v1.0.0-preview.1"
 			},
 			"windows": {
-				"runtimeExecutable": "${userHome}\\.deno\\bin\\deno.exe"
+				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},
 			"linux": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno"
@@ -157,7 +157,7 @@
 			"program": "${workspaceFolder}/installation/install.ts",
 			"cwd": "${workspaceFolder}",
 			"windows": {
-				"runtimeExecutable": "${userHome}\\.deno\\bin\\deno.exe"
+				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},
 			"linux": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno"
@@ -183,7 +183,7 @@
 			"program": "${workspaceFolder}/installation/update.ts",
 			"cwd": "${workspaceFolder}",
 			"windows": {
-				"runtimeExecutable": "${userHome}\\.deno\\bin\\deno.exe"
+				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},
 			"linux": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno"

@@ -41,7 +41,26 @@
         "trimFromStartOfVersion": {
             "type": "array",
             "description": "The list of strings to trim from the start of the version number. (Optional)"
+        },
+        "dotnetCopyrightUpdate": {
+            "type": "object",
+            "description": "The configuration for updating a .NET project's copyright year if it exists.",
+            "properties": {
+                "searchDirPath": {
+                    "type": "string",
+                    "description": "The directory to search for the project file in."
+                },
+                "projectFileName": {
+                    "type": "string",
+                    "description": "Flag to enable or disable the copyright update."
+                },
+                "companyName": {
+                    "type": "string",
+                    "description": "The year to update the copyright to."
+                }
+            },
+            "required": ["searchDirPath", "projectFileName", "companyName"]
         }
     },
-    "required": ["ownerName", "repoName", "releaseTypes", "githubTokenEnvVarName"]
+    "required": ["projectFileName", "companyName", "ownerName", "repoName", "releaseTypes", "githubTokenEnvVarName"]
 }

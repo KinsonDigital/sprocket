@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/KinsonDigital/kd-admin/preview/schemas/prepare-release-schema.json",
+    "$schema": "../schemas/prepare-release-schema.json",
     "ownerName": "KinsonDigital",
     "repoName": "kd-admin",
     "orgProjectName": "KD-Team",
@@ -35,5 +35,10 @@
     ],
     "githubTokenEnvVarName": "CICD_TOKEN",
     "versionFilePath": "./deno.json",
-    "releaseNotesFilePrefix": "Release-Notes-"
+    "releaseNotesFilePrefix": "Release-Notes-",
+    "dotnetCopyrightUpdate": {
+        "searchDirPath": "./my-csharp-proj",
+        "projectFileName": "csharp",
+        "companyName": "Kinson Digital"
+    }
 }

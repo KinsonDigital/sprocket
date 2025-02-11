@@ -1,0 +1,110 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>Velaptor</RootNamespace>
+    <AssemblyName>Velaptor</AssemblyName>
+
+    <!--Update this for production and preview releases-->
+    <Version>1.0.0-preview.41</Version>
+
+    <!--Update this for production and preview releases-->
+    <FileVersion>1.0.0-preview.41</FileVersion>
+
+    <!--
+      DO NOT UPDATE THIS FOR PREVIEW RELEASES!!
+      Visual Studio does not allow the preview syntax for this tag
+      Example: v1.2.3.preview.1 is not allowed
+    -->
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <ApplicationIcon>velaptor-logo.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageId>KinsonDigital.Velaptor</PackageId>
+    <Authors>Calvin Wilkinson</Authors>
+    <Company>Kinson Digital</Company>
+    <Product>Velaptor</Product>
+    <Description>2D game or application development framework that provides 2D rendering, audio, keyboard and mouse input, etc.</Description>
+
+    <Copyright>Copyright ©1981 iNC iNC</Copyright>
+
+    <PackageTags>velaptor raptor 2D game games framework</PackageTags>
+    <Configurations>Debug;Release</Configurations>
+    <PackageProjectUrl>https://github.com/KinsonDigital/Velaptor</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KinsonDigital/Velaptor</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>velaptor-logo.png</PackageIcon>
+    <Platforms>x64</Platforms>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <NoWarn>CS7035</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName)Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+    <InternalsVisibleTo Include="MeasureTextPerf" />
+    <InternalsVisibleTo Include="KeyboardPerf" />
+    <InternalsVisibleTo Include="MousePerf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="velaptor-logo.ico" Pack="true" PackagePath="\" />
+    <None Include="..\Images\velaptor-logo.png" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="OpenGL\ShaderCode\font.frag" />
+    <EmbeddedResource Include="OpenGL\ShaderCode\font.vert" />
+    <EmbeddedResource Include="OpenGL\ShaderCode\line.frag" />
+    <EmbeddedResource Include="OpenGL\ShaderCode\line.vert" />
+    <EmbeddedResource Include="OpenGL\ShaderCode\shape.frag" />
+    <EmbeddedResource Include="OpenGL\ShaderCode\shape.vert" />
+    <EmbeddedResource Include="OpenGL\ShaderCode\texture.frag" />
+    <EmbeddedResource Include="OpenGL\ShaderCode\texture.vert" />
+    <EmbeddedResource Include="Content\Fonts\EmbeddedResources\TimesNewRoman-Regular.ttf" />
+    <EmbeddedResource Include="Content\Fonts\EmbeddedResources\TimesNewRoman-Bold.ttf" />
+    <EmbeddedResource Include="Content\Fonts\EmbeddedResources\TimesNewRoman-BoldItalic.ttf" />
+    <EmbeddedResource Include="Content\Fonts\EmbeddedResources\TimesNewRoman-Italic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FreeTypeSharp" Version="3.0.0" />
+    <PackageReference Include="KinsonDigital.Carbonate" Version="1.0.0-preview.18" />
+    <PackageReference Include="KinsonDigital.CASL" Version="1.0.0-preview.21" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MP3Sharp" Version="1.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.22.0" />
+    <PackageReference Include="Silk.NET" Version="2.22.0" />
+    <PackageReference Include="SimpleInjector" Version="5.5.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.IO.Abstractions" Version="21.3.1" />
+  </ItemGroup>
+
+</Project>
