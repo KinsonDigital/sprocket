@@ -158,7 +158,17 @@ export class ReleasePrepper {
 		// Update the copyright
 		if (!Guards.isNothing(settings.dotnetCopyrightUpdate)) {
 			const copyrightUpdater = new DotnetCopyrightUpdater();
-			copyrightUpdater.updateCopyright(settings.dotnetCopyrightUpdate);
+			const { csProjFilePath, wasUpdated } = copyrightUpdater.updateCopyright(settings.dotnetCopyrightUpdate);
+
+			if (wasUpdated) {
+				// Stage copyright update
+				ConsoleLogColor.gray("   ⏳Staging copyright update.");
+				await this.stageFile(resolve(Deno.cwd(), csProjFilePath));
+				
+				// Commit copyright update
+				ConsoleLogColor.gray("   ⏳Creating copyright update commit.");
+				await this.createCommit(`release: update copyright to ${chosenVersion}`);
+			}
 		}
 
 		// Generate the release notes
@@ -617,7 +627,7 @@ export class ReleasePrepper {
 		type AssignInputType = "manual" | "org members only" | "ignore";
 		const assignOptions: AssignInputType[] = ["org members only", "manual", "ignore"];
 
-		const selectedAssignType = <AssignInputType> (await Select.prompt({
+		const selectedAssignType = <AssignInputType>(await Select.prompt({
 			message: "Choose the type of reviewer member",
 			options: assignOptions,
 		}));
@@ -678,7 +688,7 @@ export class ReleasePrepper {
 		type AssignInputType = "manual" | "org members only" | "ignore";
 		const assignOptions: AssignInputType[] = ["org members only", "manual", "ignore"];
 
-		const selectedAssignType = <AssignInputType> (await Select.prompt({
+		const selectedAssignType = <AssignInputType>(await Select.prompt({
 			message: "Choose the type of assignee member",
 			options: assignOptions,
 		}));
