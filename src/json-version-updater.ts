@@ -36,8 +36,11 @@ export class JsonVersionUpdater {
 
 			Deno.writeTextFileSync(versionFilePath, `${JSON.stringify(versionConfig, null, 4)}\n`);
 		} catch (error) {
-			const errorMsg = `There was a problem parsing the file '${versionFilePath}'.\n${error.message}`;
-			console.log(`%c${errorMsg}`, "color: red;");
+			const errorMsg = error instanceof Error
+				? `\n{error.message}`
+				: "";
+
+			console.log(`%cThere was a problem parsing the file '${versionFilePath}'.${errorMsg}`, "color: red;");
 			Deno.exit(1);
 		}
 	}

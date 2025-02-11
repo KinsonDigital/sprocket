@@ -156,8 +156,9 @@ export class PrCreator {
 		try {
 			settings = JSON.parse(settingJsonData);
 		} catch (error) {
-			const errorMsg = `There was a problem parsing the file '${settingsFileName}'.\n${error.message}`;
-			ConsoleLogColor.red(`${errorMsg}`);
+			const errorMsg = error instanceof Error ? `\n${error.message}` : "";
+
+			ConsoleLogColor.red(`There was a problem parsing the file '${settingsFileName}'.${errorMsg}`);
 			Deno.exit(1);
 		}
 

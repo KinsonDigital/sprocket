@@ -143,7 +143,8 @@ export class ReleasePrepper {
 			try {
 				this.updateVersion(settings, chosenVersion);
 			} catch (error) {
-				ConsoleLogColor.red(error.message);
+				const errorMsg = error instanceof Error ? error.message : "There was a problem updating the version.";
+				ConsoleLogColor.red(errorMsg);
 			}
 
 			// Stage version update
@@ -280,8 +281,11 @@ export class ReleasePrepper {
 		try {
 			settings = JSON.parse(settingJsonData);
 		} catch (error) {
-			const errorMsg = `There was a problem parsing the file '${settingsFileName}'.\n${error.message}`;
-			ConsoleLogColor.red(`${errorMsg}`);
+			const errorMsg = error instanceof Error
+				? `\n${error.message}`
+				: "";
+
+			ConsoleLogColor.red(`There was a problem parsing the file '${settingsFileName}'.${errorMsg}`);
 			Deno.exit(1);
 		}
 
@@ -567,9 +571,10 @@ export class ReleasePrepper {
 		try {
 			settings = JSON.parse(settingJsonData);
 		} catch (error) {
-			const errorMsg =
-				`There was a problem parsing the file '${releaseType.genReleaseSettingsFilePath}'.\n${error.message}`;
-			ConsoleLogColor.red(`${errorMsg}`);
+			const errorMsg = error instanceof Error
+				? `\n${error.message}`
+				: "";
+			ConsoleLogColor.red(`There was a problem parsing the file '${releaseType.genReleaseSettingsFilePath}'.${errorMsg}`);
 			Deno.exit(1);
 		}
 
