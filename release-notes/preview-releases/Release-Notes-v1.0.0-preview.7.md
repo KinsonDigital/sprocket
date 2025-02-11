@@ -11,13 +11,12 @@ As with all software, there is always a chance for issues and bugs, especially f
 
 <h2 align="center" style="font-weight: bold;">New Features ✨</h2>
 
-1. [#56](https://github.com/KinsonDigital/kd-admin/issues/56) - Added csproj copyright updates.
+1. [#56](https://github.com/KinsonDigital/kd-admin/issues/56) - Added the ability to update the copyright in csproj files for dotnet projects.
 
 <h2 align="center" style="font-weight: bold;">Enhancements 💎</h2>
 
-1. [#55](https://github.com/KinsonDigital/kd-admin/issues/55) - Added the base branch check.
+1. [#55](https://github.com/KinsonDigital/kd-admin/issues/55) - Added a check to validate if a base branch exists when preparing for a release.
 
 <h2 align="center" style="font-weight: bold;">Dependency Updates 📦</h2>
 
-1. [#54](https://github.com/KinsonDigital/kd-admin/pull/54) - Updated KinsonDigital/Infrastructure action to _**v14.2.0**_.
-2. [#53](https://github.com/KinsonDigital/kd-admin/pull/53) - Updated KinsonDigital/Infrastructure action to _**v14**_.
+1. [#54](https://github.com/KinsonDigital/kd-admin/pull/54) - Updated _**KinsonDigital/Infrastructure**_ action to _**v14.2.0**_.
