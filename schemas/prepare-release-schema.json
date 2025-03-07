@@ -62,5 +62,5 @@
             "required": ["searchDirPath", "projectFileName", "companyName"]
         }
     },
-    "required": ["projectFileName", "companyName", "ownerName", "repoName", "releaseTypes", "githubTokenEnvVarName"]
+    "required": ["ownerName", "repoName", "releaseTypes", "githubTokenEnvVarName"]
 }
