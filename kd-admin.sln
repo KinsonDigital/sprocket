@@ -2,6 +2,26 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kd-admin", "kd-admin\kd-admin.csproj", "{54AD4649-9D78-48AA-A496-352DA8557950}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{34E573AB-1B3B-4577-9D4B-BD42E46913D5}"
+	ProjectSection(SolutionItems) = preProject
+		schemas\release-type-schema.json = schemas\release-type-schema.json
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "schemas", "schemas", "{94F39D9D-D905-4E44-AC7B-D0997F6526A0}"
+	ProjectSection(SolutionItems) = preProject
+		schemas\create-pr-schema.json = schemas\create-pr-schema.json
+		schemas\gen-release-notes-schema.json = schemas\gen-release-notes-schema.json
+		schemas\prepare-release-schema.json = schemas\prepare-release-schema.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{0D6D95FA-7B8B-4370-838A-1F102DA39165}"
+	ProjectSection(SolutionItems) = preProject
+		Testing\.editorconfig = Testing\.editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kd-admin-tests", "Testing\kd-admin-tests\kd-admin-tests.csproj", "{FBC985B8-37CD-4581-8286-58A063E5F404}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +32,13 @@ Global
 		{54AD4649-9D78-48AA-A496-352DA8557950}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54AD4649-9D78-48AA-A496-352DA8557950}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54AD4649-9D78-48AA-A496-352DA8557950}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBC985B8-37CD-4581-8286-58A063E5F404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC985B8-37CD-4581-8286-58A063E5F404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC985B8-37CD-4581-8286-58A063E5F404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC985B8-37CD-4581-8286-58A063E5F404}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{94F39D9D-D905-4E44-AC7B-D0997F6526A0} = {34E573AB-1B3B-4577-9D4B-BD42E46913D5}
+		{FBC985B8-37CD-4581-8286-58A063E5F404} = {0D6D95FA-7B8B-4370-838A-1F102DA39165}
 	EndGlobalSection
 EndGlobal
