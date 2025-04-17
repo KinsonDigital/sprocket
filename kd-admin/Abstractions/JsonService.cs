@@ -7,8 +7,8 @@ namespace KDAdmin.Abstractions;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
-[ExcludeFromCodeCoverage(Justification = "A thing wrapper around json serialization.")]
-public class JsonService : IJsonService
+[ExcludeFromCodeCoverage(Justification = "A thin wrapper around JSON serialization.")]
+internal sealed class JsonService : IJsonService
 {
     public T Deserialize<T>(string json) => JsonSerializer.Deserialize<T>(json);
 }

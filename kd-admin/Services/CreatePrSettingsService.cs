@@ -9,7 +9,7 @@ using Settings;
 using System.Text.Json;
 using Abstractions;
 
-public class CreatePrSettingsService : ICreatePrSettingsService
+internal sealed class CreatePrSettingsService : ICreatePrSettingsService
 {
     private const string FileName = "create-pr-settings.json";
     private readonly IFile _file;

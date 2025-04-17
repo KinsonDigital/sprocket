@@ -7,7 +7,7 @@ using Spectre.Console.Cli;
 
 namespace KDAdmin;
 
-public sealed class TypeRegistrar : ITypeRegistrar
+internal sealed class TypeRegistrar : ITypeRegistrar
 {
     private readonly IServiceCollection _builder;
 
