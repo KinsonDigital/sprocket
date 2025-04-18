@@ -1,5 +1,5 @@
 {
-    "version": "v1.0.0-preview.7",
+    "version": "v1.0.0-preview.8",
     "tasks": {
         "check": "deno check **/*.ts",
         "fmt": "deno fmt **/*.ts",
