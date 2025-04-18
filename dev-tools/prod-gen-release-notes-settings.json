@@ -7,10 +7,13 @@
     "headerText": "${REPONAME} ${RELEASETYPE} Release Notes - ${VERSION}",
     "releaseType": "Production",
     "emojisToRemoveFromTitle": ["🚧", "🐛", "✨", "🚀", "🧪", "🔬"],
+    "issueCategoryIssueTypeMappings": {
+        "Bug": "🐞Bug",
+        "Enhancement": "⚙️Enhancement",
+        "Task": "✅Task"
+    },
     "issueCategoryLabelMappings": {
         "New Features ✨": "✨new-feature",
-        "Enhancements 💎": "💎enhancement",
-        "Bug Fixes 🐛": "🐛bug",
         "Breaking Changes 🧨": "🧨breaking-changes",
         "Dependency Updates 📦": "📦dependency-update",
         "Other 🪧": "♻️cicd"

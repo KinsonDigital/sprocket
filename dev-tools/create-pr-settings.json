@@ -3,5 +3,5 @@
     "ownerName": "KinsonDigital",
     "repoName": "kd-admin",
     "githubTokenEnvVarName": "CICD_TOKEN",
-    "baseBranches": [ "main", "preview"]
+    "baseBranches": [ "preview", "main"]
 }

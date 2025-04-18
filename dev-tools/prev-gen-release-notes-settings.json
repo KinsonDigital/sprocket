@@ -11,10 +11,13 @@
         "text": "As with all software, there is always a chance for issues and bugs, especially for preview releases, so your input is greatly appreciated. 🙏🏼"
     },
     "emojisToRemoveFromTitle": ["🚧", "🐛", "✨", "🚀", "🧪", "🔬"],
+    "issueCategoryIssueTypeMappings": {
+        "Bug": "🐞Bug",
+        "Enhancement": "⚙️Enhancement",
+        "Task": "✅Task"
+    },
     "issueCategoryLabelMappings": {
         "New Features ✨": "✨new-feature",
-        "Enhancements 💎": "💎enhancement",
-        "Bug Fixes 🐛": "🐛bug",
         "Breaking Changes 🧨": "🧨breaking-changes",
         "Dependency Updates 📦": "📦dependency-update",
         "Other 🪧": "♻️cicd"

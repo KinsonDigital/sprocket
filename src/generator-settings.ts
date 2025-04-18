@@ -12,6 +12,7 @@ export interface GeneratorSettings {
 	releaseType?: string;
 	extraInfo?: { title: string; text: string };
 	emojisToRemoveFromTitle?: string[];
+	issueCategoryIssueTypeMappings?: Record<string, string>;
 	issueCategoryLabelMappings?: Record<string, string>;
 	prCategoryLabelMappings?: Record<string, string>;
 	ignoreLabels?: string[];
