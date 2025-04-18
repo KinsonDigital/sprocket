@@ -1,7 +1,10 @@
 import { IssueModel, PullRequestModel } from "../deps.ts";
 import { LabelClient, MilestoneClient, RepoClient } from "../deps.ts";
 import { Guards } from "./core/guards.ts";
+import { IssueTypeModel } from "./core/IssueTypeModel.ts";
 import { GeneratorSettings } from "./generator-settings.ts";
+
+type IssueModelNew = IssueModel & { type: IssueTypeModel }
 
 /**
  * Generates release notes based on various settings.
@@ -32,11 +35,17 @@ export class ReleaseNotesGenerator {
 
 		let categorySections: Record<string, string[]> = {};
 
+		const issuesWithTypes: IssueModelNew[] = issues.map((issue) => {
+			return <IssueModelNew>issue;
+		});
+
+		const issueTypeCatSections = this.buildCategoryIssueTypeSections(settings.issueCategoryIssueTypeMappings ?? {}, issuesWithTypes);
+
 		// Create the issue categories and line items
-		const issueCatSections = this.buildCategorySections(settings.issueCategoryLabelMappings ?? {}, issues);
+		const issueCatSections = this.buildCategoryLabelSections(settings.issueCategoryLabelMappings ?? {}, issues);
 
 		// Create the pr categories and line items
-		const prCatSections = this.buildCategorySections(settings.prCategoryLabelMappings ?? {}, prs);
+		const prCatSections = this.buildCategoryLabelSections(settings.prCategoryLabelMappings ?? {}, prs);
 
 		const issueCatLabels: string[] = [];
 
@@ -53,9 +62,9 @@ export class ReleaseNotesGenerator {
 		const otherCat: Record<string, string | undefined> = {};
 		otherCat[settings?.otherCategoryName ?? ""] = undefined;
 
-		const otherIssueCatSection = this.buildCategorySections(otherCat, otherCatIssues);
+		const otherIssueCatSection = this.buildCategoryLabelSections(otherCat, otherCatIssues);
 
-		categorySections = { ...issueCatSections, ...prCatSections, ...otherIssueCatSection };
+		categorySections = { ...issueTypeCatSections, ...issueCatSections, ...prCatSections, ...otherIssueCatSection };
 
 		for (const section in categorySections) {
 			const catSection = categorySections[section].join("\n");
@@ -177,12 +186,49 @@ export class ReleaseNotesGenerator {
 	}
 
 	/**
-	 * Builds card sections for the given {@link categoryMappings} and {@link issuesOrPrs}.
+	 * Builds category sections for the given {@link categoryMappings} and {@link issues}.
+	 * @param categoryMappings The category to label mappings.
+	 * @param issues The issues to build the category sections from.
+	 * @returns The category sections.
+	 */
+	private buildCategoryIssueTypeSections(
+		categoryMappings: Record<string, string | undefined>,
+		issues: IssueModelNew[],
+	): Record<string, string[]> {
+		const categorySection: Record<string, string[]> = {};
+
+		for (const catName in categoryMappings) {
+			const catIssues = issues.filter((issue) =>
+				issue.type.name === catName
+			);
+
+			if (catIssues.length > 0) {
+				if (categorySection[catName] === undefined) {
+					categorySection[catName] = [`${this.createCategoryHeader(catName)}\n`];
+				}
+
+				for (let i = 0; i < catIssues.length; i++) {
+					const issueItem = this.buildLineItem(catIssues[i], i);
+
+					if (categorySection[catName] === undefined) {
+						categorySection[catName] = [issueItem];
+					} else {
+						categorySection[catName].push(issueItem);
+					}
+				}
+			}
+		}
+
+		return categorySection;
+	}
+
+	/**
+	 * Builds category sections for the given {@link categoryMappings} and {@link issuesOrPrs}.
 	 * @param categoryMappings The category to label mappings.
 	 * @param issuesOrPrs The issues or prs to build the category sections from.
 	 * @returns The category sections.
 	 */
-	private buildCategorySections(
+	private buildCategoryLabelSections(
 		categoryMappings: Record<string, string | undefined>,
 		issuesOrPrs: IssueModel[] | PullRequestModel[],
 	): Record<string, string[]> {
@@ -194,6 +240,7 @@ export class ReleaseNotesGenerator {
 			const catIssues = issuesOrPrs.filter((issue) =>
 				issue.labels.some((label) => catLabel === undefined || label.name === catLabel)
 			);
+
 			if (catIssues.length > 0) {
 				if (categorySection[catName] === undefined) {
 					categorySection[catName] = [`${this.createCategoryHeader(catName)}\n`];

@@ -23,6 +23,7 @@ import { JsonVersionUpdater } from "./json-version-updater.ts";
 import { CSharpVersionUpdater } from "./csharp-version-updater.ts";
 import { resolve } from "../deps.ts";
 import { DotnetCopyrightUpdater } from "./dotnet-copyright-updater.ts";
+import { getAllIssueTypes } from "./core/github.ts";
 
 /**
  * Prepares for a release by creating various branches, release notes, updating the version, and creating a pr.
@@ -101,6 +102,21 @@ export class ReleasePrepper {
 		const selectedAssignee = Guards.isNothing(chosenReleaseType.assignee)
 			? await this.getAssignee()
 			: chosenReleaseType.reviewer;
+
+		const releaseNotesSettings = this.loadGenNotesSettings(chosenReleaseType, chosenVersion, settings.githubTokenEnvVarName);
+		const issueTypes = Object.keys(releaseNotesSettings?.issueCategoryIssueTypeMappings ?? []);
+
+		const [issueTypesExist, invalidIssueTypes] = await this.getValidateIssueTypes(issueTypes);
+
+		if (!issueTypesExist) {
+			const errorMsg = `The following issue types do not exist in the organization:\n` +
+				invalidIssueTypes.map((type) => ` - ${type}`).join("\n") +
+				"\nThe issue types will be left empty.⚠️";
+
+			ConsoleLogColor.red(errorMsg);
+
+			Deno.exit(1);
+		}
 
 		const [labelsExist, invalidLabels] = await this.getValidateLabels(chosenReleaseType.releaseLabels);
 
@@ -762,19 +778,41 @@ export class ReleasePrepper {
 		return selectedAssignee;
 	}
 
-	private async getValidateLabels(labels: string[]): Promise<[boolean, string[]]> {
-		// Validate that the label exists
-		ConsoleLogColor.gray("   ⏳Validating labels.");
-		const prLabels = labels;
+	private async getValidateIssueTypes(issueTypes: string[]): Promise<[boolean, string[]]> {
+		// Validate that the issue types exist
+		ConsoleLogColor.gray("   ⏳Validating issue types.");
 
-		return await this.allLabelsExist(prLabels);
+		return await this.allIssueTypesExist(issueTypes);
+	}
+
+	private async getValidateLabels(labels: string[]): Promise<[boolean, string[]]> {
+		// Validate that the labels exist
+		ConsoleLogColor.gray("   ⏳Validating labels.");
+
+		return await this.allLabelsExist(labels);
 	}
 
 	/**
-	 * Checks if the given {@link labels} exist in a repository owned by the given {@link ownerName} and in a repository
-	 * with a name that matches the given {@link repoName}.
-	 * @param ownerName The owner of the repository.
-	 * @param repoName The name of the repository.
+	 * Checks if the given {@link issueTypes} exist in an GitHub organization.
+	 * @param issueTypes The list of issue types to check for.
+	 * @returns A tuple containing a boolean indicating if all the issue types exist and a list of invalid issue types.
+	 */
+	private async allIssueTypesExist(issueTypes: string[]): Promise<[boolean, string[]]> {
+		if (issueTypes.length <= 0) {
+			return [true, []];
+		}
+
+		const orgIssueTypes = await getAllIssueTypes(this.ownerName, this.token);
+
+		const invalidTypes = issueTypes.filter((ignoreType) => {
+			return !orgIssueTypes.some((issueType) => issueType.name === ignoreType);
+		});
+
+		return [!(invalidTypes.length > 0), invalidTypes];
+	}
+
+	/**
+	 * Checks if the given {@link labels} exist in a repository.
 	 * @param labels The list of labels to check for.
 	 * @returns A tuple containing a boolean indicating if all the labels exist and a list of invalid labels.
 	 */
