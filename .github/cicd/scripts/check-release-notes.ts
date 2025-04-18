@@ -52,7 +52,7 @@ const entries = walkSync(searchDir, {
 	includeFiles: true,
 	includeDirs: false,
 	exts: [".md"],
-	match: [new RegExp(`.*${releaseNotesFileName}.*`, "gm")]
+	match: [new RegExp(`.*${releaseNotesFileName}.*`, "gm")],
 });
 
 const configFiles = [...entries]

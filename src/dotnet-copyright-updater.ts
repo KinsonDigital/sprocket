@@ -10,9 +10,12 @@ export class DotnetCopyrightUpdater {
 	 * Updates the copyright year in a csproj file.
 	 * @param copyRightSettings The settings.
 	 */
-	public updateCopyright(copyRightSettings: DotnetCopyrightUpdate): { csProjFilePath: string, wasUpdated: boolean } {
+	public updateCopyright(copyRightSettings: DotnetCopyrightUpdate): { csProjFilePath: string; wasUpdated: boolean } {
 		if (!existsSync(copyRightSettings.searchDirPath)) {
-			console.log(`%cThe directory '${copyRightSettings.searchDirPath}' does not exist. The copyright was not updated.`, "color: yellow");
+			console.log(
+				`%cThe directory '${copyRightSettings.searchDirPath}' does not exist. The copyright was not updated.`,
+				"color: yellow",
+			);
 			Deno.exit(0);
 		}
 
@@ -55,14 +58,20 @@ export class DotnetCopyrightUpdater {
 		const matchesResults = fileContent.match(copyRightRegex);
 
 		if (matchesResults === null) {
-			console.log("%cNo matches found. Add a '<Copyright/>' tag to the csproj file or remove the 'dotnetCopyrightUpdate' setting.", "color: yellow");
+			console.log(
+				"%cNo matches found. Add a '<Copyright/>' tag to the csproj file or remove the 'dotnetCopyrightUpdate' setting.",
+				"color: yellow",
+			);
 			return { csProjFilePath: "", wasUpdated: false };
 		}
 
 		const matches = Array.from(matchesResults);
 
 		if (matches.length <= 0) {
-			console.log("%cNo matches found. Add a '<Copyright/>' tag to the csproj file or remove the 'dotnetCopyrightUpdate' setting.", "color: yellow");
+			console.log(
+				"%cNo matches found. Add a '<Copyright/>' tag to the csproj file or remove the 'dotnetCopyrightUpdate' setting.",
+				"color: yellow",
+			);
 			return { csProjFilePath: "", wasUpdated: false };
 		}
 
@@ -71,6 +80,6 @@ export class DotnetCopyrightUpdater {
 
 		Deno.writeTextFileSync(csProjFilePath, newFileContent);
 
-		return { csProjFilePath, wasUpdated: true};
+		return { csProjFilePath, wasUpdated: true };
 	}
 }

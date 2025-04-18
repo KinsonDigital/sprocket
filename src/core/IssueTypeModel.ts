@@ -1,5 +1,5 @@
 export interface IssueTypeModel {
-	id: number,
+	id: number;
 	node_id: string;
 	name: string;
 	description: string;

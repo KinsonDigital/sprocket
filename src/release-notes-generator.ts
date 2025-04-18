@@ -4,7 +4,7 @@ import { Guards } from "./core/guards.ts";
 import { IssueTypeModel } from "./core/IssueTypeModel.ts";
 import { GeneratorSettings } from "./generator-settings.ts";
 
-type IssueModelNew = IssueModel & { type: IssueTypeModel }
+type IssueModelNew = IssueModel & { type: IssueTypeModel };
 
 /**
  * Generates release notes based on various settings.
@@ -36,10 +36,13 @@ export class ReleaseNotesGenerator {
 		let categorySections: Record<string, string[]> = {};
 
 		const issuesWithTypes: IssueModelNew[] = issues.map((issue) => {
-			return <IssueModelNew>issue;
+			return <IssueModelNew> issue;
 		});
 
-		const issueTypeCatSections = this.buildCategoryIssueTypeSections(settings.issueCategoryIssueTypeMappings ?? {}, issuesWithTypes);
+		const issueTypeCatSections = this.buildCategoryIssueTypeSections(
+			settings.issueCategoryIssueTypeMappings ?? {},
+			issuesWithTypes,
+		);
 
 		// Create the issue categories and line items
 		const issueCatSections = this.buildCategoryLabelSections(settings.issueCategoryLabelMappings ?? {}, issues);
@@ -198,9 +201,7 @@ export class ReleaseNotesGenerator {
 		const categorySection: Record<string, string[]> = {};
 
 		for (const catName in categoryMappings) {
-			const catIssues = issues.filter((issue) =>
-				issue.type.name === catName
-			);
+			const catIssues = issues.filter((issue) => issue.type.name === catName);
 
 			if (catIssues.length > 0) {
 				if (categorySection[catName] === undefined) {

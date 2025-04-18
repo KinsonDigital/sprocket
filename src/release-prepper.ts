@@ -58,7 +58,7 @@ export class ReleasePrepper {
 		this.milestoneClient = new MilestoneClient(this.settings.ownerName, this.settings.repoName, this.token);
 		this.tagClient = new TagClient(this.settings.ownerName, this.settings.repoName, this.token);
 		this.orgClient = new OrgClient(this.settings.ownerName, this.token);
-		this.gitClient = new GitClient(this.settings.ownerName, this.settings.repoName, this.token);	
+		this.gitClient = new GitClient(this.settings.ownerName, this.settings.repoName, this.token);
 	}
 
 	/**
@@ -193,7 +193,7 @@ export class ReleasePrepper {
 				// Stage copyright update
 				ConsoleLogColor.gray("   ⏳Staging copyright update.");
 				await this.stageFile(resolve(Deno.cwd(), csProjFilePath));
-				
+
 				// Commit copyright update
 				ConsoleLogColor.gray("   ⏳Creating copyright update commit.");
 				await this.createCommit(`release: update copyright to ${chosenVersion}`);
@@ -309,9 +309,7 @@ export class ReleasePrepper {
 		try {
 			settings = JSON.parse(settingJsonData);
 		} catch (error) {
-			const errorMsg = error instanceof Error
-				? `\n${error.message}`
-				: "";
+			const errorMsg = error instanceof Error ? `\n${error.message}` : "";
 
 			ConsoleLogColor.red(`There was a problem parsing the file '${settingsFileName}'.${errorMsg}`);
 			Deno.exit(1);
@@ -599,9 +597,7 @@ export class ReleasePrepper {
 		try {
 			settings = JSON.parse(settingJsonData);
 		} catch (error) {
-			const errorMsg = error instanceof Error
-				? `\n${error.message}`
-				: "";
+			const errorMsg = error instanceof Error ? `\n${error.message}` : "";
 			ConsoleLogColor.red(`There was a problem parsing the file '${releaseType.genReleaseSettingsFilePath}'.${errorMsg}`);
 			Deno.exit(1);
 		}
@@ -660,7 +656,7 @@ export class ReleasePrepper {
 		type AssignInputType = "manual" | "org members only" | "ignore";
 		const assignOptions: AssignInputType[] = ["org members only", "manual", "ignore"];
 
-		const selectedAssignType = <AssignInputType>(await Select.prompt({
+		const selectedAssignType = <AssignInputType> (await Select.prompt({
 			message: "Choose the type of reviewer member",
 			options: assignOptions,
 		}));
@@ -721,7 +717,7 @@ export class ReleasePrepper {
 		type AssignInputType = "manual" | "org members only" | "ignore";
 		const assignOptions: AssignInputType[] = ["org members only", "manual", "ignore"];
 
-		const selectedAssignType = <AssignInputType>(await Select.prompt({
+		const selectedAssignType = <AssignInputType> (await Select.prompt({
 			message: "Choose the type of assignee member",
 			options: assignOptions,
 		}));
