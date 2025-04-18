@@ -116,15 +116,6 @@ export class ReleaseNotesGenerator {
 			throw new Error(errorMsg);
 		}
 
-		const milestoneName = this.buildMilestoneName(settings);
-
-		const milestoneDoesNotExist = !(await this.milestoneClient?.milestoneExists(milestoneName));
-
-		if (milestoneDoesNotExist) {
-			const errorMsg = `The milestone '${milestoneName}' does not exist.`;
-			throw new Error(errorMsg);
-		}
-
 		// Validate the labels in the issue category to label mappings
 		if (settings.issueCategoryLabelMappings !== undefined) {
 			const labelsToCheck = Object.values(settings.issueCategoryLabelMappings).map((l) => l.trim());
