@@ -61,6 +61,16 @@
                 "type": "string"
             }
         },
+        "issueCategoryIssueTypeMappings": {
+            "type": "object",
+            "description": "The mappings between categories and issues types. (Optional)",
+            "minProperties": 1,
+            "patternProperties": {
+                ".+": {
+                    "type": "string"
+                }
+            }
+        },
         "issueCategoryLabelMappings": {
             "type": "object",
             "description": "The mappings between categories and issues labels. (Optional)",
