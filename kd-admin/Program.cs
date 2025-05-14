@@ -25,6 +25,12 @@ using Spectre.Console.Cli;
 //
 // return;
 
+
+
+
+
+return 0;
+
 FileSystem fileSystem = new ();
 
 var registration = new ServiceCollection();
@@ -45,3 +51,4 @@ app.Configure(config =>
 app.Run(args);
 
 // Console.ReadLine();
+

@@ -12,6 +12,11 @@ using KDAdmin.Settings;
 using NSubstitute;
 using Shouldly;
 
+struct MyStruct
+{
+    public int Number { get; set; }
+}
+
 /// <summary>
 /// Tests the <see cref="CreatePrSettingsService"/>
 /// </summary>
@@ -21,6 +26,20 @@ public class CreatePrSettingsServiceTests
     private readonly IFile _mockFile = Substitute.For<IFile>();
     private readonly IConsole _mockConsole = Substitute.For<IConsole>();
     private readonly IJsonService _mockJsonService = Substitute.For<IJsonService>();
+
+    [Fact]
+    public void TEST_TEST_TEST()
+    {
+        var expected = new List<MyStruct>();
+        expected.Add(new MyStruct { Number = 1 });
+        expected.Add(new MyStruct { Number = 3 });
+
+        var myStruct = new List<MyStruct>();
+        myStruct.Add(new MyStruct { Number = 1 });
+        myStruct.Add(new MyStruct { Number = 2 });
+
+        myStruct.ShouldBe(expected);
+    }
 
     [Fact]
     public void GetSettings_WhenSettingsDoesNotExist_PrintsError()
