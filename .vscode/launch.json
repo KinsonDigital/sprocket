@@ -44,16 +44,14 @@
 			},
 			"runtimeArgs": [
 				"run",
-				"-E",
-				"-R",
-				"-N",
+				"-ENR",
 				"--inspect-wait",
 			],
 			"args": [
-				"create-pr",
+				"run-job",
+				"testing/test-config.ts",
 			],
 			"attachSimplePort": 9229,
-			"console": "integratedTerminal"
 		},
 		{ // PREPARE RELEASE (DEBUG)
 			"name": "Prepare Release (Debug)",
@@ -77,7 +75,8 @@
 				"--inspect-wait",
 			],
 			"args": [
-				"prepare-for-release",
+				"run-job",
+				"testing/test-config.ts",
 			],
 			"attachSimplePort": 9229,
 			"console": "integratedTerminal"
