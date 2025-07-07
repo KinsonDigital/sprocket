@@ -91,14 +91,15 @@ const config: KDAdminConfig = {
 				const chosenBranchName = await Input.prompt({
 					message: "Enter the name of the new feature branch:",
 					validate: (value) => {
-						const branchRegex = /^feature\/([1-9][0-9]*)-(?!-)[a-z-]+$/gm;
+						const branchRegex = /^[a-zA-Z\s\-_]+$/;
 
 						if (!branchRegex.test(value)) {
-							return "Branch name must start with 'feature/', followed by an issue number, and then a descriptive name. Example: 'feature/123-new-feature'.";
+							return "Branch name must be a valid string containing only letters, spaces, hyphens, or underscores.";
 						}
 
 						return true;
 					},
+					transform: (value) => value.trim().replaceAll(" ", "-").replaceAll("_", "-").toLowerCase(),
 				});
 
 				const branchName = `feature/${chosenIssueNumber}-${chosenBranchName}`;
