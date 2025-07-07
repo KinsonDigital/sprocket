@@ -53,12 +53,17 @@
 			],
 			"attachSimplePort": 9229,
 		},
-		{ // PREPARE RELEASE (DEBUG)
-			"name": "Prepare Release (Debug)",
+		{ // Run Job (DEBUG)
+			"name": "Run Job (Debug)",
 			"request": "launch",
 			"type": "node",
 			"program": "${workspaceFolder}/src/main.ts",
 			"cwd": "${workspaceFolder}",
+			"env": {
+				"OWNER_NAME": "KinsonDigital",
+				"REPO_NAME": "kd-admin",
+				"GITHUB_TOKEN": "${env:CICD_TOKEN}"
+			},
 			"windows": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},

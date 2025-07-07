@@ -14,6 +14,7 @@
 		"mediumseagreen",
 		"msbuild",
 		"msvc",
+		"neverthrow",
 		"Prepper",
 		"RELEASETYPE",
 		"REPONAME",
@@ -56,4 +57,12 @@
 		"editor.tabSize": 2,
 		"editor.insertSpaces": true
 	},
+	"github.copilot.chat.edits.temporalContext.enabled": true,
+	"github.copilot.chat.generateTests.codeLens": true,
+	"github.copilot.chat.languageContext.fix.typescript.enabled": true,
+	"github.copilot.chat.languageContext.inline.typescript.enabled": true,
+	"github.copilot.chat.languageContext.typescript.enabled": true,
+	"github.copilot.nextEditSuggestions.enabled": true,
+	"github.copilot.chat.codesearch.enabled": true,
+	"github.copilot.chat.agent.thinkingTool": true,
 }

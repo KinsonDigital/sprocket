@@ -1,5 +1,7 @@
+import { Input } from "jsr:@cliffy/prompt@1.0.0-rc.8";
 import { KDAdminConfig } from "../src/core/configuration.ts";
 import { createCheckoutBranch, isCheckedOut, pushToRemote } from "../src/core/git.ts";
+import { githubIssueExists } from "../src/core/github.ts";
 
 const config: KDAdminConfig = {
 	jobs: [{
@@ -43,6 +45,66 @@ const config: KDAdminConfig = {
 			preExecuteMsgColor: "gray",
 			run: async () => {
 				await pushToRemote("release");
+			}
+		}]
+	},
+	{
+		name: "Create Feature Branch",
+		description: "Creates a new feature branch from the develop branch with a pull request.",
+		preExecuteMsg: "Creating a new feature branch!",
+		preExecuteMsgColor: "cyan",
+		postExecuteMsg: "Feature branch created successfully!",
+		postExecuteMsgColor: "cyan",
+		env: {
+			"OWNER_NAME": "${OWNER_NAME}",
+			"REPO_NAME": "${REPO_NAME}",
+			"GITHUB_TOKEN": "${GITHUB_TOKEN}"
+		},
+		tasks: [{
+			type: "function",
+			name: "Create Feature Branch",
+			description: "Creates a new feature branch from the develop branch.",
+			preExecuteMsg: "\t⏳Creating feature branch...",
+			preExecuteMsgColor: "gray",
+			run: async () => {
+				const chosenIssueNumber = await Input.prompt({
+					message: "Enter the issue number for the feature branch:",
+					validate: async (value) => {
+						if (!/^\d+$/.test(value)) {
+							return "Please enter a valid whole number.";
+						}
+
+						const ownerName = (Deno.env.get("OWNER_NAME") || "").trim();
+						const repoName = (Deno.env.get("REPO_NAME") || "").trim();
+						const githubToken = (Deno.env.get("GITHUB_TOKEN") || "").trim();
+
+						const issueNumberExists = await githubIssueExists(ownerName, repoName, parseInt(value), githubToken);
+
+						if (!issueNumberExists) {
+							return `Issue #${value} does not exist in the repository.`;
+						}
+
+						return true;
+					},
+				});
+
+				const chosenBranchName = await Input.prompt({
+					message: "Enter the name of the new feature branch:",
+					validate: (value) => {
+						const branchRegex = /^feature\/([1-9][0-9]*)-(?!-)[a-z-]+$/gm;
+
+						if (!branchRegex.test(value)) {
+							return "Branch name must start with 'feature/', followed by an issue number, and then a descriptive name. Example: 'feature/123-new-feature'.";
+						}
+
+						return true;
+					},
+				});
+
+				const branchName = `feature/${chosenIssueNumber}-${chosenBranchName}`;
+
+				await createCheckoutBranch(branchName);
+				await pushToRemote(branchName);
 			}
 		}]
 	}]

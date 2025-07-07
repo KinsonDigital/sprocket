@@ -4,6 +4,8 @@ import { Guards } from "./guards.ts";
 export async function runJob(job: Job): Promise<void> {
 	printPreExecuteJobMsg(job);
 
+	processEnvVariables(job);
+
 	for (let i = 0; i < job.tasks.length; i++) {
 		const task = job.tasks[i];
 
@@ -61,6 +63,22 @@ export async function runScript(script: Script): Promise<void> {
 		await import(scriptPath);
 	} catch (error) {
 		console.error("Error running script:", error);
+	}
+}
+
+export function processEnvVariables(job: Job): void {
+	if (Guards.isNothing(job.env)) {
+		return;
+	}
+
+	for (const [key, value] of Object.entries(job.env)) {
+		const trimmedValue = value.trim();
+		const isInterpolated = trimmedValue.startsWith("${") && trimmedValue.endsWith("}");
+		const valueToUse = isInterpolated
+			? Deno.env.get(trimmedValue.slice(2, -1)) || ""
+			: trimmedValue;
+
+		Deno.env.set(key, valueToUse);
 	}
 }
 

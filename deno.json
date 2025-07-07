@@ -34,7 +34,8 @@
         "singleQuote": false
     },
     "imports": {
-        "@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.7",
+        "@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.8",
+        "@cliffy/prompt": "jsr:@cliffy/prompt@1.0.0-rc.8",
         "neverthrow": "npm:neverthrow@^6.2.2"
     }
 }

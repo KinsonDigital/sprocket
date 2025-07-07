@@ -1,6 +1,7 @@
 import { existsSync } from "jsr:@std/fs@1.0.18";
 import { Command } from "@cliffy/command";
-import { KDAdminConfig } from "./core/configuration.ts";
+import { Select } from "@cliffy/prompt";
+import { Job, KDAdminConfig } from "./core/configuration.ts";
 import { runJob } from "./core/job-runner.ts";
 
 const command = new Command()
@@ -18,9 +19,19 @@ const command = new Command()
 				const config = (await import(`file://${filePath}`)).config as KDAdminConfig;
 
 				if (config) {
-					for await (const job of config.jobs) {
-						await runJob(job);
+					const selectedJobName = await Select.prompt({
+						message: "Select a job to run",
+						options: config.jobs.map((job) => job.name),
+					});
+
+					const selectedJob = config.jobs.find((j) => j.name === selectedJobName);
+
+					if (!selectedJob) {
+						console.error(`Job '${selectedJobName}' not found in the configuration.`);
+						Deno.exit(1);
 					}
+
+					await runJob(selectedJob);
 				} else {
 					console.error("Configuration file does not export a 'config' object.");
 					Deno.exit(1);

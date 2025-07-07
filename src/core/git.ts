@@ -5,7 +5,7 @@ export async function getCurrentBranch(): Promise<string> {
 		args: ["symbolic-ref", "--short", "HEAD"],
 	});
 
-	const { stdout, stderr } = await cmd.output();
+	const { stdout, stderr, success } = await cmd.output();
 
 	let currentBranch = "";
 
@@ -15,7 +15,7 @@ export async function getCurrentBranch(): Promise<string> {
 		return currentBranch;
 	}
 
-	if (stderr) {
+	if (!success) {
 		console.error(new TextDecoder().decode(stderr));
 	}
 
@@ -33,15 +33,14 @@ export async function createCheckoutBranch(branchName: string): Promise<void> {
 		args: ["checkout", "-B", branchName],
 	});
 
-	const { stdout, stderr } = await cmd.output();
+	const { stdout, stderr, success } = await cmd.output();
 
 	if (stdout) {
 		console.log(new TextDecoder().decode(stdout));
 	}
 
-	if (stderr) {
+	if (!success) {
 		console.error(new TextDecoder().decode(stderr));
-		Deno.exit(1);
 	}
 }
 
@@ -67,14 +66,14 @@ export async function createCommit(commitMsg: string): Promise<void> {
 		args: ["commit", "-m", commitMsg],
 	});
 
-	const { stdout, stderr } = await cmd.output();
+	const { stdout, stderr, success } = await cmd.output();
 
 	if (stdout) {
 		console.log(new TextDecoder().decode(stdout));
 		Deno.exit(0);
 	}
 
-	if (stderr) {
+	if (!success) {
 		console.error(new TextDecoder().decode(stderr));
 		Deno.exit(1);
 	}
