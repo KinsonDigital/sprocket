@@ -1,3 +1,4 @@
+import { PullRequestModel } from "jsr:@kinsondigital/kd-clients@1.0.0-preview.14/github/models";
 import { IssueTypeModel } from "./IssueTypeModel.ts";
 
 /**
@@ -55,4 +56,46 @@ export async function getAllIssueTypes(orgName: string, githubToken: string): Pr
 	const data: IssueTypeModel[] = await response.json();
 
 	return data;
+}
+
+export async function createPr(
+	ownerName: string,
+	repoName: string,
+	title: string,
+	description: string,
+	headBranch: string,
+	baseBranch: string,
+	token: string
+): Promise<number> {
+	const baseUrl = "https://api.github.com";
+	const url = `${baseUrl}/repos/${ownerName}/${repoName}/pulls`;
+	const body = {
+		owner: `${ownerName}`,
+		repo: `${repoName}`,
+		title: title,
+		head: headBranch,
+		base: baseBranch,
+		body: description,
+		maintainer_can_modify: true,
+		draft: true,
+	};
+
+	const response = await fetch(url, {
+		method: "POST",
+		headers: {
+			"Accept": "application/vnd.github+json",
+			"Authorization": `Bearer ${token}`,
+			"X-GitHub-Api-Version": "2022-11-28",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(body),
+	});
+
+	if (response.status !== 201) {
+		throw new Error(`Failed to create PR: ${response.status} - ${response.statusText}`);
+	}
+
+	const pr: PullRequestModel = await response.json();
+
+	return pr.number;
 }
