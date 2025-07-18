@@ -1,7 +1,7 @@
 import { Input } from "jsr:@cliffy/prompt@1.0.0-rc.8";
 import { KDAdminConfig } from "../src/core/configuration.ts";
-import { createCheckoutBranch, isCheckedOut, pushToRemote } from "../src/core/git.ts";
-import { githubIssueExists } from "../src/core/github.ts";
+import { createCheckoutBranch, getCurrentBranch, isCheckedOut, pushToRemote } from "../src/core/git.ts";
+import { createPr, githubIssueExists } from "../src/core/github.ts";
 
 const config: KDAdminConfig = {
 	jobs: [{
@@ -102,10 +102,17 @@ const config: KDAdminConfig = {
 					transform: (value) => value.trim().replaceAll(" ", "-").replaceAll("_", "-").toLowerCase(),
 				});
 
-				const branchName = `feature/${chosenIssueNumber}-${chosenBranchName}`;
+				const headBranchName = `feature/${chosenIssueNumber}-${chosenBranchName}`;
 
-				await createCheckoutBranch(branchName);
-				await pushToRemote(branchName);
+				await createCheckoutBranch(headBranchName);
+				await pushToRemote(headBranchName);
+
+				const ownerName = (Deno.env.get("OWNER_NAME") || "").trim();
+				const repoName = (Deno.env.get("REPO_NAME") || "").trim();
+				const githubToken = (Deno.env.get("GITHUB_TOKEN") || "").trim();
+				const baseBranch = await getCurrentBranch();
+
+				await createPr(ownerName, repoName, "auto-set", "auto-set", headBranchName, baseBranch, githubToken);
 			}
 		}]
 	}]

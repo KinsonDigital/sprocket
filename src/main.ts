@@ -1,7 +1,7 @@
 import { existsSync } from "jsr:@std/fs@1.0.18";
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
-import { Job, KDAdminConfig } from "./core/configuration.ts";
+import { KDAdminConfig } from "./core/configuration.ts";
 import { runJob } from "./core/job-runner.ts";
 
 const command = new Command()
