@@ -70,8 +70,6 @@ export async function createPr(
 	const baseUrl = "https://api.github.com";
 	const url = `${baseUrl}/repos/${ownerName}/${repoName}/pulls`;
 	const body = {
-		owner: `${ownerName}`,
-		repo: `${repoName}`,
 		title: title,
 		head: headBranch,
 		base: baseBranch,
@@ -86,13 +84,13 @@ export async function createPr(
 			"Accept": "application/vnd.github+json",
 			"Authorization": `Bearer ${token}`,
 			"X-GitHub-Api-Version": "2022-11-28",
-			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(body),
 	});
 
 	if (response.status !== 201) {
-		throw new Error(`Failed to create PR: ${response.status} - ${response.statusText}`);
+		const errorText = await response.text();
+        throw new Error(`Failed to create PR: ${response.status} - ${response.statusText}\nResponse: ${errorText}`);
 	}
 
 	const pr: PullRequestModel = await response.json();
