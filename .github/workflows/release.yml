@@ -35,7 +35,7 @@ jobs:
           deno-version: ${{ vars.DENO_VERSION }}
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Get Version
         id: get_version
@@ -78,7 +78,7 @@ jobs:
           deno-version: ${{ vars.DENO_VERSION }}
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Version Does Not Exist
         env:
@@ -116,7 +116,7 @@ jobs:
           deno-version: ${{ vars.DENO_VERSION }}
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Run Check
         run: deno check **/*/*.ts;
