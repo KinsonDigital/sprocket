@@ -1,8 +1,9 @@
-import { existsSync } from "jsr:@std/fs@1.0.18";
+import { existsSync } from "@std/fs";
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
 import { KDAdminConfig } from "./core/configuration.ts";
 import { runJob } from "./core/job-runner.ts";
+import { Guards } from "./core/guards.ts";
 
 const command = new Command()
 	.name("kd-admin")
@@ -11,7 +12,10 @@ const command = new Command()
 	.command("run-job")
 	.arguments("<filePath:string>")
 	.option("-f, --file-path", "The path to the typescript config file to run.")
-	.action(async (options, filePath: string) => {
+	.option("-j, --job-name [string]", "The name of the job to run from the config file.")
+	.action(async (_options, filePath: string) => {
+		console.log(`The job chosen is: ${_options.jobName}`);
+
 		filePath = import.meta.resolve(`${Deno.cwd()}/${filePath}`);
 
 		if (existsSync(filePath)) {
@@ -20,9 +24,12 @@ const command = new Command()
 
 				if (config) {
 					const selectedJobName = await Select.prompt({
-						message: "Select a job to run",
-						options: config.jobs.map((job) => job.name),
-					});
+					const selectedJobName = Guards.isNothing(_options.jobName)
+						? await Select.prompt({
+							message: "Select a job to run",
+							options: Guards.isNothing(config.jobs) ? [] : config.jobs.map((job) => job.name),
+						})
+						: _options.jobName;
 
 					const selectedJob = config.jobs.find((j) => j.name === selectedJobName);
 
