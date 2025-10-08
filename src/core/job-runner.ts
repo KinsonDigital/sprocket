@@ -43,7 +43,7 @@ export async function runCmd(cmd: Command): Promise<void> {
 	}
 }
 
-export async function runFunction(func: Function): Promise<void> {
+export async function runFunction(func: () => Promise<void>): Promise<void> {
 	try {
 		await func();
 	} catch (error) {

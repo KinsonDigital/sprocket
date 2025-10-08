@@ -10,8 +10,6 @@ export interface Script {
 	args?: string[];
 }
 
-export type Func = (...args: any[]) => any;
-
 export type Task =
 	{
 		type: "cmd";
@@ -41,7 +39,7 @@ export type Task =
 		postExecuteMsg?: string;
 		preExecuteMsgColor?: string;
 		postExecuteMsgColor?: string;
-		run: Func;
+		run: (...args: unknown[]) => Promise<void>;
 	};
 
 export interface Job {
