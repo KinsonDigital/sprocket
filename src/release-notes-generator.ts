@@ -1,5 +1,5 @@
-import { IssueModel, PullRequestModel } from "../deps.ts";
-import { LabelClient, MilestoneClient, RepoClient } from "../deps.ts";
+import { IssueModel, PullRequestModel } from "@kdclients/github/models";
+import { LabelClient, MilestoneClient, RepoClient } from "@kdclients/github";
 import { Guards } from "./core/guards.ts";
 import { IssueTypeModel } from "./core/IssueTypeModel.ts";
 import { GeneratorSettings } from "./generator-settings.ts";

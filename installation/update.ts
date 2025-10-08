@@ -1,6 +1,5 @@
-import { existsSync } from "https://deno.land/std@0.224.0/fs/exists.ts";
-import { walkSync } from "https://deno.land/std@0.224.0/fs/walk.ts";
-import { TagClient } from "https://deno.land/x/kd_clients@v1.0.0-preview.13/GitHubClients/TagClient.ts";
+import { existsSync, walkSync } from "@std/fs";
+import { TagClient } from "@kdclients/github";
 
 const baseDirPath = "./dev-tools/bin";
 const filesToUpdate = [...walkSync(baseDirPath, { includeFiles: true, match: [/kd-admin/] })].map((f) => f.path);

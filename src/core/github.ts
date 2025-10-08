@@ -1,16 +1,43 @@
 import { PullRequestModel } from "@kdclients/github/models";
 import { IssueTypeModel } from "./IssueTypeModel.ts";
 
-
-interface GitHubError {
+/**
+ * Describes a GitHub API error.
+ */
+export interface GitHubError {
+	/**
+	 * The resource that caused the error.
+	 */
 	resource: string,
+
+	/**
+	 * The error code.
+	 */
 	code: string,
+
+	/**
+	 * The error message.
+	 */
 	message: string,
 }
 
-interface ErrorData {
+/**
+ * Describes the structure of an error response from the GitHub API.
+ */
+export interface ErrorData {
+	/**
+	 * The error message.
+	 */
 	message: string,
+
+	/**
+	 * The list of errors.
+	 */
     errors: GitHubError[],
+
+	/**
+	 * The URL to the documentation.
+	 */
     documentation_url: string
 }
 
@@ -71,6 +98,17 @@ export async function getAllIssueTypes(orgName: string, githubToken: string): Pr
 	return data;
 }
 
+/**
+ * Creates a pull request on GitHub.
+ * @param ownerName The owner of the repository.
+ * @param repoName The name of the repository.
+ * @param title The title of the pull request.
+ * @param description The description of the pull request.
+ * @param headBranch The name of the branch to merge from.
+ * @param baseBranch The name of the branch to merge into.
+ * @param token The GitHub token to use for authentication.
+ * @returns The pull request number.
+ */
 export async function createPr(
 	ownerName: string,
 	repoName: string,

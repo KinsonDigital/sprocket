@@ -1,6 +1,10 @@
-import { Command, Job, Script, Task } from "./configuration.ts";
+import { Command, isCommandTask, isFunctionTask, isScriptTask, Job, Script, Task } from "./configuration.ts";
 import { Guards } from "./guards.ts";
 
+/**
+ * Runs the given {@link job}.
+ * @param job The job to run.
+ */
 export async function runJob(job: Job): Promise<void> {
 	printPreExecuteJobMsg(job);
 
@@ -11,18 +15,14 @@ export async function runJob(job: Job): Promise<void> {
 
 		printPreExecuteTaskMsg(task);
 
-		switch (task.type) {
-			case "cmd":
-				runCmd(task.run);
-				break;
-			case "function":
-				await runFunction(task.run);
-				break;
-			case "script":
-				await runScript(task.run);
-				break;
-			default:
-				break;
+		if (isCommandTask(task)) {
+			await runCmd(task.cmd);
+		} else if (isFunctionTask(task)) {
+			await runFunction(task.func);
+		} else if (isScriptTask(task)) {
+			await runScript(task.script);
+		} else {
+			console.error("Unknown task type:", task);
 		}
 
 		printPostExecuteTaskMsg(task);
@@ -31,6 +31,10 @@ export async function runJob(job: Job): Promise<void> {
 	printPostExecuteJobMsg(job);
 }
 
+/**
+ * Runs the given {@link cmd}.
+ * @param cmd The command to run.
+ */
 export async function runCmd(cmd: Command): Promise<void> {
 	const denoCmd = new Deno.Command(cmd.cmd, { args: cmd.args });
 
@@ -43,6 +47,10 @@ export async function runCmd(cmd: Command): Promise<void> {
 	}
 }
 
+/**
+ * Runs the given {@link func}.
+ * @param func The function to run.
+ */
 export async function runFunction(func: () => Promise<void>): Promise<void> {
 	try {
 		await func();
@@ -51,6 +59,10 @@ export async function runFunction(func: () => Promise<void>): Promise<void> {
 	}
 }
 
+/**
+ * Runs the given {@link script}.
+ * @param script The script to run.
+ */
 export async function runScript(script: Script): Promise<void> {
 	try {
 		const filePath = script.filePath.startsWith("./")
@@ -66,7 +78,12 @@ export async function runScript(script: Script): Promise<void> {
 	}
 }
 
-export function processEnvVariables(job: Job): void {
+/**
+ * Processes environment variables for the given {@link job}.
+ * @param job The job to process environment variables for.
+ * @returns 
+ */
+function processEnvVariables(job: Job): void {
 	if (Guards.isNothing(job.env)) {
 		return;
 	}
@@ -82,6 +99,10 @@ export function processEnvVariables(job: Job): void {
 	}
 }
 
+/**
+ * Prints a pre-execute message for the given {@link job}.
+ * @param job The job to print the pre-execute message for.
+ */
 function printPreExecuteJobMsg(job: Job): void {
 	if (!Guards.isNothing(job.preExecuteMsg)) {
 		const clr = Guards.isNothing(job.preExecuteMsgColor) ? "" : `color:${job.preExecuteMsgColor}`;
@@ -90,6 +111,10 @@ function printPreExecuteJobMsg(job: Job): void {
 	}
 }
 
+/**
+ * Prints a post-execute message for the given {@link job}.
+ * @param job The job to print the post-execute message for.
+ */
 function printPostExecuteJobMsg(job: Job): void {
 	if (!Guards.isNothing(job.postExecuteMsg)) {
 		const clr = Guards.isNothing(job.postExecuteMsgColor) ? "" : `color:${job.postExecuteMsgColor}`;
@@ -98,6 +123,10 @@ function printPostExecuteJobMsg(job: Job): void {
 	}
 }
 
+/**
+ * Prints a pre-execute message for the given {@link task}.
+ * @param task The task to print the pre-execute message for.
+ */
 function printPreExecuteTaskMsg(task: Task): void {
 	if (!Guards.isNothing(task.preExecuteMsg)) {
 		const clr = Guards.isNothing(task.preExecuteMsgColor) ? "" : `color:${task.preExecuteMsgColor}`;
@@ -106,6 +135,10 @@ function printPreExecuteTaskMsg(task: Task): void {
 	}
 }
 
+/**
+ * Prints a post-execute message for the given {@link task}.
+ * @param task The task to print the post-execute message for.
+ */
 function printPostExecuteTaskMsg(task: Task): void {
 	if (!Guards.isNothing(task.postExecuteMsg)) {
 		const clr = Guards.isNothing(task.postExecuteMsgColor) ? "" : `color:${task.postExecuteMsgColor}`;

@@ -1,5 +1,5 @@
 import { Input } from "@cliffy/prompt";
-import { KDAdminConfig } from "../src/core/configuration.ts";
+import { FunctionTask, KDAdminConfig, ScriptTask } from "../src/core/configuration.ts";
 import { createCheckoutBranch, getCurrentBranch, isCheckedOut, pushToRemote } from "../src/core/git.ts";
 import { createPr, githubIssueExists } from "../src/core/github.ts";
 
@@ -17,36 +17,36 @@ const config: KDAdminConfig = {
 			description: "Checks if the develop branch is currently checked out.",
 			preExecuteMsg: "\t⏳Checking if the 'develop' branch is checked out...",
 			preExecuteMsgColor: "gray",
-			run: async () => {
+			func: async () => {
 				const checkedOut = await isCheckedOut("develop");
 
 				if (!checkedOut) {
 					console.log("%cYou must be on the develop branch to run this script.", "color:indianred");
 					Deno.exit(1);
 				}
-			}
-		},
+			},
+		} as FunctionTask,
 		{
 			type: "function",
 			name: "Create, Check Out, Push Branch",
 			description: "Creates a new 'release' branch, checks it out, and pushes it to remote.",
 			preExecuteMsg: "\t⏳Creating and/or checking out 'release' branch...",
 			preExecuteMsgColor: "gray",
-			run: async () => {
+			func: async () => {
 				await createCheckoutBranch("release");
 				await pushToRemote("release");
 			}
-		},
+		} as FunctionTask,
 		{
 			type: "function",
 			name: "Push To Remote",
 			description: "Pushes the changes to the remote repository.",
 			preExecuteMsg: "\t⏳Pushing to remote...",
 			preExecuteMsgColor: "gray",
-			run: async () => {
+			func: async () => {
 				await pushToRemote("release");
 			}
-		}]
+		} as FunctionTask]
 	},
 	{
 		name: "Create Feature Branch",
@@ -66,7 +66,7 @@ const config: KDAdminConfig = {
 			description: "Creates a new feature branch from the develop branch.",
 			preExecuteMsg: "\t⏳Creating feature branch...",
 			preExecuteMsgColor: "gray",
-			run: async () => {
+			func: async () => {
 				const chosenIssueNumber = await Input.prompt({
 					message: "Enter the issue number for the feature branch:",
 					validate: async (value) => {
@@ -114,7 +114,7 @@ const config: KDAdminConfig = {
 
 				await createPr(ownerName, repoName, "auto-set", "auto-set", headBranchName, baseBranch, githubToken);
 			}
-		}]
+		} as FunctionTask]
 	}]
 };
 

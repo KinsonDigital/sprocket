@@ -1,5 +1,5 @@
 import { existsSync, walkSync } from "@std/fs";
-import { extname } from "../deps.ts";
+import { extname } from "@std/path";
 import { DotnetCopyrightUpdate } from "./dotnet-copyright-update.ts";
 
 /**

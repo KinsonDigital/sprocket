@@ -1,11 +1,10 @@
-import { Confirm } from "https://deno.land/x/cliffy@v1.0.0-rc.4/prompt/mod.ts";
-import { TagClient } from "https://deno.land/x/kd_clients@v1.0.0-preview.13/GitHubClients/TagClient.ts";
-import runAsync from "../src/core/run-async.ts";
+import { existsSync, ensureDirSync } from "@std/fs";
+import { Confirm } from "@cliffy/prompt";
+import { TagClient } from "@kdclients/github";
+import runCommandAsync from "../src/core/run-async.ts";
 import { CreatePrSettings } from "../src/create-pr-settings.ts";
 import { PrepareReleaseSettings } from "../src/prepare-release-settings.ts";
-import { existsSync } from "../deps.ts";
 import { GeneratorSettings } from "../src/generator-settings.ts";
-import { ensureDirSync } from "https://deno.land/std@0.224.0/fs/ensure_dir.ts";
 
 const scriptArgs = Deno.args.map((arg) => arg.trim());
 
@@ -200,7 +199,7 @@ const args = [
 console.log("   %c⏳ Installing kd-admin ...", "color: gray");
 
 try {
-	await runAsync("deno", args);
+	await runCommandAsync("deno", args);
 } catch (error) {
 	const errorMsg = error instanceof Error ? error.message : "There was a problem installing the tool.";
 

@@ -23,7 +23,6 @@ const command = new Command()
 				const config = (await import(`file://${filePath}`)).config as KDAdminConfig;
 
 				if (config) {
-					const selectedJobName = await Select.prompt({
 					const selectedJobName = Guards.isNothing(_options.jobName)
 						? await Select.prompt({
 							message: "Select a job to run",
