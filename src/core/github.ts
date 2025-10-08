@@ -1,4 +1,4 @@
-import { PullRequestModel } from "jsr:@kinsondigital/kd-clients@1.0.0-preview.14/github/models";
+import { PullRequestModel } from "@kdclients/github/models";
 import { IssueTypeModel } from "./IssueTypeModel.ts";
 
 

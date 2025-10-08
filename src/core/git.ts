@@ -1,4 +1,4 @@
-import { PullRequestClient } from "jsr:@kinsondigital/kd-clients@1.0.0-preview.14";
+import { PullRequestClient } from "@kdclients";
 
 export async function getCurrentBranch(): Promise<string> {
 	const cmd = new Deno.Command("git", {

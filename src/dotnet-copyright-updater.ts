@@ -1,4 +1,4 @@
-import { existsSync, walkSync } from "jsr:@std/fs@1.0.11";
+import { existsSync, walkSync } from "@std/fs";
 import { extname } from "../deps.ts";
 import { DotnetCopyrightUpdate } from "./dotnet-copyright-update.ts";
 

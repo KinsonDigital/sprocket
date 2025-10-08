@@ -1,4 +1,4 @@
-import { Input } from "jsr:@cliffy/prompt@1.0.0-rc.8";
+import { Input } from "@cliffy/prompt";
 import { KDAdminConfig } from "../src/core/configuration.ts";
 import { createCheckoutBranch, getCurrentBranch, isCheckedOut, pushToRemote } from "../src/core/git.ts";
 import { createPr, githubIssueExists } from "../src/core/github.ts";
