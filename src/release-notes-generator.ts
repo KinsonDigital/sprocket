@@ -158,7 +158,7 @@ export class ReleaseNotesGenerator {
 		const workItems: Promise<boolean>[] = [];
 
 		labels.forEach((labelToCheck) => {
-			workItems.push(this.labelClient?.labelExists(labelToCheck) ?? Promise.resolve(true));
+			workItems.push(this.labelClient?.exists(labelToCheck) ?? Promise.resolve(true));
 		});
 
 		const results = await Promise.all(workItems);

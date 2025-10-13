@@ -56,7 +56,7 @@ if (!await repoClient.exists()) {
 
 const tagClient: TagClient = new TagClient(ownerName, repoName, token);
 
-if (await tagClient.tagExists(version)) {
+if (await tagClient.exists(version)) {
 	const errorMsg = `The tag '${version}' already exists.`;
 	Utils.printGitHubError(errorMsg);
 	Deno.exit(1);
