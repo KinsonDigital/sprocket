@@ -1,5 +1,6 @@
-import { Command, isCommandTask, isFunctionTask, isScriptTask, Job, Script, Task } from "./configuration.ts";
+import { isCommandTask, isFunctionTask, isScriptTask } from "./configuration.ts";
 import { Guards } from "./guards.ts";
+import type { Command, Job, Script, Task } from "./configuration.ts";
 
 /**
  * Runs the given {@link job}.

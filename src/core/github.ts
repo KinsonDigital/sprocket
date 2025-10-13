@@ -1,5 +1,5 @@
-import { PullRequestModel } from "@kdclients/github/models";
-import { IssueTypeModel } from "./IssueTypeModel.ts";
+import type { PullRequestModel } from "@kdclients/github/models";
+import type { IssueTypeModel } from "./IssueTypeModel.ts";
 
 /**
  * Describes a GitHub API error.

@@ -3,7 +3,8 @@ import { getCurrentBranch, isCheckedOut, createCheckoutBranch, stageAll,
 createCommit, branchExistsRemotely, pushToRemote, createPullRequest } from "./git.ts";
 
 // github
-import { createPr, getAllIssueTypes, githubIssueExists, ErrorData, GitHubError } from "./github.ts";
+import { createPr, getAllIssueTypes, githubIssueExists } from "./github.ts";
+import type { ErrorData, GitHubError } from "./github.ts";
 
 // runner
 import { runJob, runCmd, runFunction, runScript } from "./job-runner.ts";
@@ -11,7 +12,7 @@ import { runJob, runCmd, runFunction, runScript } from "./job-runner.ts";
 // misc
 import runCommandAsync from "./run-async.ts";
 import { ConsoleLogColor } from "./console-log-color.ts";
-import { Task } from "./configuration.ts";
+import type { Task } from "./configuration.ts";
 
 ///////////////////////////////////////////////////////////////////////////
 

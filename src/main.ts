@@ -1,7 +1,7 @@
 import { existsSync } from "@std/fs";
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
-import { KDAdminConfig } from "./core/configuration.ts";
+import type { KDAdminConfig } from "./core/configuration.ts";
 import { runJob } from "./core/job-runner.ts";
 import { Guards } from "./core/guards.ts";
 

@@ -1,7 +1,7 @@
 import { Input } from "@cliffy/prompt";
-import { FunctionTask, KDAdminConfig, ScriptTask } from "../src/core/configuration.ts";
 import { createCheckoutBranch, getCurrentBranch, isCheckedOut, pushToRemote } from "../src/core/git.ts";
 import { createPr, githubIssueExists } from "../src/core/github.ts";
+import type { FunctionTask, KDAdminConfig } from "../src/core/configuration.ts";
 
 const config: KDAdminConfig = {
 	jobs: [{
