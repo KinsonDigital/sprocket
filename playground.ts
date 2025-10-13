@@ -9,8 +9,7 @@ const task: CommandTask = {
 	description: "asdf",
 	name: "asdf",
 	type: "function",
-	cmd: async (cmd: Command) => {
-	}
+	cmd: { cmd: "echo", args: ["hello"] },
 };
 
 if (isCommandTask(task)) {
