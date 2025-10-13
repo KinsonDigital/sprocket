@@ -105,9 +105,7 @@ export async function branchExistsRemotely(branchName: string): Promise<boolean>
 export async function pushToRemote(branchName: string): Promise<void> {
 	const existsRemotely = await branchExistsRemotely(branchName);
 
-	const args = existsRemotely
-		? ["push"]
-		: ["push", "-u", "origin", branchName];
+	const args = existsRemotely ? ["push"] : ["push", "-u", "origin", branchName];
 
 	const cmd = new Deno.Command("git", { args });
 
@@ -132,7 +130,8 @@ export async function createPullRequest(
 	baseBranch: string,
 	description = "",
 	maintainerCanModify = true,
-	isDraft = true,): Promise<number> {
+	isDraft = true,
+): Promise<number> {
 	const client = new PullRequestClient(ownerName, repoName, token);
 
 	const newPr = await client.createPullRequest(title, headBranch, baseBranch, description, maintainerCanModify, isDraft);

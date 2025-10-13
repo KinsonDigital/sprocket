@@ -8,17 +8,17 @@ export interface GitHubError {
 	/**
 	 * The resource that caused the error.
 	 */
-	resource: string,
+	resource: string;
 
 	/**
 	 * The error code.
 	 */
-	code: string,
+	code: string;
 
 	/**
 	 * The error message.
 	 */
-	message: string,
+	message: string;
 }
 
 /**
@@ -28,17 +28,17 @@ export interface ErrorData {
 	/**
 	 * The error message.
 	 */
-	message: string,
+	message: string;
 
 	/**
 	 * The list of errors.
 	 */
-    errors: GitHubError[],
+	errors: GitHubError[];
 
 	/**
 	 * The URL to the documentation.
 	 */
-    documentation_url: string
+	documentation_url: string;
 }
 
 /**
@@ -116,7 +116,7 @@ export async function createPr(
 	description: string,
 	headBranch: string,
 	baseBranch: string,
-	token: string
+	token: string,
 ): Promise<number> {
 	const baseUrl = "https://api.github.com";
 	const url = `${baseUrl}/repos/${ownerName}/${repoName}/pulls`;
@@ -143,9 +143,9 @@ export async function createPr(
 		const errorData: ErrorData = await response.json();
 
 		const errors = errorData.errors.map((error) => `${error.resource} - ${error.code}: ${error.message}`).join("\n");
-		const errorMessage = `${errorData.message}\n${errors}`
+		const errorMessage = `${errorData.message}\n${errors}`;
 
-        throw new Error(`Failed to create PR: ${response.status} - ${response.statusText}\nResponse: ${errorMessage}`);
+		throw new Error(`Failed to create PR: ${response.status} - ${response.statusText}\nResponse: ${errorMessage}`);
 	}
 
 	const pr: PullRequestModel = await response.json();

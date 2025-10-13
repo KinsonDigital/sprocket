@@ -5,11 +5,11 @@ export function updateVersion(version: string): { changeWasMade: boolean } {
 	version = version.startsWith("v") ? version.substring(1) : version;
 
 	if (denoConfig.version === version) {
-		 return { changeWasMade: false };
+		return { changeWasMade: false };
 	}
 
 	denoConfig.version = version;
 	Deno.writeTextFileSync(`${Deno.cwd()}/src-tauri/tauri.conf.json`, `${JSON.stringify(denoConfig, null, 4)}\n`);
 
-	return {  changeWasMade: true };
+	return { changeWasMade: true };
 }

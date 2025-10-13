@@ -25,8 +25,7 @@ const config: KDAdminConfig = {
 					Deno.exit(1);
 				}
 			},
-		} as FunctionTask,
-		{
+		} as FunctionTask, {
 			type: "function",
 			name: "Create, Check Out, Push Branch",
 			description: "Creates a new 'release' branch, checks it out, and pushes it to remote.",
@@ -35,9 +34,8 @@ const config: KDAdminConfig = {
 			func: async () => {
 				await createCheckoutBranch("release");
 				await pushToRemote("release");
-			}
-		} as FunctionTask,
-		{
+			},
+		} as FunctionTask, {
 			type: "function",
 			name: "Push To Remote",
 			description: "Pushes the changes to the remote repository.",
@@ -45,10 +43,9 @@ const config: KDAdminConfig = {
 			preExecuteMsgColor: "gray",
 			func: async () => {
 				await pushToRemote("release");
-			}
-		} as FunctionTask]
-	},
-	{
+			},
+		} as FunctionTask],
+	}, {
 		name: "Create Feature Branch",
 		description: "Creates a new feature branch from the develop branch with a pull request.",
 		preExecuteMsg: "Creating a new feature branch!",
@@ -58,7 +55,7 @@ const config: KDAdminConfig = {
 		env: {
 			"OWNER_NAME": "${OWNER_NAME}",
 			"REPO_NAME": "${REPO_NAME}",
-			"GITHUB_TOKEN": "${GITHUB_TOKEN}"
+			"GITHUB_TOKEN": "${GITHUB_TOKEN}",
 		},
 		tasks: [{
 			type: "function",
@@ -113,9 +110,9 @@ const config: KDAdminConfig = {
 				const baseBranch = await getCurrentBranch();
 
 				await createPr(ownerName, repoName, "auto-set", "auto-set", headBranchName, baseBranch, githubToken);
-			}
-		} as FunctionTask]
-	}]
+			},
+		} as FunctionTask],
+	}],
 };
 
 export { config };

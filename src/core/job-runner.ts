@@ -82,7 +82,7 @@ export async function runScript(script: Script): Promise<void> {
 /**
  * Processes environment variables for the given {@link job}.
  * @param job The job to process environment variables for.
- * @returns 
+ * @returns
  */
 function processEnvVariables(job: Job): void {
 	if (Guards.isNothing(job.env)) {
@@ -92,9 +92,7 @@ function processEnvVariables(job: Job): void {
 	for (const [key, value] of Object.entries(job.env)) {
 		const trimmedValue = value.trim();
 		const isInterpolated = trimmedValue.startsWith("${") && trimmedValue.endsWith("}");
-		const valueToUse = isInterpolated
-			? Deno.env.get(trimmedValue.slice(2, -1)) || ""
-			: trimmedValue;
+		const valueToUse = isInterpolated ? Deno.env.get(trimmedValue.slice(2, -1)) || "" : trimmedValue;
 
 		Deno.env.set(key, valueToUse);
 	}

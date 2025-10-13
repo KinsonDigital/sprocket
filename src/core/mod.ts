@@ -1,13 +1,21 @@
 // git
-import { getCurrentBranch, isCheckedOut, createCheckoutBranch, stageAll,
-createCommit, branchExistsRemotely, pushToRemote, createPullRequest } from "./git.ts";
+import {
+	branchExistsRemotely,
+	createCheckoutBranch,
+	createCommit,
+	createPullRequest,
+	getCurrentBranch,
+	isCheckedOut,
+	pushToRemote,
+	stageAll,
+} from "./git.ts";
 
 // github
 import { createPr, getAllIssueTypes, githubIssueExists } from "./github.ts";
 import type { ErrorData, GitHubError } from "./github.ts";
 
 // runner
-import { runJob, runCmd, runFunction, runScript } from "./job-runner.ts";
+import { runCmd, runFunction, runJob, runScript } from "./job-runner.ts";
 
 // misc
 import runCommandAsync from "./run-async.ts";
@@ -17,16 +25,24 @@ import type { Task } from "./configuration.ts";
 ///////////////////////////////////////////////////////////////////////////
 
 // git
-export { getCurrentBranch, isCheckedOut, createCheckoutBranch, stageAll,
-createCommit, branchExistsRemotely, pushToRemote, createPullRequest };
+export {
+	branchExistsRemotely,
+	createCheckoutBranch,
+	createCommit,
+	createPullRequest,
+	getCurrentBranch,
+	isCheckedOut,
+	pushToRemote,
+	stageAll,
+};
 
 // github
 export { createPr, getAllIssueTypes, githubIssueExists };
 export type { ErrorData, GitHubError };
 
 // runner
-export { runJob, runCmd, runFunction, runScript };
+export { runCmd, runFunction, runJob, runScript };
 
 // misc
-export { runCommandAsync, ConsoleLogColor };
+export { ConsoleLogColor, runCommandAsync };
 export type { Task };
