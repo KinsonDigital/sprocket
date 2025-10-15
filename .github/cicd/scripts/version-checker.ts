@@ -1,5 +1,5 @@
 import { RepoClient, TagClient, UsersClient } from "@kdclients";
-import { Utils } from "../../../src/core/Utils.ts";
+import { Utils } from "../../../src/core/utils.ts";
 
 const ownerName = (Deno.env.get("OWNER_NAME") ?? "").trim();
 
