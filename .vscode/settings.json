@@ -4,6 +4,7 @@
 		"CASL",
 		"cicd",
 		"deno",
+		"denoland",
 		"freetypesharp",
 		"imagesharp",
 		"indianred",
@@ -17,10 +18,12 @@
 		"msvc",
 		"neverthrow",
 		"Prepper",
+		"pwsh",
 		"RELEASETYPE",
 		"REPONAME",
 		"setx",
 		"sixlabors",
+		"softprops",
 		"xunit"
 	],
 	"files.exclude": {
