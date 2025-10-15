@@ -146,7 +146,6 @@ jobs:
 
           if ($validBranch -eq "true" `
               -or $milestoneExists -eq "false" `
-              -or $milestoneCheckFailed -eq "true" `
               -or $milestoneItemsCheckFailed -eq "true" `
               -or $releaseNotesCheckFailed -eq "true" `
               -or $githubReleaseCheckFailed -eq "true") {
