@@ -1,5 +1,6 @@
 {
-    "version": "v1.0.0-preview.8",
+    "name": "@kinsondigital/kd-admin",
+    "version": "1.0.0-preview.8",
     "tasks": {
         "check": "deno check **/*.ts",
         "fmt": "deno fmt **/*.ts",
@@ -12,6 +13,9 @@
         "include": [
             "src/",
             "tests/"
+        ],
+        "exclude": [
+            "**/playground.ts"
         ]
     },
     "fmt": {
@@ -32,5 +36,19 @@
         "indentWidth": 4,
         "semiColons": true,
         "singleQuote": false
+    },
+    "exports": {
+        "./core": "./src/core/mod.ts",
+        "./configuration": "./src/core/configuration.ts"
+    },
+    "imports": {
+        "@std/fs": "jsr:@std/fs@1.0.19",
+        "@std/path": "jsr:@std/path@1.1.2",
+        "@std/assert": "jsr:@std/assert@1.0.15",
+        "@std/streams": "jsr:@std/streams@1.0.13",
+        "@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.8",
+        "@cliffy/prompt": "jsr:@cliffy/prompt@1.0.0-rc.8",
+        "neverthrow": "npm:neverthrow@^6.2.2",
+        "@kdclients": "jsr:@kinsondigital/kd-clients@1.0.0-preview.15"
     }
 }

@@ -30,12 +30,12 @@ jobs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
       - name: Setup Deno
-        uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ vars.DENO_VERSION }}
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Get Version
         id: get_version
@@ -69,16 +69,16 @@ jobs:
 
           if ($branch -ne $expectedPrevBranch -and $branch -ne $expectedProdBranch) {
             Write-Host "::error::Releases are only allowed to be run on '$expectedPrevBranch' or '$expectedProdBranch' branches.";
-            exit 0; # TODO: THIS NEEDS TO BE CHANGED TO 1 WHNE FINISHED WITH DEBUGGING
+            exit 1;
           }
 
       - name: Setup Deno
-        uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ vars.DENO_VERSION }}
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Version Does Not Exist
         env:
@@ -111,52 +111,80 @@ jobs:
     needs: [get_version, validate_release]
     steps:
       - name: Setup Deno
-        uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ vars.DENO_VERSION }}
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Run Check
+        id: deno-check
+        continue-on-error: true
         run: deno check **/*/*.ts;
 
       - name: Run Lint
-        run: deno lint
+        id: deno-lint
+        continue-on-error: true
+        run: deno lint;
+
+      - name: Deno Format
+        id: deno-format
+        continue-on-error: true
+        run: deno fmt --check ./**/*.ts;
 
       - name: Run Tests
+        id: deno-tests
+        continue-on-error: true
         run: deno test -R ./tests/*Tests.ts;
 
-      - name: Create GitHub Release ${{ inputs.dry-run == true && '(Dry Run)' || '' }}
-        if: ${{ inputs.dry-run == false }}
-        env:
-          GH_TOKEN: ${{ secrets.CICD_TOKEN }}
+      - name: Validate Checks
         run: |
-          $ownerRepoName = "${{ github.repository }}";
+          $lintFailed = "${{ steps.deno-lint.outcome }}" -eq "failure";
+          $formatFailed = "${{ steps.deno-format.outcome }}" -eq "failure";
+          $checkFailed = "${{ steps.deno-check.outcome }}" -eq "failure";
+          $testsFailed = "${{ steps.deno-tests.outcome }}" -eq "failure";
 
-          $tag = "${{ needs.get_version.outputs.version }}".ToLower().Trim();
-          $tag = $tag.StartsWith("v") ? $tag : "v$tag";
+          if ($lintFailed) {
+            Write-Host "::error::The lint check has failed.";
+          }
 
-          $releaseType = "${{ inputs.release-type }}";
-          $version = "${{ needs.get_version.outputs.version }}";
+          if ($formatFailed) {
+            Write-Host "::error::The format has failed.";
+          }
 
-          $title = "$releaseType Release - $version";
+          if ($checkFailed) {
+            Write-Host "::error::The check has failed.";
+          }
 
-          $releaseDirPrefix = $releaseType.ToLower();
-          $releaseTypeDir = "$releaseDirPrefix-releases";
-          $fullReleaseNotesPath = "${{ github.workspace }}/release-notes/$releaseTypeDir/Release-Notes-${{ needs.get_version.outputs.version }}.md";
+          if ($testsFailed) {
+            Write-Host "::error::The tests have failed.";
+          }
 
-          $isPreRelease = $releaseType -eq "Preview" ? "--prerelease" : "";
+          if ($lintFailed -or $formatFailed -or $checkFailed -or $testsFailed) {
+            exit "${{ inputs.dry-run }}" -eq "true" ? 0 : 1;
+          }
 
-          Write-Host "::notice::Release Notes File Path: $fullReleaseNotesPath";
+      - name: Publish To JSR
+        if: ${{ inputs.dry-run == false }}
+        run: deno publish;
 
-          gh release create $tag `
-            -R $ownerRepoName `
-            --target ${{ github.ref_name }} `
-            -t $title `
-            -F $fullReleaseNotesPath `
-            $isPreRelease `
-            $fullReleaseNotesPath;
+      - name: Process Release Type
+        id: processed_release_type
+        run: |
+          $releaseType = "${{ inputs.release-type }}".Trim().ToLower();
+          "release-type=$releaseType" >> $env:GITHUB_OUTPUT;
+
+      - name: Creating ${{ inputs.release-type }} GitHub Release
+        if: ${{ inputs.dry-run == false }}
+        uses: softprops/action-gh-release@v2
+        with: 
+          name: "🚀${{ inputs.release-type }} Release - ${{ needs.get_version.outputs.version }}" 
+          body_path: "${{ github.workspace }}/ReleaseNotes/${{ steps.processed_release_type.outputs.release-type }}-releases/Release-Notes-v${{ needs.get_version.outputs.version }}.md"
+          files: "${{ github.workspace }}/ReleaseNotes/${{ steps.processed_release_type.outputs.release-type }}-releases/Release-Notes-v${{ needs.get_version.outputs.version }}.md"
+          tag_name: "v${{ needs.get_version.outputs.version }}"
+          prerelease: ${{ inputs.release-type == 'Preview' }}
+          draft: false
 
       - name: Close Milestone ${{ needs.get_version.outputs.version }}
         if: ${{ inputs.dry-run == false }}

@@ -1,4 +1,4 @@
-import { walkSync } from "../../../deps.ts";
+import { walkSync } from "@std/fs";
 import { Utils } from "../../../src/core/Utils.ts";
 
 /**

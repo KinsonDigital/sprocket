@@ -1,6 +1,6 @@
-import { existsSync } from "../deps.ts";
+import { existsSync } from "@std/fs";
 import { ParamGuards } from "./core/param-guards.ts";
-import { PrepareReleaseSettings } from "./prepare-release-settings.ts";
+import type { PrepareReleaseSettings } from "./prepare-release-settings.ts";
 
 /**
  * Updates the version in a JSON file.

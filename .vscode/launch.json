@@ -44,23 +44,26 @@
 			},
 			"runtimeArgs": [
 				"run",
-				"-E",
-				"-R",
-				"-N",
+				"-ENR",
 				"--inspect-wait",
 			],
 			"args": [
-				"create-pr",
+				"run-job",
+				"testing/test-config.ts",
 			],
 			"attachSimplePort": 9229,
-			"console": "integratedTerminal"
 		},
-		{ // PREPARE RELEASE (DEBUG)
-			"name": "Prepare Release (Debug)",
+		{ // Run Job (DEBUG)
+			"name": "Run Job (Debug)",
 			"request": "launch",
 			"type": "node",
 			"program": "${workspaceFolder}/src/main.ts",
 			"cwd": "${workspaceFolder}",
+			"env": {
+				"OWNER_NAME": "KinsonDigital",
+				"REPO_NAME": "kd-admin",
+				"GITHUB_TOKEN": "${env:CICD_TOKEN}"
+			},
 			"windows": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
 			},
@@ -77,7 +80,8 @@
 				"--inspect-wait",
 			],
 			"args": [
-				"prepare-for-release",
+				"run-job",
+				"testing/test-config.ts",
 			],
 			"attachSimplePort": 9229,
 			"console": "integratedTerminal"

@@ -1,4 +1,74 @@
-import { IssueTypeModel } from "./IssueTypeModel.ts";
+import type { PullRequestModel } from "@kdclients/github/models";
+import type { IssueTypeModel } from "./IssueTypeModel.ts";
+
+/**
+ * Describes a GitHub API error.
+ */
+export interface GitHubError {
+	/**
+	 * The resource that caused the error.
+	 */
+	resource: string;
+
+	/**
+	 * The error code.
+	 */
+	code: string;
+
+	/**
+	 * The error message.
+	 */
+	message: string;
+}
+
+/**
+ * Describes the structure of an error response from the GitHub API.
+ */
+export interface ErrorData {
+	/**
+	 * The error message.
+	 */
+	message: string;
+
+	/**
+	 * The list of errors.
+	 */
+	errors: GitHubError[];
+
+	/**
+	 * The URL to the documentation.
+	 */
+	documentation_url: string;
+}
+
+/**
+ * Checks if a GitHub issue exists.
+ * @param owner The repository owner.
+ * @param repo The repository name.
+ * @param issueNumber The issue number.
+ * @param githubToken The GitHub token to use for authentication.
+ * @returns True if the issue exists, false otherwise.
+ */
+export async function githubIssueExists(owner: string, repo: string, issueNumber: number, githubToken: string): Promise<boolean> {
+	const baseUrl = "https://api.github.com/repos";
+	const url = `${baseUrl}/${owner}/${repo}/issues/${issueNumber}`;
+
+	const response = await fetch(url, {
+		method: "GET",
+		headers: {
+			"Accept": "application/vnd.github+json",
+			"Authorization": `Bearer ${githubToken}`,
+			"X-GitHub-Api-Version": "2022-11-28",
+		},
+	});
+
+	if (response.status === 200) {
+		return true;
+	} else {
+		console.log(`%c${response.status} - ${response.statusText}`, "color:indianred");
+		return false;
+	}
+}
 
 /**
  * Gets the list of issue types.
@@ -26,4 +96,59 @@ export async function getAllIssueTypes(orgName: string, githubToken: string): Pr
 	const data: IssueTypeModel[] = await response.json();
 
 	return data;
+}
+
+/**
+ * Creates a pull request on GitHub.
+ * @param ownerName The owner of the repository.
+ * @param repoName The name of the repository.
+ * @param title The title of the pull request.
+ * @param description The description of the pull request.
+ * @param headBranch The name of the branch to merge from.
+ * @param baseBranch The name of the branch to merge into.
+ * @param token The GitHub token to use for authentication.
+ * @returns The pull request number.
+ */
+export async function createPr(
+	ownerName: string,
+	repoName: string,
+	title: string,
+	description: string,
+	headBranch: string,
+	baseBranch: string,
+	token: string,
+): Promise<number> {
+	const baseUrl = "https://api.github.com";
+	const url = `${baseUrl}/repos/${ownerName}/${repoName}/pulls`;
+	const body = {
+		title: title,
+		head: headBranch,
+		base: baseBranch,
+		body: description,
+		maintainer_can_modify: true,
+		draft: true,
+	};
+
+	const response = await fetch(url, {
+		method: "POST",
+		headers: {
+			"Accept": "application/vnd.github+json",
+			"Authorization": `Bearer ${token}`,
+			"X-GitHub-Api-Version": "2022-11-28",
+		},
+		body: JSON.stringify(body),
+	});
+
+	if (response.status !== 201) {
+		const errorData: ErrorData = await response.json();
+
+		const errors = errorData.errors.map((error) => `${error.resource} - ${error.code}: ${error.message}`).join("\n");
+		const errorMessage = `${errorData.message}\n${errors}`;
+
+		throw new Error(`Failed to create PR: ${response.status} - ${response.statusText}\nResponse: ${errorMessage}`);
+	}
+
+	const pr: PullRequestModel = await response.json();
+
+	return pr.number;
 }
