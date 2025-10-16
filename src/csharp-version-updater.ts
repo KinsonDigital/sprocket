@@ -1,6 +1,6 @@
 import { ParamGuards } from "./core/param-guards.ts";
-import { existsSync } from "../deps.ts";
-import { PrepareReleaseSettings } from "./prepare-release-settings.ts";
+import { existsSync } from "@std/fs";
+import type { PrepareReleaseSettings } from "./prepare-release-settings.ts";
 
 /**
  * Updates versions in csharp project files.

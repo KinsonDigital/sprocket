@@ -1,6 +1,6 @@
-import { existsSync, walkSync } from "jsr:@std/fs@1.0.11";
-import { extname } from "../deps.ts";
-import { DotnetCopyrightUpdate } from "./dotnet-copyright-update.ts";
+import { existsSync, walkSync } from "@std/fs";
+import { extname } from "@std/path";
+import type { DotnetCopyrightUpdate } from "./dotnet-copyright-update.ts";
 
 /**
  * Updates copyright tags in a dotnet csproj file.

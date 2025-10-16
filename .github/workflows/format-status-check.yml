@@ -18,15 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4
-      with:
-        repository: ${{ github.repository }}
-        ref: ${{ github.ref }}
+      uses: actions/checkout@v5
 
-    - name: Setup Deno
-      uses: denoland/setup-deno@v1
+    - name: Set Up Deno (${{ vars.DENO_VERSION }})
+      uses: denoland/setup-deno@v2
       with:
         deno-version: ${{ vars.DENO_VERSION }}
+        cache: true
 
     - name: Run Lint
       run: deno fmt --check **/*/*.ts;

@@ -1,5 +1,5 @@
-import { RepoClient, TagClient, UsersClient } from "../../../deps.ts";
-import { Utils } from "../../../src/core/Utils.ts";
+import { RepoClient, TagClient, UsersClient } from "@kdclients";
+import { Utils } from "../../../src/core/utils.ts";
 
 const ownerName = (Deno.env.get("OWNER_NAME") ?? "").trim();
 
@@ -56,7 +56,7 @@ if (!await repoClient.exists()) {
 
 const tagClient: TagClient = new TagClient(ownerName, repoName, token);
 
-if (await tagClient.tagExists(version)) {
+if (await tagClient.exists(version)) {
 	const errorMsg = `The tag '${version}' already exists.`;
 	Utils.printGitHubError(errorMsg);
 	Deno.exit(1);

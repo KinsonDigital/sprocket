@@ -1,0 +1,147 @@
+import { isCommandTask, isFunctionTask, isScriptTask } from "./configuration.ts";
+import { Guards } from "./guards.ts";
+import type { Command, Job, Script, Task } from "./configuration.ts";
+
+/**
+ * Runs the given {@link job}.
+ * @param job The job to run.
+ */
+export async function runJob(job: Job): Promise<void> {
+	printPreExecuteJobMsg(job);
+
+	processEnvVariables(job);
+
+	for (let i = 0; i < job.tasks.length; i++) {
+		const task = job.tasks[i];
+
+		printPreExecuteTaskMsg(task);
+
+		if (isCommandTask(task)) {
+			await runCmd(task.cmd);
+		} else if (isFunctionTask(task)) {
+			await runFunction(task.func);
+		} else if (isScriptTask(task)) {
+			await runScript(task.script);
+		} else {
+			console.error("Unknown task type:", task);
+		}
+
+		printPostExecuteTaskMsg(task);
+	}
+
+	printPostExecuteJobMsg(job);
+}
+
+/**
+ * Runs the given {@link cmd}.
+ * @param cmd The command to run.
+ */
+export async function runCmd(cmd: Command): Promise<void> {
+	const denoCmd = new Deno.Command(cmd.cmd, { args: cmd.args });
+
+	const child = denoCmd.spawn();
+	const status = await child.status;
+
+	if (!status.success) {
+		const argsStr = cmd.args ? ` ${cmd.args.join(" ")}` : "";
+		console.log(`%cAn error occurred running the ${cmd.cmd} ${argsStr}`, "color: indianred");
+	}
+}
+
+/**
+ * Runs the given {@link func}.
+ * @param func The function to run.
+ */
+export async function runFunction(func: () => Promise<void>): Promise<void> {
+	try {
+		await func();
+	} catch (error) {
+		console.error("Error running function:", error);
+	}
+}
+
+/**
+ * Runs the given {@link script}.
+ * @param script The script to run.
+ */
+export async function runScript(script: Script): Promise<void> {
+	try {
+		const filePath = script.filePath.startsWith("./")
+			? `${Deno.cwd()}/${script.filePath.replace("./", "")}`
+			: script.filePath;
+
+		const scriptPath = import.meta.resolve(`file:///${filePath}`);
+
+		// Execute the script
+		await import(scriptPath);
+	} catch (error) {
+		console.error("Error running script:", error);
+	}
+}
+
+/**
+ * Processes environment variables for the given {@link job}.
+ * @param job The job to process environment variables for.
+ * @returns
+ */
+function processEnvVariables(job: Job): void {
+	if (Guards.isNothing(job.env)) {
+		return;
+	}
+
+	for (const [key, value] of Object.entries(job.env)) {
+		const trimmedValue = value.trim();
+		const isInterpolated = trimmedValue.startsWith("${") && trimmedValue.endsWith("}");
+		const valueToUse = isInterpolated ? Deno.env.get(trimmedValue.slice(2, -1)) || "" : trimmedValue;
+
+		Deno.env.set(key, valueToUse);
+	}
+}
+
+/**
+ * Prints a pre-execute message for the given {@link job}.
+ * @param job The job to print the pre-execute message for.
+ */
+function printPreExecuteJobMsg(job: Job): void {
+	if (!Guards.isNothing(job.preExecuteMsg)) {
+		const clr = Guards.isNothing(job.preExecuteMsgColor) ? "" : `color:${job.preExecuteMsgColor}`;
+		job.preExecuteMsg = Guards.isNothing(clr) ? job.preExecuteMsg : `%c${job.preExecuteMsg}`;
+		console.log(job.preExecuteMsg, clr);
+	}
+}
+
+/**
+ * Prints a post-execute message for the given {@link job}.
+ * @param job The job to print the post-execute message for.
+ */
+function printPostExecuteJobMsg(job: Job): void {
+	if (!Guards.isNothing(job.postExecuteMsg)) {
+		const clr = Guards.isNothing(job.postExecuteMsgColor) ? "" : `color:${job.postExecuteMsgColor}`;
+		job.postExecuteMsg = Guards.isNothing(clr) ? job.postExecuteMsg : `%c${job.postExecuteMsg}`;
+		console.log(job.postExecuteMsg, clr);
+	}
+}
+
+/**
+ * Prints a pre-execute message for the given {@link task}.
+ * @param task The task to print the pre-execute message for.
+ */
+function printPreExecuteTaskMsg(task: Task): void {
+	if (!Guards.isNothing(task.preExecuteMsg)) {
+		const clr = Guards.isNothing(task.preExecuteMsgColor) ? "" : `color:${task.preExecuteMsgColor}`;
+		task.preExecuteMsg = Guards.isNothing(clr) ? task.preExecuteMsg : `%c${task.preExecuteMsg}`;
+		console.log(task.preExecuteMsg, clr);
+	}
+}
+
+/**
+ * Prints a post-execute message for the given {@link task}.
+ * @param task The task to print the post-execute message for.
+ */
+function printPostExecuteTaskMsg(task: Task): void {
+	if (!Guards.isNothing(task.postExecuteMsg)) {
+		const clr = Guards.isNothing(task.postExecuteMsgColor) ? "" : `color:${task.postExecuteMsgColor}`;
+		task.postExecuteMsg = Guards.isNothing(clr) ? task.postExecuteMsg : `%c${task.postExecuteMsg}`;
+		console.log(task.postExecuteMsg, clr);
+	}
+}

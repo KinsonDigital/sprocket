@@ -1,12 +1,12 @@
-import { toText } from "../../deps.ts";
+import { toText } from "@std/streams";
 
 /**
- * Executes an application using the given {@link app} name and {@link args}.
+ * Executes a command using the given {@link app} name and {@link args}.
  * @param app The name of the application to run.
  * @param args The arguments to send to the application.
  * @returns A promise that resolves to a string or error.
  */
-export default async function runAsync(app: string, args: string[]): Promise<string | Error> {
+export default async function runCommandAsync(app: string, args: string[]): Promise<string | Error> {
 	if (app === undefined || app === null || app === "") {
 		const errorMsg = "The command parameter cannot be null or empty.";
 		console.log(errorMsg);

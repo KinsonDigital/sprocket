@@ -1,5 +1,5 @@
-import { walkSync } from "../../../deps.ts";
-import { Utils } from "../../../src/core/Utils.ts";
+import { walkSync } from "@std/fs";
+import { Utils } from "../../../src/core/utils.ts";
 
 const scriptFileName = new URL(import.meta.url).pathname.split("/").pop();
 

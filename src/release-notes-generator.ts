@@ -1,8 +1,8 @@
-import { IssueModel, PullRequestModel } from "../deps.ts";
-import { LabelClient, MilestoneClient, RepoClient } from "../deps.ts";
+import { LabelClient, MilestoneClient, RepoClient } from "@kdclients/github";
 import { Guards } from "./core/guards.ts";
-import { IssueTypeModel } from "./core/IssueTypeModel.ts";
-import { GeneratorSettings } from "./generator-settings.ts";
+import type { IssueModel, PullRequestModel } from "@kdclients/github/models";
+import type { IssueTypeModel } from "./core/IssueTypeModel.ts";
+import type { GeneratorSettings } from "./generator-settings.ts";
 
 type IssueModelNew = IssueModel & { type: IssueTypeModel };
 
@@ -158,7 +158,7 @@ export class ReleaseNotesGenerator {
 		const workItems: Promise<boolean>[] = [];
 
 		labels.forEach((labelToCheck) => {
-			workItems.push(this.labelClient?.labelExists(labelToCheck) ?? Promise.resolve(true));
+			workItems.push(this.labelClient?.exists(labelToCheck) ?? Promise.resolve(true));
 		});
 
 		const results = await Promise.all(workItems);

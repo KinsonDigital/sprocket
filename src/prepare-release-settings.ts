@@ -1,5 +1,5 @@
-import { DotnetCopyrightUpdate } from "./dotnet-copyright-update.ts";
-import { ReleaseType } from "./release-type.ts";
+import type { DotnetCopyrightUpdate } from "./dotnet-copyright-update.ts";
+import type { ReleaseType } from "./release-type.ts";
 
 /**
  * Represents the different settings.
