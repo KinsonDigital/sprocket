@@ -184,12 +184,12 @@ export interface Job {
 }
 
 /**
- * Main configuration interface for the KD Admin tool.
+ * Main configuration interface for the sprocket tool.
  * This defines the complete structure for configuring jobs and their associated tasks.
  */
-export interface KDAdminConfig {
+export interface SprocketConfig {
 	/**
-	 * Array of jobs that can be executed by the KD Admin tool
+	 * Array of jobs that can be executed by the sprocket tool
 	 */
 	jobs: Job[];
 }

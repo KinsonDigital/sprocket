@@ -1,12 +1,12 @@
 import { existsSync } from "@std/fs";
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
-import type { KDAdminConfig } from "./core/configuration.ts";
+import type { SprocketConfig } from "./core/configuration.ts";
 import { runJob } from "./core/job-runner.ts";
 import { Guards } from "./core/guards.ts";
 
 const command = new Command()
-	.name("kd-admin")
+	.name("sprocket")
 	.description("Tool to create prs and prepare for releases.")
 	.version("v1.0.0-preview.1")
 	.command("run-job")
@@ -20,7 +20,7 @@ const command = new Command()
 
 		if (existsSync(filePath)) {
 			try {
-				const config = (await import(`file://${filePath}`)).config as KDAdminConfig;
+				const config = (await import(`file://${filePath}`)).config as SprocketConfig;
 
 				if (config) {
 					const selectedJobName = Guards.isNothing(_options.jobName)

@@ -1,5 +1,5 @@
 <h1 align="center" style="color: mediumseagreen;font-weight: bold;">
-kd-admin Preview Release Notes - v1.0.0-preview.7
+sprocket Preview Release Notes - v1.0.0-preview.7
 </h1>
 
 <h2 align="center" style="font-weight: bold;">Quick Reminder</h2>
@@ -11,12 +11,12 @@ As with all software, there is always a chance for issues and bugs, especially f
 
 <h2 align="center" style="font-weight: bold;">New Features ✨</h2>
 
-1. [#56](https://github.com/KinsonDigital/kd-admin/issues/56) - Added the ability to update the copyright in csproj files for dotnet projects.
+1. [#56](https://github.com/KinsonDigital/sprocket/issues/56) - Added the ability to update the copyright in csproj files for dotnet projects.
 
 <h2 align="center" style="font-weight: bold;">Enhancements 💎</h2>
 
-1. [#55](https://github.com/KinsonDigital/kd-admin/issues/55) - Added a check to validate if a base branch exists when preparing for a release.
+1. [#55](https://github.com/KinsonDigital/sprocket/issues/55) - Added a check to validate if a base branch exists when preparing for a release.
 
 <h2 align="center" style="font-weight: bold;">Dependency Updates 📦</h2>
 
-1. [#54](https://github.com/KinsonDigital/kd-admin/pull/54) - Updated _**KinsonDigital/Infrastructure**_ action to _**v14.2.0**_.
+1. [#54](https://github.com/KinsonDigital/sprocket/pull/54) - Updated _**KinsonDigital/Infrastructure**_ action to _**v14.2.0**_.

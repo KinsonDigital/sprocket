@@ -1,5 +1,5 @@
 {
-    "name": "@kinsondigital/kd-admin",
+    "name": "@kinsondigital/sprocket",
     "version": "1.0.0-preview.8",
     "tasks": {
         "check": "deno check **/*.ts",
