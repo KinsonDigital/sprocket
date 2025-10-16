@@ -39,7 +39,7 @@
 	"deno.enable": true,
 	"deno.lint": true,
 	"files.eol": "\n",
-	"window.title": "🦕kd-admin",
+	"window.title": "🦕sprocket",
 	"workbench.colorCustomizations": {
 		"titleBar.activeBackground": "#1a2519"
 	},

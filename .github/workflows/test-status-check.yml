@@ -8,7 +8,7 @@ defaults:
 
 
 on:
-  pull_request_target:
+  pull_request:
     branches: [main, preview]
 
 
@@ -27,4 +27,4 @@ jobs:
         cache: true
 
     - name: Run Tests
-      run: deno test -R ./tests/.tests.ts;
+      run: deno test -R ./tests/*tests.ts;

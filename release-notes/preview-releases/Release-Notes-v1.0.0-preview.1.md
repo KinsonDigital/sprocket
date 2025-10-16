@@ -1,5 +1,5 @@
 <h1 align="center" style="color: mediumseagreen;font-weight: bold;">
-kd-admin Preview Release Notes - v1.0.0-preview.1
+sprocket Preview Release Notes - v1.0.0-preview.1
 </h1>
 
 <h2 align="center" style="font-weight: bold;">Quick Reminder</h2>

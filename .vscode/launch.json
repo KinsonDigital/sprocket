@@ -14,7 +14,7 @@
 				"WORKING_DIR": "${workspaceFolder}",
 				"GITHUB_TOKEN": "${env:CICD_TOKEN}",
 				"OWNER_NAME": "KinsonDigital",
-				"REPO_NAME": "kd-admin"
+				"REPO_NAME": "sprocket"
 			},
 			"windows": {
 				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
@@ -61,7 +61,7 @@
 			"cwd": "${workspaceFolder}",
 			"env": {
 				"OWNER_NAME": "KinsonDigital",
-				"REPO_NAME": "kd-admin",
+				"REPO_NAME": "sprocket",
 				"GITHUB_TOKEN": "${env:CICD_TOKEN}"
 			},
 			"windows": {

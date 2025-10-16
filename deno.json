@@ -1,12 +1,12 @@
 {
-    "name": "@kinsondigital/kd-admin",
+    "name": "@kinsondigital/sprocket",
     "version": "1.0.0-preview.8",
     "tasks": {
         "check": "deno check **/*.ts",
         "fmt": "deno fmt **/*.ts",
         "fmt-check": "deno fmt --check **/*.ts",
         "lint": "deno lint **/*.ts",
-        "tests": "deno test ./Tests/*Tests.ts",
+        "tests": "deno test ./tests/*tests.ts",
         "reload-cache": "deno cache --reload \"*/**/*.ts\"",
         "create-pr": "deno run -ERN --allow-run https://raw.githubusercontent.com/KinsonDigital/Infrastructure/refs/tags/v16.0.0/dev-tools/feat-pr-creator-tool.ts",
         "gen-release-notes": "deno run -ERN --allow-run https://raw.githubusercontent.com/KinsonDigital/Infrastructure/refs/tags/v16.0.0/dev-tools/release-notes-generator-tool.ts"
