@@ -27,4 +27,4 @@ jobs:
         cache: true
 
     - name: Run Tests
-      run: deno test -R ./tests/.tests.ts;
+      run: deno test -R ./tests/*tests.ts;
