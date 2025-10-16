@@ -4,11 +4,12 @@ import { Select } from "@cliffy/prompt";
 import type { SprocketConfig } from "./core/configuration.ts";
 import { runJob } from "./core/job-runner.ts";
 import { Guards } from "./core/guards.ts";
+import denoConfig from "../deno.json" with { type: "json" };
 
 const command = new Command()
 	.name("sprocket")
 	.description("Tool to create prs and prepare for releases.")
-	.version("v1.0.0-preview.1")
+	.version(`v${denoConfig.version}`)
 	.command("run-job")
 	.arguments("<filePath:string>")
 	.option("-f, --file-path", "The path to the typescript config file to run.")

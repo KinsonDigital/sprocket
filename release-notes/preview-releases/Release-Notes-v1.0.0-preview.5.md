@@ -18,7 +18,7 @@ As with all software, there is always a chance for issues and bugs, especially f
 <h2 align="center" style="font-weight: bold;">Enhancements 💎</h2>
 
 1. [#44](https://github.com/KinsonDigital/sprocket/issues/44) - Improved the error log message when a file version key with value cannot be found.
-2. [#43](https://github.com/KinsonDigital/sprocket/issues/43) - Added the `--no-lock` option to install process to prevent accidental manipulation of _**deno.lock**_ files deno projects when installing the tool.
+2. [#43](https://github.com/KinsonDigital/sprocket/issues/43) - Added the `--no-lock` option to install process to prevent accidental manipulation of _**deno.lock**_ files in deno projects when installing the tool.
 
 <h2 align="center" style="font-weight: bold;">Bug Fixes 🐛</h2>
 
