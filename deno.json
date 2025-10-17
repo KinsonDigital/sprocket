@@ -51,7 +51,8 @@
     "exports": {
         ".": "./src/main.ts",
         "./core": "./src/core/mod.ts",
-        "./configuration": "./src/core/configuration.ts"
+        "./configuration": "./src/core/configuration.ts",
+        "./models": "./src/core/models/mod.ts"
     },
     "imports": {
         "@std/fs": "jsr:@std/fs@1.0.19",
