@@ -13,7 +13,7 @@ export interface Command {
 	/**
 	 * The command or executable to run (e.g., "git", "npm", "deno")
 	 */
-	cmd: string;
+	app: string;
 
 	/**
 	 * Optional arguments to pass to the command
@@ -108,7 +108,7 @@ export type CommandTask = TaskBase & {
 	/**
 	 * Command configuration for execution
 	 */
-	cmd: Command;
+	command: Command;
 };
 
 /**

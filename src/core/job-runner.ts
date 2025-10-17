@@ -17,7 +17,7 @@ export async function runJob(job: Job): Promise<void> {
 		printPreExecuteTaskMsg(task);
 
 		if (isCommandTask(task)) {
-			await runCmd(task.cmd);
+			await runCmd(task.command);
 		} else if (isFunctionTask(task)) {
 			await runFunction(task.func);
 		} else if (isScriptTask(task)) {
@@ -37,14 +37,14 @@ export async function runJob(job: Job): Promise<void> {
  * @param cmd The command to run.
  */
 export async function runCmd(cmd: Command): Promise<void> {
-	const denoCmd = new Deno.Command(cmd.cmd, { args: cmd.args });
+	const denoCmd = new Deno.Command(cmd.app, { args: cmd.args });
 
 	const child = denoCmd.spawn();
 	const status = await child.status;
 
 	if (!status.success) {
 		const argsStr = cmd.args ? ` ${cmd.args.join(" ")}` : "";
-		console.log(`%cAn error occurred running the ${cmd.cmd} ${argsStr}`, "color: indianred");
+		console.log(`%cAn error occurred running the ${cmd.app} ${argsStr}`, "color: indianred");
 	}
 }
 
