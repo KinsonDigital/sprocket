@@ -1,4 +1,5 @@
 import { existsSync } from "@std/fs";
+import { resolve } from "@std/path";
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
 import type { SprocketConfig } from "./core/configuration.ts";
@@ -17,11 +18,12 @@ const command = new Command()
 	.action(async (_options, filePath: string) => {
 		console.log(`The job chosen is: ${_options.jobName}`);
 
-		filePath = import.meta.resolve(`${Deno.cwd()}/${filePath}`);
+		filePath = resolve(Deno.cwd(), filePath);
 
 		if (existsSync(filePath)) {
 			try {
-				const config = (await import(`file://${filePath}`)).config as SprocketConfig;
+				const fileUrl = new URL(`file://${filePath}`);
+				const config = (await import(fileUrl.href)).config as SprocketConfig;
 
 				if (config) {
 					const selectedJobName = Guards.isNothing(_options.jobName)
