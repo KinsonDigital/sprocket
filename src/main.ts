@@ -3,9 +3,9 @@ import { resolve } from "@std/path";
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
 import { runJob } from "./core/job-runner.ts";
-import type { SprocketConfig } from "@kinsondigital/sprocket/configuration";
+import { isSprocketConfig } from "@kinsondigital/sprocket/configuration";
 import denoConfig from "../deno.json" with { type: "json" };
-import { isNothing } from "./core/guards.ts";
+import { isBoolean, isNothing } from "./core/guards.ts";
 
 const command = new Command()
 	.name("sprocket")
@@ -23,28 +23,28 @@ const command = new Command()
 		if (existsSync(filePath)) {
 			try {
 				const fileUrl = new URL(`file://${filePath}`);
-				const config = (await import(fileUrl.href)).config as SprocketConfig;
+				const config = (await import(fileUrl.href)).config;
 
-				if (config) {
-					const selectedJobName = isNothing(_options.jobName)
-						? await Select.prompt({
-							message: "Select a job to run",
-							options: isNothing(config.jobs) ? [] : config.jobs.map((job) => job.name),
-						})
-						: _options.jobName;
-
-					const selectedJob = config.jobs.find((j) => j.name === selectedJobName);
-
-					if (!selectedJob) {
-						console.error(`Job '${selectedJobName}' not found in the configuration.`);
-						Deno.exit(1);
-					}
-
-					await runJob(selectedJob);
-				} else {
-					console.error("Configuration file does not export a 'config' object.");
+				if (!isSprocketConfig(config)) {
+					console.error("The configuration file is not a valid Sprocket configuration.");
 					Deno.exit(1);
 				}
+
+				const selectedJobName = !isNothing(_options.jobName) && !isBoolean(_options.jobName)
+					? _options.jobName
+					: await Select.prompt({
+						message: "Select a job to run",
+						options: isNothing(config.jobs) ? [] : config.jobs.map((job) => job.name),
+					});
+
+				const selectedJob = config.jobs.find((j) => j.name === selectedJobName);
+
+				if (!selectedJob) {
+					console.error(`Job '${selectedJobName}' not found in the configuration.`);
+					Deno.exit(1);
+				}
+
+				await runJob(selectedJob);
 			} catch (error) {
 				const errorMsg = error instanceof Error ? error.message : String(error);
 				console.error(`Error loading configuration file: ${errorMsg}`);

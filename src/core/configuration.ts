@@ -1,3 +1,8 @@
+/**
+ * Configuration types for setting up jobs and tasks.
+ * @module
+ */
+
 import * as zod from "@zod";
 
 /**
@@ -194,6 +199,22 @@ export interface SprocketConfig {
 	 * Array of jobs that can be executed by the sprocket tool
 	 */
 	jobs: Job[];
+}
+
+/**
+ * Type guard to check if a configuration object is a {@link SprocketConfig}.
+ * @param config The configuration object to check.
+ * @returns True if the configuration object is a {@link SprocketConfig}, false otherwise.
+ */
+export function isSprocketConfig(config: unknown): config is SprocketConfig {
+	const schema = zod.looseObject({
+		jobs: zod.array(zod.object({
+			name: zod.string(),
+			tasks: zod.array(zod.any()),
+		})),
+	});
+
+	return schema.safeParse(config).success;
 }
 
 /**
