@@ -20,7 +20,7 @@ import { runCmd, runFunction, runJob, runScript } from "./job-runner.ts";
 // misc
 import runCommandAsync from "./run-async.ts";
 import { ConsoleLogColor } from "./console-log-color.ts";
-import type { Task } from "./configuration.ts";
+import type { Task } from "@kinsondigital/sprocket/configuration";
 
 ///////////////////////////////////////////////////////////////////////////
 
