@@ -2,9 +2,9 @@ import { existsSync } from "@std/fs";
 import { resolve } from "@std/path";
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
-import type { SprocketConfig } from "./core/configuration.ts";
 import { runJob } from "./core/job-runner.ts";
 import { Guards } from "./core/guards.ts";
+import type { SprocketConfig } from "./core/configuration.ts";
 import denoConfig from "../deno.json" with { type: "json" };
 
 const command = new Command()
