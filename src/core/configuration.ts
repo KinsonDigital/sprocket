@@ -1,3 +1,5 @@
+import * as zod from "@zod";
+
 /**
  * Defines the different types of tasks that can be executed.
  * - "cmd": Execute a command line program or executable
@@ -194,21 +196,68 @@ export interface SprocketConfig {
 	jobs: Job[];
 }
 
+/**
+ * Type guard to check if a task is a {@link CommandTask}.
+ * @param task The task to check.
+ * @returns True if the task is a {@link CommandTask}, false otherwise.
+ */
 export function isCommandTask(task: unknown): task is CommandTask {
-	return typeof task === "object" && task !== null && "run" in task &&
-		"type" in task && typeof task.type === "string" && task.type === "cmd";
+	const schema = zod.looseObject({
+		type: zod.enum(["cmd", "script", "function"]),
+		name: zod.string(),
+		description: zod.string(),
+		command: zod.object({
+			app: zod.string(),
+			args: zod.optional(zod.array(zod.string())),
+		}),
+		preExecuteMsg: zod.optional(zod.string()),
+		postExecuteMsg: zod.optional(zod.string()),
+		preExecuteMsgColor: zod.optional(zod.string()),
+		postExecuteMsgColor: zod.optional(zod.string()),
+	});
+
+	return schema.safeParse(task).success;
 }
 
+/**
+ * Type guard to check if a task is a {@link ScriptTask}.
+ * @param task The task to check.
+ * @returns True if the task is a {@link ScriptTask}, false otherwise.
+ */
 export function isScriptTask(task: unknown): task is ScriptTask {
-	return typeof task === "object" && task !== null && "run" in task &&
-		"type" in task && typeof task.type === "string" && task.type === "script";
+	const schema = zod.looseObject({
+		type: zod.enum(["cmd", "script", "function"]),
+		name: zod.string(),
+		description: zod.string(),
+		script: zod.object({
+			filePath: zod.string(),
+			args: zod.optional(zod.array(zod.string())),
+		}),
+		preExecuteMsg: zod.optional(zod.string()),
+		postExecuteMsg: zod.optional(zod.string()),
+		preExecuteMsgColor: zod.optional(zod.string()),
+		postExecuteMsgColor: zod.optional(zod.string()),
+	});
+
+	return schema.safeParse(task).success;
 }
 
+/**
+ * Type guard to check if a task is a {@link FunctionTask}.
+ * @param task The task to check.
+ * @returns True if the task is a {@link FunctionTask}, false otherwise.
+ */
 export function isFunctionTask(task: unknown): task is FunctionTask {
-	return typeof task === "object" && task !== null && "run" in task &&
-		"type" in task && typeof task.type === "string" && task.type === "function";
-}
+	const schema = zod.looseObject({
+		type: zod.enum(["cmd", "script", "function"]),
+		name: zod.string(),
+		description: zod.string(),
+		func: zod.function(),
+		preExecuteMsg: zod.optional(zod.string()),
+		postExecuteMsg: zod.optional(zod.string()),
+		preExecuteMsgColor: zod.optional(zod.string()),
+		postExecuteMsgColor: zod.optional(zod.string()),
+	});
 
-export function isTaskTypeProp(value: unknown): value is TaskType {
-	return typeof value === "string" && (value === "cmd" || value === "script" || value === "function");
+	return schema.safeParse(task).success;
 }
