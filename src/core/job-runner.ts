@@ -1,6 +1,6 @@
 import { isCommandTask, isFunctionTask, isScriptTask } from "@kinsondigital/sprocket/configuration";
 import type { Command, Job, Script, Task } from "@kinsondigital/sprocket/configuration";
-import { isNothing } from "./guards.ts";
+import { isNothing, isUndefinedOrNullOrEmpty } from "./guards.ts";
 
 /**
  * Runs the given {@link job}.
@@ -84,7 +84,7 @@ export async function runScript(script: Script): Promise<void> {
  * @returns
  */
 function processEnvVariables(job: Job): void {
-	if (isNothing(job.env)) {
+	if (isUndefinedOrNullOrEmpty(job.env)) {
 		return;
 	}
 

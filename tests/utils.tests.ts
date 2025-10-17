@@ -1,5 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { Utils } from "../src/core/utils.ts";
+import { isNothing } from "../src/core/guards.ts";
 
 Deno.test("clamp |> when-num-is-larger-than-max |> returns-max-value", () => {
 	// Arrange
@@ -29,7 +30,7 @@ Deno.test("clamp |> when-num-is-larger-than-max |> returns-max-value", () => {
 		const [value, expected] = testParams;
 
 		// Act
-		const result = Utils.isNothing(value);
+		const result = isNothing(value);
 
 		// Assert
 		assertEquals(result, expected);

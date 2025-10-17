@@ -1,4 +1,5 @@
 import { ParamGuards } from "./param-guards.ts";
+import { isLessThanOne, isNothing, isStringNothing } from "./guards.ts";
 
 /**
  * Provides utility functions.
@@ -8,29 +9,6 @@ export class Utils {
 	private static readonly prevVersionRegex = /^v[0-9]+\.[0-9]+\.[0-9]+-preview\.[0-9]+$/;
 
 	/**
-	 * Checks if the value is null, undefined, or empty.
-	 * @param value The value to check.
-	 * @returns True if the value is null, undefined, or empty, otherwise false.
-	 */
-	public static isNothing<T>(
-		value: undefined | null | string | number | boolean | T[] | (() => T) | object,
-	): value is undefined | null | "" | number | T[] | (() => T) {
-		if (value === undefined || value === null) {
-			return true;
-		}
-
-		if (typeof value === "string") {
-			return value === "";
-		}
-
-		if (Array.isArray(value)) {
-			return false;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Splits the given {@link value} by the given {@link separator}.
 	 * @param value The value to split.
 	 * @param separator The separator to split the value by.
@@ -38,11 +16,11 @@ export class Utils {
 	 * @remarks Only the first character will be used by the given {@link separator}.
 	 */
 	public static splitBy(value: string, separator: string): string[] {
-		if (Utils.isNothing(value)) {
+		if (isStringNothing(value)) {
 			return [];
 		}
 
-		if (Utils.isNothing(separator)) {
+		if (isStringNothing(separator)) {
 			return [value];
 		}
 
@@ -51,7 +29,7 @@ export class Utils {
 
 		return value.indexOf(separator) === -1 ? [value] : value.split(separator)
 			.map((v) => v.trim())
-			.filter((i) => !Utils.isNothing(i));
+			.filter((i) => !isNothing(i));
 	}
 
 	/**
@@ -60,7 +38,7 @@ export class Utils {
 	 * @returns The values split by comma.
 	 */
 	public static splitByComma(value: string): string[] {
-		if (Utils.isNothing(value)) {
+		if (isNothing(value)) {
 			return [];
 		}
 
@@ -165,9 +143,15 @@ export class Utils {
 	 * @returns The URL to the issue.
 	 */
 	public static buildPullRequestUrl(ownerName: string, repoName: string, prNumber: number): string {
-		ParamGuards.isNothing(ownerName);
-		ParamGuards.isNothing(repoName);
-		ParamGuards.isLessThanOne(prNumber);
+		if (isNothing(ownerName)) {
+			throw new Error("The owner name is required.");
+		}
+		if (isNothing(repoName)) {
+			throw new Error("The repo name is required.");
+		}
+		if (isLessThanOne(prNumber)) {
+			throw new Error("The pull request number must be greater than zero.");
+		}
 
 		return `https://github.com/${ownerName}/${repoName}/pull/${prNumber}`;
 	}
@@ -180,8 +164,12 @@ export class Utils {
 	 * @returns The URL to the repository labels page.
 	 */
 	public static buildLabelsUrl(ownerName: string, repoName: string): string {
-		ParamGuards.isNothing(ownerName);
-		ParamGuards.isNothing(repoName);
+		if (isNothing(ownerName)) {
+			throw new Error("The owner name is required.");
+		}
+		if (isNothing(repoName)) {
+			throw new Error("The repo name is required.");
+		}
 
 		return `https://github.com/${ownerName}/${repoName}/labels`;
 	}
@@ -194,11 +182,11 @@ export class Utils {
 	 * @returns The given {@link valueToTrim} with the starting value trimmed.
 	 */
 	public static trimAllStartingValue(valueToTrim: string, valueToRemove: string): string {
-		if (Utils.isNothing(valueToTrim)) {
+		if (isNothing(valueToTrim)) {
 			return valueToTrim;
 		}
 
-		if (Utils.isNothing(valueToRemove)) {
+		if (isNothing(valueToRemove)) {
 			return valueToTrim;
 		}
 
@@ -217,11 +205,11 @@ export class Utils {
 	 * @returns The given {@link valueToTrim} with the ending value trimmed.
 	 */
 	public static trimAllEndingValue(valueToTrim: string, valueToRemove: string): string {
-		if (Utils.isNothing(valueToTrim)) {
+		if (isNothing(valueToTrim)) {
 			return valueToTrim;
 		}
 
-		if (Utils.isNothing(valueToRemove)) {
+		if (isNothing(valueToRemove)) {
 			return valueToTrim;
 		}
 

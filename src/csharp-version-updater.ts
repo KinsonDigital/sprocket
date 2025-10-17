@@ -1,6 +1,6 @@
-import { ParamGuards } from "./core/param-guards.ts";
 import { existsSync } from "@std/fs";
 import type { PrepareReleaseSettings } from "./prepare-release-settings.ts";
+import { isStringNothing } from "./core/guards.ts";
 
 /**
  * Updates versions in csharp project files.
@@ -15,8 +15,10 @@ export class CSharpVersionUpdater {
 	 * 2. If the csproj file does not contain a version XML element.
 	 * 3. If the csproj file does not contain a file version XML element.
 	 */
-	public updateVersion(settings: PrepareReleaseSettings, newVersion: string) {
-		ParamGuards.isNothing(newVersion, "newVersion null, empty, or undefined.");
+	public updateVersion(settings: PrepareReleaseSettings, newVersion: string): void {
+		if (isStringNothing(newVersion)) {
+			return;
+		}
 
 		// Remove the letter 'v' if it exists.  C# project files do not allow the letter 'v' in the version number.
 		newVersion = newVersion.startsWith("v") ? newVersion.substring(1) : newVersion;
