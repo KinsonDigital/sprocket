@@ -1,7 +1,7 @@
 import { Input } from "@cliffy/prompt";
 import { createCheckoutBranch, getCurrentBranch, isCheckedOut, pushToRemote } from "../src/core/git.ts";
 import { createPr, githubIssueExists } from "../src/core/github.ts";
-import type { FunctionTask, SprocketConfig } from "../src/core/configuration.ts";
+import type { FunctionTask, SprocketConfig } from "@kinsondigital/sprocket/configuration";
 
 const config: SprocketConfig = {
 	jobs: [{
