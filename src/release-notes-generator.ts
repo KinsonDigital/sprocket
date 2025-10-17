@@ -1,6 +1,6 @@
 import { LabelClient, MilestoneClient, RepoClient } from "@kdclients/github";
 import type { IssueModel, PullRequestModel } from "@kdclients/github/models";
-import type { IssueTypeModel } from "./core/IssueTypeModel.ts";
+import type { IssueTypeModel } from "./core/models.ts";
 import type { GeneratorSettings } from "./generator-settings.ts";
 import { isNothing } from "./core/guards.ts";
 

@@ -1,4 +1,9 @@
 /**
+ * Various data models in the application.
+ * @module
+ */
+
+/**
  * Represents an issue type returned by the GitHub API.
  */
 export interface IssueTypeModel {
