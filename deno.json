@@ -61,6 +61,7 @@
         "@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.8",
         "@cliffy/prompt": "jsr:@cliffy/prompt@1.0.0-rc.8",
         "neverthrow": "npm:neverthrow@^6.2.2",
-        "@kdclients": "jsr:@kinsondigital/kd-clients@1.0.0-preview.15"
+        "@kdclients": "jsr:@kinsondigital/kd-clients@1.0.0-preview.15",
+        "@zod": "npm:zod@4.1.12"
     }
 }

@@ -45,7 +45,8 @@
     "jsr:@std/testing@0.224.0": "0.224.0",
     "jsr:@std/text@~1.0.7": "1.0.15",
     "npm:@types/node@*": "24.2.0",
-    "npm:neverthrow@^6.2.2": "6.2.2"
+    "npm:neverthrow@^6.2.2": "6.2.2",
+    "npm:zod@4.1.12": "4.1.12"
   },
   "jsr": {
     "@cliffy/ansi@1.0.0-rc.8": {
@@ -259,6 +260,9 @@
     },
     "undici-types@7.10.0": {
       "integrity": "sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag=="
+    },
+    "zod@4.1.12": {
+      "integrity": "sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ=="
     }
   },
   "remote": {
@@ -754,7 +758,8 @@
       "jsr:@std/fs@1.0.19",
       "jsr:@std/path@1.1.2",
       "jsr:@std/streams@1.0.13",
-      "npm:neverthrow@^6.2.2"
+      "npm:neverthrow@^6.2.2",
+      "npm:zod@4.1.12"
     ]
   }
 }
