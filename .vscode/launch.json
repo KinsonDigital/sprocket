@@ -109,27 +109,6 @@
 				"runtimeExecutable": "${userHome}/.deno/bin/deno"
 			},
 		},
-		{ // GET VERSION CICD SCRIPT
-			"request": "launch",
-			"name": "Get Version CICD Script",
-			"type": "node",
-			"program": "${workspaceFolder}/.github/cicd/scripts/get-version.ts",
-			"cwd": "${workspaceFolder}",
-			"windows": {
-				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
-			},
-			"linux": {
-				"runtimeExecutable": "${userHome}/.deno/bin/deno"
-			},
-			"runtimeArgs": [
-				"run",
-				"--inspect-wait",
-				"-R",
-				"-W",
-				"-E",
-			],
-			"attachSimplePort": 9229,
-		},
 		{ // CHECK RELEASE NOTES CICD SCRIPT
 			"request": "launch",
 			"name": "Check Release Notes CICD Script",

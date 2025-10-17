@@ -1,5 +1,5 @@
-import type { DotnetCopyrightUpdate } from "./dotnet-copyright-update.ts";
-import type { ReleaseType } from "./release-type.ts";
+import type { ReleaseType } from "../release-type.ts";
+import type { DotnetCopyrightUpdate } from "./dotnet.ts";
 
 /**
  * Represents the different settings.
@@ -55,4 +55,29 @@ export interface PrepareReleaseSettings {
 	 * Gets the dotnet copyright update settings.
 	 */
 	dotnetCopyrightUpdate?: DotnetCopyrightUpdate;
+}
+
+/**
+ * Various settings for generating release notes.
+ */
+export interface GeneratorSettings {
+	ownerName: string;
+	repoName: string;
+	githubTokenEnvVarName: string;
+	milestoneName: string;
+	headerText: string;
+	wordReplacements: Record<string, string>;
+	version?: string;
+	releaseType?: string;
+	extraInfo?: { title: string; text: string };
+	emojisToRemoveFromTitle?: string[];
+	issueCategoryIssueTypeMappings?: Record<string, string>;
+	issueCategoryLabelMappings?: Record<string, string>;
+	prCategoryLabelMappings?: Record<string, string>;
+	ignoreLabels?: string[];
+	firstWordReplacements?: Record<string, string>;
+	styleWordsList?: Record<string, string>;
+	boldedVersions?: boolean;
+	italicVersions?: boolean;
+	otherCategoryName?: string;
 }

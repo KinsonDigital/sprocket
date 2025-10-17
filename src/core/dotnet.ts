@@ -1,6 +1,32 @@
+/**
+ * The dotnet copyright update type.
+ */
+
 import { existsSync, walkSync } from "@std/fs";
 import { extname } from "@std/path";
-import type { DotnetCopyrightUpdate } from "./dotnet-copyright-update.ts";
+import { isStringNothing } from "./guards.ts";
+import type { PrepareReleaseSettings } from "./releases.ts";
+
+/**
+ * Dotnet copyright update settings.
+ */
+export interface DotnetCopyrightUpdate {
+	/**
+	 * The directory to start the search from.
+	 */
+	searchDirPath: string;
+
+	/**
+	 * The name of the dotnet project file.
+	 * @remarks The file extension is not required.
+	 */
+	projectFileName: string;
+
+	/**
+	 * The name of the company.
+	 */
+	companyName: string;
+}
 
 /**
  * Updates copyright tags in a dotnet csproj file.
@@ -81,5 +107,61 @@ export class DotnetCopyrightUpdater {
 		Deno.writeTextFileSync(csProjFilePath, newFileContent);
 
 		return { csProjFilePath, wasUpdated: true };
+	}
+}
+
+/**
+ * Updates versions in csharp project files.
+ */
+export class CSharpVersionUpdater {
+	/**
+	 * Updates the version in the csharp project file at the given {@link versionFilePath}.
+	 * @param settings The prepare release settings.
+	 * @param newVersion The new version.
+	 * @throws {Error} Thrown for the following reasons:
+	 * 1. If the csproj file does not exist.
+	 * 2. If the csproj file does not contain a version XML element.
+	 * 3. If the csproj file does not contain a file version XML element.
+	 */
+	public updateVersion(settings: PrepareReleaseSettings, newVersion: string): void {
+		if (isStringNothing(newVersion)) {
+			return;
+		}
+
+		// Remove the letter 'v' if it exists.  C# project files do not allow the letter 'v' in the version number.
+		newVersion = newVersion.startsWith("v") ? newVersion.substring(1) : newVersion;
+
+		const versionFilePath = settings.versionFilePath ?? "";
+
+		if (!existsSync(versionFilePath, { isFile: true })) {
+			throw new Error(`The version file path '${versionFilePath}' does not exist.`);
+		}
+
+		let versionFileContent = Deno.readTextFileSync(versionFilePath);
+
+		const versionTagRegex = /<Version\s*>.*<\/Version\s*>/gm;
+		const fileVersionTagRegex = /<FileVersion\s*>.*<\/FileVersion\s*>/gm;
+
+		const versionTagExists = versionTagRegex.test(versionFileContent);
+
+		if (!versionTagExists) {
+			const errorMsg = `The csharp project file does not contain a version property.` +
+				`\nExpected '<Version>...</Version>'`;
+			throw new Error(errorMsg);
+		}
+
+		const fileVersionTagExists = fileVersionTagRegex.test(versionFileContent);
+
+		if (!fileVersionTagExists) {
+			const errorMsg = `The csharp project file does not contain a file version property.` +
+				`\nExpected '<FileVersion>...</FileVersion>'`;
+			throw new Error(errorMsg);
+		}
+
+		// Update the version files
+		versionFileContent = versionFileContent.replace(versionTagRegex, `<Version>${newVersion}</Version>`);
+		versionFileContent = versionFileContent.replace(fileVersionTagRegex, `<FileVersion>${newVersion}</FileVersion>`);
+
+		Deno.writeTextFileSync(versionFilePath, versionFileContent);
 	}
 }

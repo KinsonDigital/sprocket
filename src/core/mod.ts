@@ -15,12 +15,12 @@ import { createPr, getAllIssueTypes, githubIssueExists } from "./github.ts";
 import type { ErrorData, GitHubError } from "./github.ts";
 
 // runner
-import { runCmd, runFunction, runJob, runScript } from "./job-runner.ts";
+import { runCmd, runFunction, runJob, runScript } from "./runners.ts";
 
 // misc
-import runCommandAsync from "./run-async.ts";
-import { ConsoleLogColor } from "./console-log-color.ts";
-import type { Task } from "@kinsondigital/sprocket/configuration";
+import { runCommandAsync } from "./utils.ts";
+import { printBlue, printCyan, printGray, printGreen, printIndianRed, printMediumSeaGreen, printRed, printYellow } from "./logging.ts";
+import type { Task } from "./configuration.ts";
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -44,5 +44,6 @@ export type { ErrorData, GitHubError };
 export { runCmd, runFunction, runJob, runScript };
 
 // misc
-export { ConsoleLogColor, runCommandAsync };
+export { printBlue, printCyan, printGray, printGreen, printIndianRed, printMediumSeaGreen, printRed, printYellow }
+export { runCommandAsync };
 export type { Task };
