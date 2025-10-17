@@ -3,9 +3,9 @@ import { resolve } from "@std/path";
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
 import { runJob } from "./core/job-runner.ts";
-import { Guards } from "./core/guards.ts";
-import type { SprocketConfig } from "./core/configuration.ts";
+import type { SprocketConfig } from "@kinsondigital/sprocket/configuration";
 import denoConfig from "../deno.json" with { type: "json" };
+import { isNothing } from "./core/guards.ts";
 
 const command = new Command()
 	.name("sprocket")
@@ -26,10 +26,10 @@ const command = new Command()
 				const config = (await import(fileUrl.href)).config as SprocketConfig;
 
 				if (config) {
-					const selectedJobName = Guards.isNothing(_options.jobName)
+					const selectedJobName = isNothing(_options.jobName)
 						? await Select.prompt({
 							message: "Select a job to run",
-							options: Guards.isNothing(config.jobs) ? [] : config.jobs.map((job) => job.name),
+							options: isNothing(config.jobs) ? [] : config.jobs.map((job) => job.name),
 						})
 						: _options.jobName;
 

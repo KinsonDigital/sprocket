@@ -1,4 +1,4 @@
-import { Guards } from "./guards.ts";
+import { isUndefined, isNotUndefined, isNull, isNotNull, isString, isNotString, isLessThanOne, isEmpty, isNotEmpty, isFunction, isNotFunction, isUndefinedOrNull, isUndefinedOrNullOrEmpty, isNothing, isError, isNotError } from "./guards.ts";
 
 export class ParamGuards {
 	/**
@@ -7,7 +7,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is undefined.
 	 */
 	public static isUndefined(value: unknown, errorMsg?: string): void {
-		if (Guards.isUndefined(value)) {
+		if (isUndefined(value)) {
 			const msg = errorMsg === undefined ? "The value is undefined." : errorMsg;
 			throw new Error(msg);
 		}
@@ -19,7 +19,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is not undefined.
 	 */
 	public static isNotUndefined(value: unknown, errorMsg?: string): void {
-		if (Guards.isNotUndefined(value)) {
+		if (isNotUndefined(value)) {
 			const msg = errorMsg === undefined ? "The value is not undefined." : errorMsg;
 			throw new Error(msg);
 		}
@@ -31,7 +31,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is null.
 	 */
 	public static isNull(value: unknown, errorMsg?: string): void {
-		if (Guards.isNull(value)) {
+		if (isNull(value)) {
 			const msg = errorMsg === undefined ? "The value is null." : errorMsg;
 			throw new Error(msg);
 		}
@@ -43,7 +43,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is not null.
 	 */
 	public static isNotNull(value: unknown, errorMsg?: string): void {
-		if (Guards.isNotNull(value)) {
+		if (isNotNull(value)) {
 			const msg = errorMsg === undefined ? "The value is not null." : errorMsg;
 			throw new Error(msg);
 		}
@@ -56,7 +56,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is a string.
 	 */
 	public static isString(value: unknown, errorMsg?: string): void {
-		if (Guards.isString(value)) {
+		if (isString(value)) {
 			const msg = errorMsg === undefined ? "The value is a string." : errorMsg;
 			throw new Error(msg);
 		}
@@ -69,7 +69,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is not a string.
 	 */
 	public static isNotString(value: unknown, errorMsg?: string): void {
-		if (Guards.isNotString(value)) {
+		if (isNotString(value)) {
 			const msg = errorMsg === undefined ? "The value is not a string." : errorMsg;
 			throw new Error(msg);
 		}
@@ -81,7 +81,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is less than one.
 	 */
 	public static isLessThanOne(value: number) {
-		if (Guards.isLessThanOne(value)) {
+		if (isLessThanOne(value)) {
 			throw new Error("The PR number must be greater than zero.");
 		}
 	}
@@ -92,7 +92,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is an empty string or array.
 	 */
 	public static isEmpty<T>(value: string | T[], errorMsg?: string): void {
-		if (Guards.isEmpty(value)) {
+		if (isEmpty(value)) {
 			const msg = errorMsg === undefined ? "The string is empty." : errorMsg;
 			throw new Error(msg);
 		}
@@ -104,7 +104,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is not an empty string or array.
 	 */
 	public static isNotEmpty<T>(value: string | T[], errorMsg?: string): void {
-		if (Guards.isNotEmpty(value)) {
+		if (isNotEmpty(value)) {
 			const msg = errorMsg === undefined ? "The string is not empty." : errorMsg;
 			throw new Error(msg);
 		}
@@ -116,7 +116,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is a function.
 	 */
 	public static isFunction(value: unknown, errorMsg?: string): void {
-		if (Guards.isFunction(value)) {
+		if (isFunction(value)) {
 			const msg = errorMsg === undefined ? "The value is a function." : errorMsg;
 			throw new Error(msg);
 		}
@@ -128,7 +128,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is not a function.
 	 */
 	public static isNotFunction(value: unknown, errorMsg?: string): void {
-		if (Guards.isNotFunction(value)) {
+		if (isNotFunction(value)) {
 			const msg = errorMsg === undefined ? "The value is not a function." : errorMsg;
 			throw new Error(msg);
 		}
@@ -140,7 +140,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is undefined or null.
 	 */
 	public static isUndefinedOrNull(value: unknown, errorMsg?: string): void {
-		if (Guards.isUndefinedOrNull(value)) {
+		if (isUndefinedOrNull(value)) {
 			const msg = errorMsg === undefined ? "The value is undefined or null." : errorMsg;
 			throw new Error(msg);
 		}
@@ -152,7 +152,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is undefined, null, or empty.
 	 */
 	public static isUndefinedOrNullOrEmpty(value: unknown, errorMsg?: string): void {
-		if (Guards.isUndefinedOrNullOrEmpty(value)) {
+		if (isUndefinedOrNullOrEmpty(value)) {
 			const msg = errorMsg === undefined ? "The value is undefined, null, or empty." : errorMsg;
 			throw new Error(msg);
 		}
@@ -164,7 +164,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is nothing.
 	 */
 	public static isNothing(value: unknown, errorMsg?: string): void {
-		if (Guards.isNothing(value)) {
+		if (isNothing(value)) {
 			const msg = errorMsg === undefined ? "The value is nothing." : errorMsg;
 			throw new Error(msg);
 		}
@@ -176,7 +176,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is not nothing.
 	 */
 	public static isNotNothing(value: unknown, errorMsg?: string): void {
-		if (!Guards.isNothing(value)) {
+		if (!isNothing(value)) {
 			const msg = errorMsg === undefined ? "The value is not nothing." : errorMsg;
 			throw new Error(msg);
 		}
@@ -188,7 +188,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is an error.
 	 */
 	public static isError(value: unknown, errorMsg?: string): void {
-		if (Guards.isError(value)) {
+		if (isError(value)) {
 			const msg = errorMsg === undefined ? "The value is an error." : errorMsg;
 			throw new Error(msg);
 		}
@@ -200,7 +200,7 @@ export class ParamGuards {
 	 * @throws {Error} If the {@link value} is not an error.
 	 */
 	public static isNotError(value: unknown, errorMsg?: string): void {
-		if (Guards.isNotError(value)) {
+		if (isNotError(value)) {
 			const msg = errorMsg === undefined ? "The value is not an error." : errorMsg;
 			throw new Error(msg);
 		}

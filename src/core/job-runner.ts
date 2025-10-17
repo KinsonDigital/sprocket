@@ -1,6 +1,6 @@
-import { isCommandTask, isFunctionTask, isScriptTask } from "./configuration.ts";
-import { Guards } from "./guards.ts";
-import type { Command, Job, Script, Task } from "./configuration.ts";
+import { isCommandTask, isFunctionTask, isScriptTask } from "@kinsondigital/sprocket/configuration";
+import type { Command, Job, Script, Task } from "@kinsondigital/sprocket/configuration";
+import { isNothing } from "./guards.ts";
 
 /**
  * Runs the given {@link job}.
@@ -84,7 +84,7 @@ export async function runScript(script: Script): Promise<void> {
  * @returns
  */
 function processEnvVariables(job: Job): void {
-	if (Guards.isNothing(job.env)) {
+	if (isNothing(job.env)) {
 		return;
 	}
 
@@ -102,9 +102,9 @@ function processEnvVariables(job: Job): void {
  * @param job The job to print the pre-execute message for.
  */
 function printPreExecuteJobMsg(job: Job): void {
-	if (!Guards.isNothing(job.preExecuteMsg)) {
-		const clr = Guards.isNothing(job.preExecuteMsgColor) ? "" : `color:${job.preExecuteMsgColor}`;
-		job.preExecuteMsg = Guards.isNothing(clr) ? job.preExecuteMsg : `%c${job.preExecuteMsg}`;
+	if (!isNothing(job.preExecuteMsg)) {
+		const clr = isNothing(job.preExecuteMsgColor) ? "" : `color:${job.preExecuteMsgColor}`;
+		job.preExecuteMsg = isNothing(clr) ? job.preExecuteMsg : `%c${job.preExecuteMsg}`;
 		console.log(job.preExecuteMsg, clr);
 	}
 }
@@ -114,9 +114,9 @@ function printPreExecuteJobMsg(job: Job): void {
  * @param job The job to print the post-execute message for.
  */
 function printPostExecuteJobMsg(job: Job): void {
-	if (!Guards.isNothing(job.postExecuteMsg)) {
-		const clr = Guards.isNothing(job.postExecuteMsgColor) ? "" : `color:${job.postExecuteMsgColor}`;
-		job.postExecuteMsg = Guards.isNothing(clr) ? job.postExecuteMsg : `%c${job.postExecuteMsg}`;
+	if (!isNothing(job.postExecuteMsg)) {
+		const clr = isNothing(job.postExecuteMsgColor) ? "" : `color:${job.postExecuteMsgColor}`;
+		job.postExecuteMsg = isNothing(clr) ? job.postExecuteMsg : `%c${job.postExecuteMsg}`;
 		console.log(job.postExecuteMsg, clr);
 	}
 }
@@ -126,9 +126,9 @@ function printPostExecuteJobMsg(job: Job): void {
  * @param task The task to print the pre-execute message for.
  */
 function printPreExecuteTaskMsg(task: Task): void {
-	if (!Guards.isNothing(task.preExecuteMsg)) {
-		const clr = Guards.isNothing(task.preExecuteMsgColor) ? "" : `color:${task.preExecuteMsgColor}`;
-		task.preExecuteMsg = Guards.isNothing(clr) ? task.preExecuteMsg : `%c${task.preExecuteMsg}`;
+	if (!isNothing(task.preExecuteMsg)) {
+		const clr = isNothing(task.preExecuteMsgColor) ? "" : `color:${task.preExecuteMsgColor}`;
+		task.preExecuteMsg = isNothing(clr) ? task.preExecuteMsg : `%c${task.preExecuteMsg}`;
 		console.log(task.preExecuteMsg, clr);
 	}
 }
@@ -138,9 +138,9 @@ function printPreExecuteTaskMsg(task: Task): void {
  * @param task The task to print the post-execute message for.
  */
 function printPostExecuteTaskMsg(task: Task): void {
-	if (!Guards.isNothing(task.postExecuteMsg)) {
-		const clr = Guards.isNothing(task.postExecuteMsgColor) ? "" : `color:${task.postExecuteMsgColor}`;
-		task.postExecuteMsg = Guards.isNothing(clr) ? task.postExecuteMsg : `%c${task.postExecuteMsg}`;
+	if (!isNothing(task.postExecuteMsg)) {
+		const clr = isNothing(task.postExecuteMsgColor) ? "" : `color:${task.postExecuteMsgColor}`;
+		task.postExecuteMsg = isNothing(clr) ? task.postExecuteMsg : `%c${task.postExecuteMsg}`;
 		console.log(task.postExecuteMsg, clr);
 	}
 }
