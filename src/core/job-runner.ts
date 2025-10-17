@@ -66,14 +66,13 @@ export async function runFunction(func: () => Promise<void>): Promise<void> {
  */
 export async function runScript(script: Script): Promise<void> {
 	try {
-		const filePath = script.filePath.startsWith("./")
+		const absolutePath = script.filePath.startsWith("./")
 			? `${Deno.cwd()}/${script.filePath.replace("./", "")}`
 			: script.filePath;
 
-		const scriptPath = import.meta.resolve(`file:///${filePath}`);
+		const scriptURL = new URL(`file://${absolutePath}`).href;
 
-		// Execute the script
-		await import(scriptPath);
+		await import(scriptURL);
 	} catch (error) {
 		console.error("Error running script:", error);
 	}
