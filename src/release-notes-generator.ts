@@ -1,9 +1,13 @@
 import { LabelClient, MilestoneClient, RepoClient } from "@kdclients/github";
-import { Guards } from "./core/guards.ts";
+import { isNothing } from "./core/guards.ts";
 import type { IssueModel, PullRequestModel } from "@kdclients/github/models";
-import type { IssueTypeModel } from "./core/IssueTypeModel.ts";
-import type { GeneratorSettings } from "./generator-settings.ts";
+import type { GeneratorSettings } from "../mod.ts";
+import type { IssueTypeModel } from "./models/github-models.ts";
 
+/**
+ * Extended issue model that includes issue type information.
+ * Combines the standard IssueModel with IssueTypeModel data.
+ */
 type IssueModelNew = IssueModel & { type: IssueTypeModel };
 
 /**
@@ -82,7 +86,7 @@ export class ReleaseNotesGenerator {
 	 * @param settings The settings to use to initialize the generator.
 	 */
 	private init(settings: GeneratorSettings): void {
-		if (Guards.isNothing(settings.githubTokenEnvVarName)) {
+		if (isNothing(settings.githubTokenEnvVarName)) {
 			const errorMsg = "The 'githubTokenEnvVarName' setting is required and cannot be empty.";
 			throw new Error(errorMsg);
 		}
@@ -106,17 +110,17 @@ export class ReleaseNotesGenerator {
 	 * @param settings The settings to validate.
 	 */
 	private async validateSettings(settings: GeneratorSettings) {
-		if (Guards.isNothing(settings.ownerName)) {
+		if (isNothing(settings.ownerName)) {
 			const errorMsg = "The 'ownerName' setting is required and cannot be empty.";
 			throw new Error(errorMsg);
 		}
 
-		if (Guards.isNothing(settings.repoName)) {
+		if (isNothing(settings.repoName)) {
 			const errorMsg = "The 'repoName' setting is required and cannot be empty.";
 			throw new Error(errorMsg);
 		}
 
-		if (Guards.isNothing(settings.headerText)) {
+		if (isNothing(settings.headerText)) {
 			const errorMsg = "The 'headerText' setting is required and cannot be empty.";
 			throw new Error(errorMsg);
 		}

@@ -1,6 +1,6 @@
 import { existsSync } from "@std/fs";
-import { ParamGuards } from "./core/param-guards.ts";
-import type { PrepareReleaseSettings } from "./prepare-release-settings.ts";
+import { isStringNothing } from "./guards.ts";
+import type { PrepareReleaseSettings } from "./releases.ts";
 
 /**
  * Updates the version in a JSON file.
@@ -13,7 +13,9 @@ export class JsonVersionUpdater {
 	 * @throws {Error} Thrown if the version file does not exist or the version file does not contain a 'version' property.
 	 */
 	public updateVersion(settings: PrepareReleaseSettings, newVersion: string): void {
-		ParamGuards.isNothing(newVersion, "newVersion null, empty, or undefined.");
+		if (isStringNothing(newVersion)) {
+			return;
+		}
 
 		const versionFilePath = settings.versionFilePath ?? "";
 

@@ -1,3 +1,8 @@
+/**
+ * Configuration types for setting up jobs and tasks.
+ * @module
+ */
+
 import * as zod from "@zod";
 
 /**
@@ -24,17 +29,23 @@ export interface Command {
 }
 
 /**
- * A type representing a function that runs a command.
+ * Function type for executing command-based tasks.
+ * @param cmd The command configuration to execute
+ * @returns A promise that resolves when the command completes
  */
 export type RunCommand = (cmd: Command) => Promise<void>;
 
-/***
- * A type representing a function that runs a script.
+/**
+ * Function type for executing script-based tasks.
+ * @param script The script configuration to execute
+ * @returns A promise that resolves when the script completes
  */
 export type RunScript = (script: Script) => Promise<void>;
 
 /**
- * A type representing a function that runs a function.
+ * Function type for executing function-based tasks.
+ * @param func The function to execute
+ * @returns A promise that resolves when the function completes
  */
 export type RunFunction = (func: (...args: unknown[]) => Promise<void>) => Promise<void>;
 
@@ -194,6 +205,22 @@ export interface SprocketConfig {
 	 * Array of jobs that can be executed by the sprocket tool
 	 */
 	jobs: Job[];
+}
+
+/**
+ * Type guard to check if a configuration object is a {@link SprocketConfig}.
+ * @param config The configuration object to check.
+ * @returns True if the configuration object is a {@link SprocketConfig}, false otherwise.
+ */
+export function isSprocketConfig(config: unknown): config is SprocketConfig {
+	const schema = zod.looseObject({
+		jobs: zod.array(zod.object({
+			name: zod.string(),
+			tasks: zod.array(zod.any()),
+		})),
+	});
+
+	return schema.safeParse(config).success;
 }
 
 /**
