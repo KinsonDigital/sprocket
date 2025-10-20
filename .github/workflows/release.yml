@@ -249,7 +249,7 @@ jobs:
         if: inputs.dry-run == false
         uses: softprops/action-gh-release@v2
         with: 
-          name: "🚀${{ inputs.release-type }} Release - ${{ needs.get_and_validate_version.outputs.version }}" 
+          name: "🚀${{ inputs.release-type }} Release - v${{ needs.get_and_validate_version.outputs.version }}" 
           body_path: "${{ github.workspace }}/release-notes/${{ steps.release-type.outputs.release-type }}-releases/Release-Notes-v${{ needs.get_and_validate_version.outputs.version }}.md"
           files: "${{ github.workspace }}/release-notes/${{ steps.release-type.outputs.release-type }}-releases/Release-Notes-v${{ needs.get_and_validate_version.outputs.version }}.md"
           tag_name: "v${{ needs.get_and_validate_version.outputs.version }}"
@@ -264,5 +264,5 @@ jobs:
           repo-owner: "${{ vars.ORGANIZATION_NAME }}"
           repo-name: "${{ vars.PROJECT_NAME }}"
           github-token: "${{ secrets.CICD_TOKEN }}"
-          milestone-title: "${{ needs.get_and_validate_version.outputs.version }}"
+          milestone-title: "v${{ needs.get_and_validate_version.outputs.version }}"
           deno-version: "${{ vars.DENO_VERSION }}"
