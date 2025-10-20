@@ -10,7 +10,7 @@
         "tests": "deno test ./tests/*tests.ts",
         "reload-cache": "deno cache --reload \"*/**/*.ts\"",
         "create-pr": "deno run -ERN --allow-run https://raw.githubusercontent.com/KinsonDigital/Infrastructure/refs/tags/v16.0.0/dev-tools/feat-pr-creator-tool.ts",
-        "gen-release-notes": "deno run -ERN --allow-run https://raw.githubusercontent.com/KinsonDigital/Infrastructure/refs/tags/v16.0.0/dev-tools/release-notes-generator-tool.ts",
+        "gen-release-notes": "deno run -ERWN --allow-run https://raw.githubusercontent.com/KinsonDigital/Infrastructure/refs/tags/v16.0.0/dev-tools/release-notes-generator-tool.ts",
         "install-globally": {
             "description": "Used to install globally with a reference to this project.  Used for testing purposes.",
             "command": "deno install -g -A --config=./deno.json ./src/main.ts --name sprocket"
