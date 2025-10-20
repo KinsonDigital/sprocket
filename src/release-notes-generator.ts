@@ -4,6 +4,10 @@ import type { IssueTypeModel } from "./core/models.ts";
 import type { GeneratorSettings } from "./generator-settings.ts";
 import { isNothing } from "./core/guards.ts";
 
+/**
+ * Extended issue model that includes issue type information.
+ * Combines the standard IssueModel with IssueTypeModel data.
+ */
 type IssueModelNew = IssueModel & { type: IssueTypeModel };
 
 /**

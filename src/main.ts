@@ -7,6 +7,9 @@ import { isSprocketConfig } from "@kinsondigital/sprocket/configuration";
 import denoConfig from "../deno.json" with { type: "json" };
 import { isBoolean, isNothing } from "./core/guards.ts";
 
+/**
+ * The main entry point for the Sprocket CLI application.
+ */
 const command = new Command()
 	.name("sprocket")
 	.description("Tool to create prs and prepare for releases.")

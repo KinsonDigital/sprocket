@@ -5,11 +5,16 @@
 
 
 /**
- * Provides utility functions.
+ * Regular expression pattern for validating production version strings.
+ * Matches versions in the format: v{major}.{minor}.{patch} (e.g., v1.2.3)
  */
-export class Utils {
-	private static readonly prodVersionRegex = /^v[0-9]+\.[0-9]+\.[0-9]+$/;
-	private static readonly prevVersionRegex = /^v[0-9]+\.[0-9]+\.[0-9]+-preview\.[0-9]+$/;
+const prodVersionRegex = /^v[0-9]+\.[0-9]+\.[0-9]+$/;
+
+/**
+ * Regular expression pattern for validating preview version strings.
+ * Matches versions in the format: v{major}.{minor}.{patch}-preview.{number} (e.g., v1.2.3-preview.4)
+ */
+const prevVersionRegex = /^v[0-9]+\.[0-9]+\.[0-9]+-preview\.[0-9]+$/;
 
 	/**
 	 * Splits the given {@link value} by the given {@link separator}.

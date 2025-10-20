@@ -29,17 +29,23 @@ export interface Command {
 }
 
 /**
- * A type representing a function that runs a command.
+ * Function type for executing command-based tasks.
+ * @param cmd The command configuration to execute
+ * @returns A promise that resolves when the command completes
  */
 export type RunCommand = (cmd: Command) => Promise<void>;
 
-/***
- * A type representing a function that runs a script.
+/**
+ * Function type for executing script-based tasks.
+ * @param script The script configuration to execute
+ * @returns A promise that resolves when the script completes
  */
 export type RunScript = (script: Script) => Promise<void>;
 
 /**
- * A type representing a function that runs a function.
+ * Function type for executing function-based tasks.
+ * @param func The function to execute
+ * @returns A promise that resolves when the function completes
  */
 export type RunFunction = (func: (...args: unknown[]) => Promise<void>) => Promise<void>;
 
