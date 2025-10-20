@@ -4,7 +4,7 @@
  */
 
 import { isCommandTask, isFunctionTask, isScriptTask } from "./configuration.ts";
-import type { Job, Command, Script, Task } from "./configuration.ts";
+import type { Command, Job, Script, Task } from "./configuration.ts";
 import { isNothing, isUndefinedOrNullOrEmpty } from "./guards.ts";
 
 /**

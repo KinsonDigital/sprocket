@@ -5,7 +5,7 @@
 
 import type { PullRequestModel } from "@kdclients/github/models";
 import type { IssueTypeModel } from "../models/github-models.ts";
-import { isNothing, isLessThanOne } from "./guards.ts";
+import { isLessThanOne, isNothing } from "./guards.ts";
 
 /**
  * Describes a GitHub API error.

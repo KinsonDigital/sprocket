@@ -19,7 +19,16 @@ import { runCmd, runFunction, runJob, runScript } from "./runners.ts";
 
 // misc
 import { runCommandAsync } from "./utils.ts";
-import { printBlue, printCyan, printGray, printGreen, printIndianRed, printMediumSeaGreen, printRed, printYellow } from "./logging.ts";
+import {
+	printBlue,
+	printCyan,
+	printGray,
+	printGreen,
+	printIndianRed,
+	printMediumSeaGreen,
+	printRed,
+	printYellow,
+} from "./logging.ts";
 import type { Task } from "./configuration.ts";
 
 ///////////////////////////////////////////////////////////////////////////
@@ -44,6 +53,6 @@ export type { ErrorData, GitHubError };
 export { runCmd, runFunction, runJob, runScript };
 
 // misc
-export { printBlue, printCyan, printGray, printGreen, printIndianRed, printMediumSeaGreen, printRed, printYellow }
+export { printBlue, printCyan, printGray, printGreen, printIndianRed, printMediumSeaGreen, printRed, printYellow };
 export { runCommandAsync };
 export type { Task };
