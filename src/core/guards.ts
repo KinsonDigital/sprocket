@@ -74,7 +74,7 @@ export function isUndefinedOrNullOrEmpty(value: unknown | string | []): value is
  * @remarks Nothing is defined as undefined, null, an empty string, an NaN number, or an empty array.
  */
 export function isNothing<T>(
-	value: undefined | null | unknown | string | number | T[]
+	value: undefined | null | unknown | string | number | T[],
 ): value is undefined | null {
 	if (value === undefined || value === null) {
 		return true;

@@ -4,23 +4,23 @@
  */
 
 import type {
-	State,
 	LabelModel,
 	MilestoneModel,
 	PullRequestHeadOrBaseModel,
-	UserModel,
 	PullRequestInfoModel,
 	PullRequestModel,
 	RepoModel,
+	State,
+	UserModel,
 } from "./github-models.ts";
 
 export type {
-	State,
 	LabelModel,
 	MilestoneModel,
 	PullRequestHeadOrBaseModel,
-	UserModel,
 	PullRequestInfoModel,
 	PullRequestModel,
 	RepoModel,
+	State,
+	UserModel,
 };

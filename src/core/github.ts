@@ -4,7 +4,8 @@
  */
 
 import type { PullRequestModel } from "@kdclients/github/models";
-import type { IssueTypeModel } from "./models.ts";
+import type { IssueTypeModel } from "../models/github-models.ts";
+import { isNothing, isLessThanOne } from "./guards.ts";
 
 /**
  * Describes a GitHub API error.
@@ -156,4 +157,44 @@ export async function createPr(
 	const pr: PullRequestModel = await response.json();
 
 	return pr.number;
+}
+
+/**
+ * Builds a URL to a pull request that matches the given {@link prNumber} in a repository with a
+ * name that matches the given {@link repoName} and is owned by the given {@link ownerName}.
+ * @param ownerName The owner of the repository.
+ * @param repoName The name of the repository.
+ * @param prNumber The pull request number.
+ * @returns The URL to the issue.
+ */
+export function buildPullRequestUrl(ownerName: string, repoName: string, prNumber: number): string {
+	if (isNothing(ownerName)) {
+		throw new Error("The owner name is required.");
+	}
+	if (isNothing(repoName)) {
+		throw new Error("The repo name is required.");
+	}
+	if (isLessThanOne(prNumber)) {
+		throw new Error("The pull request number must be greater than zero.");
+	}
+
+	return `https://github.com/${ownerName}/${repoName}/pull/${prNumber}`;
+}
+
+/**
+ * Builds a URL to the labels page of a repository with a name that matches the given {@link repoName}
+ * and is owned by the given {@link ownerName}.
+ * @param ownerName The owner of the repository.
+ * @param repoName The name of the repository.
+ * @returns The URL to the repository labels page.
+ */
+export function buildLabelsUrl(ownerName: string, repoName: string): string {
+	if (isNothing(ownerName)) {
+		throw new Error("The owner name is required.");
+	}
+	if (isNothing(repoName)) {
+		throw new Error("The repo name is required.");
+	}
+
+	return `https://github.com/${ownerName}/${repoName}/labels`;
 }

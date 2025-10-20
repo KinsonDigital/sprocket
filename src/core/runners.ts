@@ -1,5 +1,10 @@
-import { isCommandTask, isFunctionTask, isScriptTask } from "@kinsondigital/sprocket/configuration";
-import type { Command, Job, Script, Task } from "@kinsondigital/sprocket/configuration";
+/**
+ * Holds functions for running jobs and tasks.
+ * @module
+ */
+
+import { isCommandTask, isFunctionTask, isScriptTask } from "./configuration.ts";
+import type { Job, Command, Script, Task } from "./configuration.ts";
 import { isNothing, isUndefinedOrNullOrEmpty } from "./guards.ts";
 
 /**

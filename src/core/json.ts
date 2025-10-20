@@ -1,6 +1,6 @@
 import { existsSync } from "@std/fs";
-import type { PrepareReleaseSettings } from "./prepare-release-settings.ts";
-import { isStringNothing } from "./core/guards.ts";
+import { isStringNothing } from "./guards.ts";
+import type { PrepareReleaseSettings } from "./releases.ts";
 
 /**
  * Updates the version in a JSON file.

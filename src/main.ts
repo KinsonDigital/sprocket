@@ -2,8 +2,8 @@ import { existsSync } from "@std/fs";
 import { resolve } from "@std/path";
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
-import { runJob } from "./core/job-runner.ts";
-import { isSprocketConfig } from "@kinsondigital/sprocket/configuration";
+import { runJob } from "./core/runners.ts";
+import { isSprocketConfig } from "./core/configuration.ts";
 import denoConfig from "../deno.json" with { type: "json" };
 import { isBoolean, isNothing } from "./core/guards.ts";
 
