@@ -51,9 +51,15 @@
     },
     "exports": {
         ".": "./src/main.ts",
-        "./core": "./src/core/mod.ts",
         "./configuration": "./src/core/configuration.ts",
-        "./models": "./src/core/models/mod.ts"
+        "./models": "./src/models/mod.ts",
+        "./git": "./src/core/git.ts",
+        "./dotnet": "./src/core/dotnet.ts",
+        "./github": "./src/core/github.ts",
+        "./runners": "./src/core/runners.ts",
+        "./json": "./src/core/json.ts",
+        "./utils": "./src/core/util-mods.ts",
+        "./console": "./src/core/logging.ts"
     },
     "imports": {
         "@std/fs": "jsr:@std/fs@1.0.19",
