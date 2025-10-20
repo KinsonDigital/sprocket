@@ -18,7 +18,8 @@
         "uninstall-globally": {
             "description": "Used to uninstall globally.",
             "command": "deno uninstall -g sprocket"
-        }
+        },
+        "check-publish": "deno publish --dry-run"
     },
     "lint": {
         "include": [
