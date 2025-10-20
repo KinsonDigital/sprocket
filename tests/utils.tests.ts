@@ -1,6 +1,11 @@
+/**
+ * Tests the utils.ts module
+ * @module
+ */
+
 import { assertEquals } from "@std/assert";
-import { Utils } from "../src/core/utils.ts";
 import { isNothing } from "../src/core/guards.ts";
+import { clamp } from "../src/core/utils.ts";
 
 Deno.test("clamp |> when-num-is-larger-than-max |> returns-max-value", () => {
 	// Arrange
@@ -8,7 +13,7 @@ Deno.test("clamp |> when-num-is-larger-than-max |> returns-max-value", () => {
 	const testNumber = 10;
 
 	// Act
-	const actual = Utils.clamp(testNumber, 0, 5);
+	const actual = clamp(testNumber, 0, 5);
 
 	// Assert
 	assertEquals(actual, expected);

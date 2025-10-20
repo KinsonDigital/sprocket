@@ -1,3 +1,8 @@
+/**
+ * GitHub related functions and types for easily interacting with the GitHub API.
+ * @module
+ */
+
 import type { PullRequestModel } from "@kdclients/github/models";
 import type { IssueTypeModel } from "./models.ts";
 

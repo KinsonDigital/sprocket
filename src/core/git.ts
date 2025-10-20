@@ -1,3 +1,8 @@
+/**
+ * GIT related functions for easily interacting with repositories.
+ * @module
+ */
+
 import { PullRequestClient } from "@kdclients";
 
 export async function getCurrentBranch(): Promise<string> {
