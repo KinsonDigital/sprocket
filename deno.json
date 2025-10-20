@@ -1,6 +1,6 @@
 {
     "name": "@kinsondigital/sprocket",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "license": "MIT",
     "tasks": {
         "check": "deno check **/*.ts",
