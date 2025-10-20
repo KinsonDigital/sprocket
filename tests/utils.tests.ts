@@ -25,7 +25,7 @@ Deno.test("clamp |> when-num-is-larger-than-max |> returns-max-value", () => {
 	["", true],
 	["test", false],
 	[42, false],
-	[[], false],
+	[[], true],
 	[[1, 2, 3], false],
 	[() => "test", false],
 	[{ name: "John" }, false],
