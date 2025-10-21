@@ -338,6 +338,33 @@ export async function uncommittedChangesExist(): Promise<boolean> {
 	return false;
 }
 
+/**
+ * Checks if a specific branch exists locally in the Git repository.
+ * This function executes the `git rev-parse --verify <branchName>` command
+ * to determine if the specified branch exists in the local repository.
+ * @param branchName The name of the branch to check.
+ * @returns A promise that resolves to true if the branch exists locally, false otherwise.
+ */
+export async function branchExistsLocally(branchName: string): Promise<boolean> {
+	const cmd = new Deno.Command("git", {
+		args: ["rev-parse", "--verify", branchName],
+	});
+
+	const { stdout, stderr, success } = await cmd.output();
+
+	const result = success
+		? new TextDecoder().decode(stdout).trim()
+		: new TextDecoder().decode(stderr).trim();
+
+	if (result.startsWith("fatal:")) {
+		return false;
+	} else if (/^[0-9a-fA-F]{40,64}$/gm.test(result)) {
+		return true;
+	} else {
+		console.error("An unexpected error occurred while checking if the branch exists locally.");
+		return false;
+	}
+}
 
 /**
  * Pushes the specified branch to the remote Git repository.
