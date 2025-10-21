@@ -131,6 +131,37 @@ export async function stageAll(): Promise<void> {
 }
 
 /**
+ * Stages the specified files in the current Git repository for the next commit.
+ * This function executes the `git add` command with the provided file paths
+ * to stage them for the next commit. If the operation fails, the process
+ * will exit with code 1. Success output is logged to the console.
+ * @param filePaths An array of file paths to stage for the next commit.
+ * @returns A promise that resolves when the specified files have been staged
+ * @throws Exits the process with code 1 if the staging operation fails
+ * @example
+ * ```typescript
+ * await stageFiles(["src/core/git.ts", "src/core/github.ts"]);
+ * console.log("Specified files have been staged for commit");
+ * ```
+ */
+export async function stageFiles(filePaths: string[]): Promise<void> {
+	const cmd = new Deno.Command("git", {
+		args: ["add", ...filePaths],
+	});
+	
+	const { stdout, stderr, success } = await cmd.output();
+
+	if (success) {
+		console.log(new TextDecoder().decode(stdout));
+	}
+
+	if (!success) {
+		console.error(new TextDecoder().decode(stderr));
+		Deno.exit(1);
+	}
+}
+
+/**
  * Creates a Git commit with the specified commit message.
  *
  * This function executes the `git commit -m` command with the provided message
