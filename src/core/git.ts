@@ -65,6 +65,48 @@ export async function isCheckedOut(branchName: string): Promise<boolean> {
 }
 
 /**
+ * Checks out the specified Git branch.
+ * This function executes the `git checkout <branchName>` command
+ * to switch to the specified branch in the current repository.
+ * If the command fails, an error message is logged and the process exits with code 1.
+ * @param branchName The name of the branch to checkout.
+ * @returns A promise that resolves when the checkout operation is complete.
+ * @throws Exits the process with code 1 if the checkout operation fails.
+ * @example
+ * ```typescript
+ * await checkoutBranch("feature/new-feature");
+ * console.log("Switched to feature/new-feature branch");
+ * ```
+ */
+export async function checkoutBranch(branchName: string): Promise<void> {
+	const cmd = new Deno.Command("git", {
+		args: ["checkout", branchName],
+	});
+
+	const { stdout, stderr, success } = await cmd.output();
+
+	if (stdout) {
+		const result = new TextDecoder().decode(stdout);
+
+		const lines = result.split("\n").map((line) => line.trim()).filter((line) => line !== "");
+
+		for (const line of lines) {
+			if (line === `Switched to branch '${branchName}'` || line === `Already on '${branchName}'`) {
+				return;
+			}
+		}
+
+		console.error(`Unexpected output while checking out branch '${branchName}':\n${result}`);
+		Deno.exit(1);
+	}
+
+	if (!success) {
+		console.error(new TextDecoder().decode(stderr));
+		Deno.exit(1);
+	}
+}
+
+/**
  * Creates a new Git branch and immediately checks it out, or switches to an existing branch.
  *
  * This function executes the `git checkout -B` command, which creates a new branch
