@@ -3,8 +3,6 @@
  * @module
  */
 
-import { PullRequestClient } from "@kdclients";
-
 /**
  * Retrieves the name of the currently checked out Git branch.
  *
@@ -249,57 +247,4 @@ export async function pushToRemote(branchName: string): Promise<void> {
 		console.error(new TextDecoder().decode(stderr));
 		Deno.exit(1);
 	}
-}
-
-/**
- * Creates a new pull request on GitHub using the GitHub API.
- *
- * This function uses the PullRequestClient to create a pull request between
- * two branches in a GitHub repository. It supports customization of various
- * pull request properties including title, description, draft status, and
- * maintainer modification permissions.
- *
- * @param ownerName The GitHub username or organization name that owns the repository
- * @param repoName The name of the GitHub repository
- * @param token The GitHub personal access token for authentication
- * @param title The title/summary of the pull request
- * @param headBranch The source branch containing the changes to be merged
- * @param baseBranch The target branch where changes will be merged into
- * @param description Optional description/body text for the pull request (defaults to empty string)
- * @param maintainerCanModify Whether repository maintainers can modify the pull request (defaults to true)
- * @param isDraft Whether to create the pull request as a draft (defaults to true)
- * @returns A promise that resolves to the pull request number of the newly created PR
- *
- * @example
- * ```typescript
- * const prNumber = await createPullRequest(
- *   "JohnDoe",
- *   "MyRepo",
- *   "ghp_xxxxxxxxxxxx",
- *   "Add new authentication feature",
- *   "feature/auth",
- *   "main",
- *   "This PR implements OAuth2 authentication",
- *   true,
- *   false
- * );
- * console.log(`Created pull request #${prNumber}`);
- * ```
- */
-export async function createPullRequest(
-	ownerName: string,
-	repoName: string,
-	token: string,
-	title: string,
-	headBranch: string,
-	baseBranch: string,
-	description = "",
-	maintainerCanModify = true,
-	isDraft = true,
-): Promise<number> {
-	const client = new PullRequestClient(ownerName, repoName, token);
-
-	const newPr = await client.createPullRequest(title, headBranch, baseBranch, description, maintainerCanModify, isDraft);
-
-	return newPr.number;
 }
