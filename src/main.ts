@@ -19,8 +19,6 @@ const command = new Command()
 	.option("-f, --file-path", "The path to the typescript config file to run.")
 	.option("-j, --job-name [string]", "The name of the job to run from the config file.")
 	.action(async (_options, filePath: string) => {
-		console.log(`The job chosen is: ${_options.jobName}`);
-
 		filePath = resolve(Deno.cwd(), filePath);
 
 		if (existsSync(filePath)) {
