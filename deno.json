@@ -19,7 +19,8 @@
             "description": "Used to uninstall globally.",
             "command": "deno uninstall -g sprocket"
         },
-        "check-publish": "deno publish --dry-run"
+        "check-publish": "deno publish --dry-run",
+        "sprocket": "deno run -A jsr:@kinsondigital/sprocket@2.0.0 run-job ./testing/test-config.ts"
     },
     "lint": {
         "include": [
