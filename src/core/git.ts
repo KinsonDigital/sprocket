@@ -285,6 +285,24 @@ export async function branchExistsRemotely(branchName: string): Promise<boolean>
 }
 
 /**
+ * Returns a value indicating whether there are no uncommitted changes in the repository.
+ * @returns A promise that resolves to true if there are no uncommitted changes, false otherwise
+ * @throws Exits the process with code 1 if the status check fails
+ * @example
+ * ```typescript
+ * const hasChanges = await noUncommittedChangesExist();
+ * if (hasChanges) {
+ *   console.log("There are uncommitted changes.");
+ * } else {
+ *   console.log("Working directory is clean.");
+ * }
+ * ```
+ */
+export async function noUncommittedChangesExist(): Promise<boolean> {
+	return !(await uncommittedChangesExist());
+}
+
+/**
  * Returns a value indicating whether there are any uncommitted changes in the repository.
  * @returns A promise that resolves to true if there are uncommitted changes, false otherwise
  * @throws Exits the process with code 1 if the status check fails
