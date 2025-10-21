@@ -17,7 +17,7 @@
             "command": "deno uninstall -g sprocket"
         },
         "check-publish": "deno publish --dry-run",
-        "sprocket": "deno run -A jsr:@kinsondigital/sprocket@2.0.0 run-job ./testing/sprocket-config.ts"
+        "sprocket": "deno run -A ./src/main.ts run-job ./dev-tools/sprocket-config.ts"
     },
     "lint": {
         "include": [

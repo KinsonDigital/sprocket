@@ -51,7 +51,7 @@ if (!denoConfig["tasks"]) {
 	denoConfig["tasks"] = {};
 }
 
-let updateConfig = false;
+const updateConfig = false;
 
 // If the sprocket task exists
 if (denoConfig["tasks"]["sprocket"]) {

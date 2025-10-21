@@ -5,13 +5,10 @@
 
 /**
  * Retrieves the name of the currently checked out Git branch.
- *
  * This function executes the `git symbolic-ref --short HEAD` command to get
  * the current branch name. If the command fails or no branch is found,
  * an empty string is returned.
- *
  * @returns A promise that resolves to the current branch name, or an empty string if unable to determine
- *
  * @example
  * ```typescript
  * const branch = await getCurrentBranch();
@@ -42,13 +39,10 @@ export async function getCurrentBranch(): Promise<string> {
 
 /**
  * Checks if a specific branch is currently checked out in the Git repository.
- *
  * This function compares the provided branch name against the currently
  * checked out branch to determine if they match.
- *
  * @param branchName The name of the branch to check
  * @returns A promise that resolves to true if the specified branch is currently checked out, false otherwise
- *
  * @example
  * ```typescript
  * const isOnMain = await isCheckedOut("main");
@@ -108,14 +102,11 @@ export async function checkoutBranch(branchName: string): Promise<void> {
 
 /**
  * Creates a new Git branch and immediately checks it out, or switches to an existing branch.
- *
  * This function executes the `git checkout -B` command, which creates a new branch
  * if it doesn't exist, or resets an existing branch to the current HEAD and switches to it.
  * Any command output is logged to the console, and errors are logged to stderr.
- *
  * @param branchName The name of the branch to create and checkout
  * @returns A promise that resolves when the branch operation is complete
- *
  * @example
  * ```typescript
  * await createCheckoutBranch("feature/new-feature");
@@ -140,15 +131,11 @@ export async function createCheckoutBranch(branchName: string): Promise<void> {
 
 /**
  * Stages all modified files in the current Git repository for the next commit.
- *
  * This function executes the `git add *.*` command to stage all files with extensions
  * in the current directory and subdirectories. If the operation fails, the process
  * will exit with code 1. Success output is logged to the console.
- *
  * @returns A promise that resolves when all files have been staged
- *
  * @throws Exits the process with code 1 if the staging operation fails
- *
  * @example
  * ```typescript
  * await stageAll();
@@ -212,9 +199,7 @@ export async function stageFiles(filePaths: string[]): Promise<void> {
  *
  * @param commitMsg The commit message to use for the new commit
  * @returns A promise that resolves when the commit operation completes (note: process may exit)
- *
  * @throws Exits the process with code 0 on success or code 1 on failure
- *
  * @example
  * ```typescript
  * await createCommit("feat: add new authentication system");
@@ -228,11 +213,10 @@ export async function createCommit(commitMsg: string): Promise<void> {
 
 	const { stdout, stderr, success } = await cmd.output();
 
-	if (stdout) {
+	if (success) {
 		console.log(new TextDecoder().decode(stdout));
-		Deno.exit(0);
 	}
-
+	
 	if (!success) {
 		console.error(new TextDecoder().decode(stderr));
 		Deno.exit(1);
@@ -245,12 +229,9 @@ export async function createCommit(commitMsg: string): Promise<void> {
  * This function executes the `git ls-remote --heads origin` command to query
  * the remote repository for the existence of a specific branch. It compares
  * the branch reference format to determine if the branch exists remotely.
- *
  * @param branchName The name of the branch to check for on the remote repository
  * @returns A promise that resolves to true if the branch exists remotely, false otherwise
- *
  * @throws Exits the process with code 1 if the remote query fails
- *
  * @example
  * ```typescript
  * const exists = await branchExistsRemotely("feature/new-feature");
@@ -368,17 +349,13 @@ export async function branchExistsLocally(branchName: string): Promise<boolean> 
 
 /**
  * Pushes the specified branch to the remote Git repository.
- *
  * This function intelligently handles both new and existing remote branches.
  * If the branch doesn't exist remotely, it uses `git push -u origin <branch>`
  * to set up tracking. If the branch already exists remotely, it uses a simple
  * `git push` command. The operation will exit the process with code 1 on failure.
- *
  * @param branchName The name of the branch to push to the remote repository
  * @returns A promise that resolves when the push operation completes successfully
- *
  * @throws Exits the process with code 1 if the push operation fails
- *
  * @example
  * ```typescript
  * await pushToRemote("feature/new-feature");
