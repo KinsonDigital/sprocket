@@ -285,6 +285,43 @@ export async function branchExistsRemotely(branchName: string): Promise<boolean>
 }
 
 /**
+ * Returns a value indicating whether there are any uncommitted changes in the repository.
+ * @returns A promise that resolves to true if there are uncommitted changes, false otherwise
+ * @throws Exits the process with code 1 if the status check fails
+ * @example
+ * ```typescript
+ * const hasChanges = await uncommittedChangesExist();
+ * if (hasChanges) {
+ *   console.log("There are uncommitted changes.");
+ * } else {
+ *   console.log("Working directory is clean.");
+ * }
+ * ```
+ */
+export async function uncommittedChangesExist(): Promise<boolean> {
+	const cmd = new Deno.Command("git", {
+		args: ["status", "--porcelain"],
+	});
+
+	const { stdout, stderr, success } = await cmd.output();
+
+	if (success) {
+		const result = new TextDecoder().decode(stdout);
+		const sections = result.trim().split("\n").filter((section) => section !== "");
+
+		return sections.length > 0;
+	}
+
+	if (!success) {
+		console.error(new TextDecoder().decode(stderr));
+		Deno.exit(1);
+	}
+
+	return false;
+}
+
+
+/**
  * Pushes the specified branch to the remote Git repository.
  *
  * This function intelligently handles both new and existing remote branches.
