@@ -4,7 +4,7 @@
  */
 
 import type { PullRequestModel } from "@kdclients/github/models";
-import { PullRequestClient } from "@kdclients";
+import { MilestoneClient, PullRequestClient } from "@kdclients";
 import type { IssueTypeModel } from "../models/github-models.ts";
 import { isLessThanOne, isNothing } from "./guards.ts";
 
@@ -251,5 +251,81 @@ export async function createPullRequest(
 	const newPr = await client.createPullRequest(title, headBranch, baseBranch, description, maintainerCanModify, isDraft);
 
 	return newPr.number;
+}
+
+/**
+ * Renames a milestone in a GitHub repository.
+ *
+ * @param ownerName The GitHub username or organization name that owns the repository.
+ * @param repoName The name of the GitHub repository.
+ * @param currentName The current name of the milestone.
+ * @param newName The new name for the milestone.
+ * @param token The GitHub personal access token for authentication.
+ */
+export async function renameMilestone(
+	ownerName: string,
+	repoName: string,
+	currentName: string,
+	newName: string,
+	token: string
+): Promise<number> {
+	const milestoneClient = new MilestoneClient(ownerName, repoName, token);
+
+	try {
+		const milestone = await milestoneClient.getMilestoneByName(currentName);
+
+		const response = await renameMilestoneInternal(ownerName, repoName, milestone.number, newName, token);
+
+		if (!response.ok) {
+			const errorData: ErrorData = await response.json();
+
+			const errors = errorData.errors.map((error) => `${error.resource} - ${error.code}: ${error.message}`).join("\n");
+			const errorMessage = `${errorData.message}\n${errors}`;
+
+			console.error(`Failed to rename milestone: ${response.status} - ${response.statusText}\nResponse: ${errorMessage}`);
+
+			Deno.exit(1);
+		}
+
+		return milestone.number;
+	} catch (error) {
+		const errMsg = error instanceof Error ? error.message : String(error);
+		console.error(`Something went wrong while renaming the milestone: ${errMsg}`);
+		Deno.exit(1);
+	}
+}
+
+/**
+ * Renames a milestone in a GitHub repository.
+ *
+ * @param ownerName The GitHub username or organization name that owns the repository.
+ * @param repoName The name of the GitHub repository.
+ * @param milestoneNumber The number of the milestone to rename.
+ * @param newName The new name for the milestone.
+ * @param token The GitHub personal access token for authentication.
+ * @returns A promise that resolves to the response from the GitHub API.
+ */
+async function renameMilestoneInternal(
+	ownerName: string,
+	repoName: string,
+	milestoneNumber: number,
+	newName: string,
+	token: string
+): Promise<Response> {
+	const url = `https://api.github.com/repos/${ownerName}/${repoName}/milestones/${milestoneNumber}`;
+
+	const response = await fetch(url, {
+		method: "PATCH",
+		headers: {
+			"Accept": "application/vnd.github+json",
+			"Authorization": `Bearer ${token}`,
+			"X-GitHub-Api-Version": "2022-11-28",
+		},
+		body: JSON.stringify({
+			title: newName,
+		}),
+	});
+
+	return response;
 }
 
