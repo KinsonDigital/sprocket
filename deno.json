@@ -1,7 +1,4 @@
 {
-    "name": "@kinsondigital/sprocket",
-    "version": "2.0.0",
-    "license": "MIT",
     "tasks": {
         "check": "deno check **/*.ts",
         "fmt": "deno fmt **/*.ts",
@@ -20,7 +17,7 @@
             "command": "deno uninstall -g sprocket"
         },
         "check-publish": "deno publish --dry-run",
-        "sprocket": "deno run -A jsr:@kinsondigital/sprocket@2.0.0 run-job ./testing/test-config.ts"
+        "sprocket": "deno run -A jsr:@kinsondigital/sprocket@2.0.0 run-job ./testing/sprocket-config.ts"
     },
     "lint": {
         "include": [
@@ -50,26 +47,6 @@
         "semiColons": true,
         "singleQuote": false
     },
-    "exclude": [
-        "**/playground.ts",
-        "./testing/",
-        "./tests/",
-        "./.github/",
-        "./.vscode/",
-        "./release-notes/"
-    ],
-    "exports": {
-        ".": "./src/main.ts",
-        "./configuration": "./src/core/configuration.ts",
-        "./models": "./src/models/mod.ts",
-        "./git": "./src/core/git.ts",
-        "./dotnet": "./src/core/dotnet.ts",
-        "./github": "./src/core/github.ts",
-        "./runners": "./src/core/runners.ts",
-        "./json": "./src/core/json.ts",
-        "./utils": "./src/core/util-mods.ts",
-        "./console": "./src/core/logging.ts"
-    },
     "imports": {
         "@std/fs": "jsr:@std/fs@1.0.19",
         "@std/path": "jsr:@std/path@1.1.2",
@@ -80,5 +57,5 @@
         "neverthrow": "npm:neverthrow@^6.2.2",
         "@kdclients": "jsr:@kinsondigital/kd-clients@1.0.0-preview.15",
         "@zod": "npm:zod@4.1.12"
-    }
+    } 
 }
