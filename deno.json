@@ -49,6 +49,14 @@
         "semiColons": true,
         "singleQuote": false
     },
+    "exclude": [
+        "**/playground.ts",
+        "./testing/",
+        "./tests/",
+        "./.github/",
+        "./.vscode/",
+        "./release-notes/"
+    ],
     "exports": {
         ".": "./src/main.ts",
         "./configuration": "./src/core/configuration.ts",
