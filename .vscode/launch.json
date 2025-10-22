@@ -30,8 +30,8 @@
 			"attachSimplePort": 9229,
 			"console": "integratedTerminal"
 		},
-		{ // CREATE PR (DEBUG)
-			"name": "Create PR (Debug)",
+		{ // DEBUG
+			"name": "Debug",
 			"request": "launch",
 			"type": "node",
 			"program": "${workspaceFolder}/src/main.ts",
@@ -44,7 +44,7 @@
 			},
 			"runtimeArgs": [
 				"run",
-				"-ENR",
+				"-A",
 				"--inspect-wait",
 			],
 			"args": [
@@ -52,6 +52,7 @@
 				"testing/test-config.ts",
 			],
 			"attachSimplePort": 9229,
+			"console": "integratedTerminal"
 		},
 		{ // Run Job (DEBUG)
 			"name": "Run Job (Debug)",
