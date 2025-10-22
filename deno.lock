@@ -696,6 +696,7 @@
       "jsr:@cliffy/command@1.0.0-rc.8",
       "jsr:@cliffy/prompt@1.0.0-rc.8",
       "jsr:@kinsondigital/kd-clients@1.0.0-preview.15",
+      "jsr:@kinsondigital/sprocket@2.0.0",
       "jsr:@std/assert@1.0.15",
       "jsr:@std/fs@1.0.19",
       "jsr:@std/path@1.1.2",
