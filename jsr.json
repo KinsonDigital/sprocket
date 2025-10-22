@@ -1,0 +1,25 @@
+{
+    "name": "@kinsondigital/sprocket",
+    "version": "2.0.0",
+    "license": "MIT",
+    "exclude": [
+        "./testing/",
+        "./dev-tools/",
+        "./tests/",
+        "./.github/",
+        "./.vscode/",
+        "./release-notes/"
+    ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./configuration": "./src/core/configuration.ts",
+        "./models": "./src/models/mod.ts",
+        "./git": "./src/core/git.ts",
+        "./dotnet": "./src/core/dotnet.ts",
+        "./github": "./src/core/github.ts",
+        "./runners": "./src/core/runners.ts",
+        "./json": "./src/core/json.ts",
+        "./utils": "./src/core/util-mods.ts",
+        "./console": "./src/core/logging.ts"
+    }
+}

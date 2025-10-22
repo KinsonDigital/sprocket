@@ -30,8 +30,8 @@
 			"attachSimplePort": 9229,
 			"console": "integratedTerminal"
 		},
-		{ // CREATE PR (DEBUG)
-			"name": "Create PR (Debug)",
+		{ // DEBUG
+			"name": "Debug",
 			"request": "launch",
 			"type": "node",
 			"program": "${workspaceFolder}/src/main.ts",
@@ -44,7 +44,7 @@
 			},
 			"runtimeArgs": [
 				"run",
-				"-ENR",
+				"-A",
 				"--inspect-wait",
 			],
 			"args": [
@@ -52,6 +52,7 @@
 				"testing/test-config.ts",
 			],
 			"attachSimplePort": 9229,
+			"console": "integratedTerminal"
 		},
 		{ // Run Job (DEBUG)
 			"name": "Run Job (Debug)",
@@ -147,10 +148,9 @@
 			},
 			"runtimeArgs": [
 				"run",
+				"-N",
 				"-R",
 				"-W",
-				"-N",
-				"--allow-run",
 				"--inspect-wait",
 			],
 			"args": [
@@ -159,30 +159,5 @@
 			"attachSimplePort": 9229,
 			"console": "integratedTerminal"
 		},
-		{ // UPDATE SCRIPT
-			"request": "launch",
-			"name": "Update Script",
-			"type": "node",
-			"program": "${workspaceFolder}/installation/update.ts",
-			"cwd": "${workspaceFolder}",
-			"windows": {
-				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
-			},
-			"linux": {
-				"runtimeExecutable": "${userHome}/.deno/bin/deno"
-			},
-			"runtimeArgs": [
-				"run",
-				"-R",
-				"-W",
-				"-N",
-				"--inspect-wait",
-			],
-			"args": [
-				"latest",
-			],
-			"attachSimplePort": 9229,
-			"console": "integratedTerminal"
-		}
 	]
 }

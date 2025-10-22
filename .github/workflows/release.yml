@@ -237,7 +237,7 @@ jobs:
 
       - name: Publish To JSR ${{ inputs.dry-run == true && '(Dry Run)' || '' }}
         if: inputs.dry-run == false
-        run: deno publish;
+        run: deno publish --config "${{ github.workspace }}/jsr.json";
 
       - name: Lowercase Release Type
         id: release-type
