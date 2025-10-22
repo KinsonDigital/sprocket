@@ -20,10 +20,7 @@ export interface JsrMetaModel {
 	/**
 	 * Gets the versions of the package.
 	 */
-	versions: {
-		"1.0.0-preview.14": Record<string | number | symbol, never>;
-		"1.0.0-preview.13": Record<string | number | symbol, never>;
-	};
+	versions: Record<string, unknown>;
 }
 
 /**

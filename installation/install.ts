@@ -51,12 +51,10 @@ if (!denoConfig["tasks"]) {
 	denoConfig["tasks"] = {};
 }
 
-const updateConfig = false;
-
 // If the sprocket task exists
 if (denoConfig["tasks"]["sprocket"]) {
 	const sprocketPkgPathRegex =
-		/deno run .+ jsr:@kinsondigital\/sprocket@[0-2]\.[0-2]\.[0-2] run-job .\/dev-tools\/sprocket-config.ts/gm;
+		/deno run .+ jsr:@kinsondigital\/sprocket@[0-9]\.[0-9]\.[0-9] run-job .\/dev-tools\/sprocket-config.ts/gm;
 	const sprocketPropValue = denoConfig.tasks.sprocket;
 	const taskSections = sprocketPropValue.split(" ").map((section) => section.trim());
 
@@ -93,16 +91,6 @@ if (denoConfig["tasks"]["sprocket"]) {
 	}
 } else {
 	updateTaskValue(denoConfig, newDefaultTaskValue);
-}
-
-if (updateConfig) {
-	denoConfig["tasks"]["sprocket"] =
-		`${command} jsr:@${scope}/${pkgName}@${latestVersion} run-job ./dev-tools/sprocket-config.ts`;
-
-	// Write the updated config back to the file
-	Deno.writeTextFileSync(denoConfigPath, `${JSON.stringify(denoConfig, null, 4)}\n`);
-} else {
-	console.log(`The sprocket task is already using the latest version.`);
 }
 
 /**
