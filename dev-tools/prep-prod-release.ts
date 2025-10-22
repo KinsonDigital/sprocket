@@ -15,7 +15,7 @@ import { LabelClient, ProjectClient, PullRequestClient } from "@kdclients";
 import { IssueOrPRRequestData } from "@kdclients/core";
 import { renameMilestone } from "@sprocket/github";
 import { printGray } from "@sprocket/console"; // TODO: Update to jsr import
-import jsrConfig from "../jsr.json" with { type: "json" };
+import denoConfig from "../deno.json" with { type: "json" };
 
 const token = (Deno.env.get("CICD_TOKEN") ?? "").trim();
 
@@ -97,12 +97,12 @@ const headBranch = `${releaseType}-release`;
 printGray(`⌛Creating the branch '${headBranch}'. . .`);
 await createCheckoutBranch(headBranch);
 
-printGray("⌛Updating the version in the jsr.json file. . .");
-jsrConfig.version = releaseVersion;
-Deno.writeTextFileSync(`${Deno.cwd()}/jsr.json`, `${JSON.stringify(jsrConfig, null, 4)}\n`);
+printGray("⌛Updating the version in the deno.json file. . .");
+denoConfig.version = releaseVersion;
+Deno.writeTextFileSync(`${Deno.cwd()}/deno.json`, `${JSON.stringify(denoConfig, null, 4)}\n`);
 
 printGray("⌛Staging version changes. . .");
-await stageFiles(["*jsr.json"]);
+await stageFiles(["*deno.json"]);
 printGray("⌛Creating commit. . .");
 await createCommit(`release: update version to v${releaseVersion}`);
 printGray("⌛Pushing to remote. . .");

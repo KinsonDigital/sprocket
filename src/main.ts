@@ -4,8 +4,23 @@ import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
 import { runJob } from "./core/runners.ts";
 import { isSprocketConfig } from "./core/configuration.ts";
-import jsrConfig from "../jsr.json" with { type: "json" };
+import denoConfig from "../deno.json" with { type: "json" };
 import { isBoolean, isNothing } from "./core/guards.ts";
+
+/**
+ * The arguments and options for the CLI.
+ */
+type ArgsOptions = {
+	/**
+	 * The file path to the configuration file.
+	 */
+	filePath?: true | undefined;
+
+	/**
+	 * The name of the job to run.
+	 */
+	jobName?: string | true | undefined;
+};
 
 /**
  * The main entry point for the Sprocket CLI application.
@@ -13,18 +28,19 @@ import { isBoolean, isNothing } from "./core/guards.ts";
 const command = new Command()
 	.name("sprocket")
 	.description("Tool to create prs and prepare for releases.")
-	.version(`v${jsrConfig.version}`)
+	.version(`v${denoConfig.version}`)
 	.command("run-job")
 	.arguments("<filePath:string>")
 	.option("-f, --file-path", "The path to the typescript config file to run.")
 	.option("-j, --job-name [string]", "The name of the job to run from the config file.")
-	.action(async (_options, filePath: string) => {
+	.action(async (_options: ArgsOptions, filePath: string) => {
 		filePath = resolve(Deno.cwd(), filePath);
 
 		if (existsSync(filePath)) {
 			try {
 				const fileUrl = new URL(`file://${filePath}`);
-				const config = (await import(fileUrl.href)).config;
+				const module = (await import(fileUrl.href)) as { config: unknown };
+				const config = module.config;
 
 				if (!isSprocketConfig(config)) {
 					console.error("The configuration file is not a valid Sprocket configuration.");

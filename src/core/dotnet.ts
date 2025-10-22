@@ -5,6 +5,7 @@
 import { existsSync, walkSync } from "@std/fs";
 import { extname } from "@std/path";
 import { isStringNothing } from "./guards.ts";
+import type { WalkEntry } from "@std/fs";
 import type { PrepareReleaseSettings } from "./releases.ts";
 
 /**
@@ -58,14 +59,14 @@ export class DotnetCopyrightUpdater {
 			? `${copyRightSettings.projectFileName}.csproj`
 			: copyRightSettings.projectFileName;
 
-		const foundEntries = fileEntries.find((entry) => entry.name === csProjFileName);
+		const foundEntry: WalkEntry | undefined = fileEntries.find((entry: WalkEntry) => entry.name === csProjFileName);
 
-		if (foundEntries === undefined) {
+		if (foundEntry === undefined || foundEntry === null) {
 			console.log(`%cThe csproj file '${csProjFileName}' does not exist.`, "color: yellow");
 			return { csProjFilePath: "", wasUpdated: false };
 		}
 
-		const csProjFilePath = foundEntries.path;
+		const csProjFilePath = foundEntry.path;
 
 		if (!existsSync(csProjFilePath)) {
 			console.log(`%cThe csproj file '${csProjFilePath}' does not exist.`, "color: yellow");

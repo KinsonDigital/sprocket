@@ -206,7 +206,7 @@ jobs:
       - name: Run Tests
         id: deno-tests
         continue-on-error: true
-        run: deno test -R ./tests/*tests.ts;
+        run: deno test;
 
       - name: Validate Checks ${{ inputs.dry-run == true && '(Dry Run)' || '' }}
         run: |
@@ -237,7 +237,7 @@ jobs:
 
       - name: Publish To JSR ${{ inputs.dry-run == true && '(Dry Run)' || '' }}
         if: inputs.dry-run == false
-        run: deno publish --config "${{ github.workspace }}/jsr.json";
+        run: deno publish --config "${{ github.workspace }}/deno.json";
 
       - name: Lowercase Release Type
         id: release-type
