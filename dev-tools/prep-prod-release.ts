@@ -1,13 +1,15 @@
 import { Input, Select } from "@cliffy/prompt";
 import {
-	createCheckoutBranch, isCheckedOut, pushToRemote,
-	branchExistsRemotely,
 	branchExistsLocally,
-	noUncommittedChangesExist,
-	uncommittedChangesExist,
+	branchExistsRemotely,
 	checkoutBranch,
+	createCheckoutBranch,
 	createCommit,
+	isCheckedOut,
+	noUncommittedChangesExist,
+	pushToRemote,
 	stageFiles,
+	uncommittedChangesExist,
 } from "@sprocket/git";
 import { LabelClient, ProjectClient, PullRequestClient } from "@kdclients";
 import { IssueOrPRRequestData } from "@kdclients/core";
@@ -39,10 +41,10 @@ const releaseVersion = await Input.prompt({
 	validate: (value) => {
 		const prodVersionRegex = /^v([1-9]\d*|0)\.([1-9]\d*|0)\.([1-9]\d*|0)$/gm;
 
-		return prodVersionRegex.test(value.trim().toLowerCase())
+		return prodVersionRegex.test(value.trim().toLowerCase());
 	},
 	transform: (value) => {
-		const result = value.trim().toLowerCase()
+		const result = value.trim().toLowerCase();
 
 		return result.startsWith("v") ? result.slice(1) : result;
 	},
@@ -63,14 +65,18 @@ if (await branchExistsLocally(baseBranch)) {
 	// If the base branch is checked out
 	if (await isCheckedOut(baseBranch)) {
 		if (await uncommittedChangesExist()) {
-			console.log(`You have uncommitted changes in your working directory. Please commit or stash them before preparing a release.`);
+			console.log(
+				`You have uncommitted changes in your working directory. Please commit or stash them before preparing a release.`,
+			);
 			Deno.exit(1);
 		}
 	} else {
 		if (await noUncommittedChangesExist()) {
 			await checkoutBranch(baseBranch);
 		} else {
-			console.log(`You have uncommitted changes in your working directory. Please commit or stash them before preparing a release.`);
+			console.log(
+				`You have uncommitted changes in your working directory. Please commit or stash them before preparing a release.`,
+			);
 			Deno.exit(1);
 		}
 	}
@@ -79,7 +85,9 @@ if (await branchExistsLocally(baseBranch)) {
 	if (await branchExistsRemotely(baseBranch)) {
 		await checkoutBranch(baseBranch);
 	} else {
-		console.log(`The base branch '${baseBranch}' does not exist locally or remotely. Please create it before preparing a release.`);
+		console.log(
+			`The base branch '${baseBranch}' does not exist locally or remotely. Please create it before preparing a release.`,
+		);
 		Deno.exit(1);
 	}
 }
@@ -117,7 +125,8 @@ const newPr = await prClient.createPullRequest(
 	title,
 	headBranch,
 	baseBranch,
-	templateFileContent);
+	templateFileContent,
+);
 
 printGray(`⌛Setting the pull request reviewer to '#${reviewer}'. . .`);
 await prClient.requestReviewers(newPr.number, [reviewer]);

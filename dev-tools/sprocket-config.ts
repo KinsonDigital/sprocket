@@ -1,4 +1,4 @@
-import type { SprocketConfig, ScriptTask } from "@sprocket/configuration";
+import type { ScriptTask, SprocketConfig } from "@sprocket/configuration";
 
 const config: SprocketConfig = {
 	jobs: [{
@@ -14,7 +14,7 @@ const config: SprocketConfig = {
 			description: "Prepares for a production release.",
 			preExecuteMsg: "\t⏳Process running. . .",
 			preExecuteMsgColor: "gray",
-			script: { filePath: `${Deno.cwd()}/dev-tools/prep-prod-release.ts` }
+			script: { filePath: `${Deno.cwd()}/dev-tools/prep-prod-release.ts` },
 		} as ScriptTask],
 	}],
 };

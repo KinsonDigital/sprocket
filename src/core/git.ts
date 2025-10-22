@@ -177,7 +177,7 @@ export async function stageFiles(filePaths: string[]): Promise<void> {
 	const cmd = new Deno.Command("git", {
 		args: ["add", ...filePaths],
 	});
-	
+
 	const { stdout, stderr, success } = await cmd.output();
 
 	if (success) {
@@ -216,7 +216,7 @@ export async function createCommit(commitMsg: string): Promise<void> {
 	if (success) {
 		console.log(new TextDecoder().decode(stdout));
 	}
-	
+
 	if (!success) {
 		console.error(new TextDecoder().decode(stderr));
 		Deno.exit(1);
@@ -333,9 +333,7 @@ export async function branchExistsLocally(branchName: string): Promise<boolean> 
 
 	const { stdout, stderr, success } = await cmd.output();
 
-	const result = success
-		? new TextDecoder().decode(stdout).trim()
-		: new TextDecoder().decode(stderr).trim();
+	const result = success ? new TextDecoder().decode(stdout).trim() : new TextDecoder().decode(stderr).trim();
 
 	if (result.startsWith("fatal:")) {
 		return false;

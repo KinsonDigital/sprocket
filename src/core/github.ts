@@ -267,7 +267,7 @@ export async function renameMilestone(
 	repoName: string,
 	currentName: string,
 	newName: string,
-	token: string
+	token: string,
 ): Promise<number> {
 	const milestoneClient = new MilestoneClient(ownerName, repoName, token);
 
@@ -310,7 +310,7 @@ async function renameMilestoneInternal(
 	repoName: string,
 	milestoneNumber: number,
 	newName: string,
-	token: string
+	token: string,
 ): Promise<Response> {
 	const url = `https://api.github.com/repos/${ownerName}/${repoName}/milestones/${milestoneNumber}`;
 
@@ -328,4 +328,3 @@ async function renameMilestoneInternal(
 
 	return response;
 }
-

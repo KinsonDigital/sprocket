@@ -36,19 +36,19 @@ const command = new Command()
 					await runJob(config.jobs[0]);
 				} else {
 					const selectedJobName = !isNothing(_options.jobName) && !isBoolean(_options.jobName)
-					? _options.jobName
-					: await Select.prompt({
-						message: "Select a job to run",
-						options: isNothing(config.jobs) ? [] : config.jobs.map((job) => job.name),
-					});
-					
+						? _options.jobName
+						: await Select.prompt({
+							message: "Select a job to run",
+							options: isNothing(config.jobs) ? [] : config.jobs.map((job) => job.name),
+						});
+
 					const selectedJob = config.jobs.find((j) => j.name === selectedJobName);
-					
+
 					if (!selectedJob) {
 						console.error(`Job '${selectedJobName}' not found in the configuration.`);
 						Deno.exit(1);
 					}
-					
+
 					await runJob(selectedJob);
 				}
 			} catch (error) {
