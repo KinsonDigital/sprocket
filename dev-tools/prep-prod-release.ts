@@ -1,4 +1,4 @@
-import { Input, Select } from "jsr:@cliffy/prompt@1.0.0-rc.8";
+import { Input, Select } from "@cliffy/prompt";
 import {
 	createCheckoutBranch, isCheckedOut, pushToRemote,
 	branchExistsRemotely,
@@ -8,12 +8,12 @@ import {
 	checkoutBranch,
 	createCommit,
 	stageFiles,
-} from "jsr:@kinsondigital/sprocket@2.0.0/git";
+} from "@sprocket/git";
+import { LabelClient, ProjectClient, PullRequestClient } from "@kdclients";
+import { IssueOrPRRequestData } from "@kdclients/core";
+import { renameMilestone } from "@sprocket/github";
+import { printGray } from "@sprocket/console"; // TODO: Update to jsr import
 import jsrConfig from "../jsr.json" with { type: "json" };
-import { LabelClient, ProjectClient, PullRequestClient } from "jsr:@kinsondigital/kd-clients@1.0.0-preview.15";
-import { IssueOrPRRequestData } from "jsr:@kinsondigital/kd-clients@1.0.0-preview.15/core";
-import { renameMilestone } from "../src/core/github.ts"; // TODO: Update to jsr import
-import { printGray } from "jsr:@kinsondigital/sprocket@2.0.0/console"; // TODO: Update to jsr import
 
 const token = (Deno.env.get("CICD_TOKEN") ?? "").trim();
 

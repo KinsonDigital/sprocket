@@ -1,7 +1,7 @@
-import { Input } from "jsr:@cliffy/prompt@1.0.0-rc.8";
-import { createCheckoutBranch, getCurrentBranch, isCheckedOut, pushToRemote } from "jsr:@kinsondigital/sprocket@2.0.0/git";
-import { createPr, githubIssueExists } from "jsr:@kinsondigital/sprocket@2.0.0/github";
-import type { FunctionTask, SprocketConfig } from "jsr:@kinsondigital/sprocket@2.0.0/configuration";
+import { Input } from "@cliffy/prompt";
+import { createCheckoutBranch, getCurrentBranch, isCheckedOut, pushToRemote } from "@sprocket/git";
+import { createPr, githubIssueExists } from "@sprocket/github";
+import type { FunctionTask, SprocketConfig } from "@sprocket/configuration";
 
 const config: SprocketConfig = {
 	jobs: [{

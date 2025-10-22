@@ -1,4 +1,4 @@
-import type { SprocketConfig, ScriptTask } from "jsr:@kinsondigital/sprocket@2.0.0/configuration";
+import type { SprocketConfig, ScriptTask } from "@sprocket/configuration";
 
 const config: SprocketConfig = {
 	jobs: [{
