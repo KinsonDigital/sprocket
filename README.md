@@ -4,8 +4,11 @@ sprocket is a CLI application written in [deno](https://deno.com/) to simplify d
 
 ### Install/Update
 ```bash
-# Installs or updates the tool
-deno run -NRW jsr:@kinsondigital/sprocket/installation/install.ts
+# Installs or updates the tool using the latest version of the installer
+deno run -NRW jsr:@kinsondigital/sprocket/install.ts
+
+# Installs or updates the tool using a specific version of the installer
+deno run -NRW jsr:@kinsondigital/sprocket@v1.2.3/install.ts
 ```
 
 ### Note:

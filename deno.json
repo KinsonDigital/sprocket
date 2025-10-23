@@ -80,6 +80,7 @@
         "./runners": "./src/core/runners.ts",
         "./json": "./src/core/json.ts",
         "./utils": "./src/core/util-mods.ts",
-        "./console": "./src/core/logging.ts"
+        "./console": "./src/core/logging.ts",
+        "./install": "./installation/install.ts"
     }
 }
