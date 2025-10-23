@@ -208,9 +208,7 @@ export async function stageFiles(filePaths: string[]): Promise<void> {
  * ```
  */
 export async function createCommit(commitMsg: string, allowEmpty = false): Promise<void> {
-	const args = allowEmpty
-		? ["commit", "--allow-empty", "-m", commitMsg]
-		: ["commit", "-m", commitMsg];
+	const args = allowEmpty ? ["commit", "--allow-empty", "-m", commitMsg] : ["commit", "-m", commitMsg];
 
 	const cmd = new Deno.Command("git", {
 		args: args,
