@@ -198,6 +198,7 @@ export async function stageFiles(filePaths: string[]): Promise<void> {
  * exits with code 0. On failure, an error is logged and the process exits with code 1.
  *
  * @param commitMsg The commit message to use for the new commit
+ * @param allowEmpty Optional flag to allow creating an empty commit (default: false)
  * @returns A promise that resolves when the commit operation completes (note: process may exit)
  * @throws Exits the process with code 0 on success or code 1 on failure
  * @example
@@ -206,9 +207,11 @@ export async function stageFiles(filePaths: string[]): Promise<void> {
  * // Process will exit after successful commit
  * ```
  */
-export async function createCommit(commitMsg: string): Promise<void> {
+export async function createCommit(commitMsg: string, allowEmpty = false): Promise<void> {
+	const args = allowEmpty ? ["commit", "--allow-empty", "-m", commitMsg] : ["commit", "-m", commitMsg];
+
 	const cmd = new Deno.Command("git", {
-		args: ["commit", "-m", commitMsg],
+		args: args,
 	});
 
 	const { stdout, stderr, success } = await cmd.output();

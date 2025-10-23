@@ -31,7 +31,6 @@ const command = new Command()
 	.version(`v${denoConfig.version}`)
 	.command("run-job")
 	.arguments("<filePath:string>")
-	.option("-f, --file-path", "The path to the typescript config file to run.")
 	.option("-j, --job-name [string]", "The name of the job to run from the config file.")
 	.action(async (_options: ArgsOptions, filePath: string) => {
 		filePath = resolve(Deno.cwd(), filePath);

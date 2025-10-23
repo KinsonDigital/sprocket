@@ -50,6 +50,8 @@
 			"args": [
 				"run-job",
 				"testing/test-config.ts",
+				"--job-name",
+				"Prep-Prod-Release"
 			],
 			"attachSimplePort": 9229,
 			"console": "integratedTerminal"
