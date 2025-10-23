@@ -37,7 +37,6 @@ let repoOwnerName = "";
 let repoName = "";
 
 try {
-	printCyan("Validating repository");
 	printGray("Validating repository");
 	const gitConfigFileData = Deno.readTextFileSync(GIT_CONFIG_FILE_PATH);
 	const remoteOriginMatch = gitConfigFileData.match(/\[remote "origin"\][\s\S]*?url = (.+)/m) ?? "";
