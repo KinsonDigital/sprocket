@@ -16,6 +16,21 @@ const config: SprocketConfig = {
 			preExecuteMsgColor: "gray",
 			script: { filePath: `${Deno.cwd()}/dev-tools/prep-prod-release.ts` },
 		} as ScriptTask],
+	}, {
+		name: "Create-PR",
+		description: "Creates a feature branch and pull request.",
+		preExecuteMsg: "Starting Feature PR creation.",
+		preExecuteMsgColor: "cyan",
+		postExecuteMsg: "Feature branch and pull request created.",
+		postExecuteMsgColor: "cyan",
+		tasks: [{
+			type: "script",
+			name: "Create Feature Pull Request",
+			description: "Creates a feature branch and pull request.",
+			preExecuteMsg: "\t⏳Creating. . .",
+			preExecuteMsgColor: "gray",
+			script: { filePath: `${Deno.cwd()}/dev-tools/create-pr.ts` },
+		} as ScriptTask],
 	}],
 };
 
