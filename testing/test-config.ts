@@ -1,6 +1,3 @@
-import { Input } from "@cliffy/prompt";
-import { createCheckoutBranch, getCurrentBranch, isCheckedOut, pushToRemote } from "@sprocket/git";
-import { createPr, githubIssueExists } from "@sprocket/github";
 import type { FunctionTask, SprocketConfig } from "@sprocket/configuration";
 
 const config: SprocketConfig = {
@@ -17,7 +14,7 @@ const config: SprocketConfig = {
 			description: "Prepares a production release.",
 			preExecuteMsg: "\t⏳Preparing release...",
 			preExecuteMsgColor: "gray",
-			func: async () => {
+			func: () => {
 				console.log("Creating branch...");
 				console.log("Updating version...");
 				console.log("Creating release notes...");
@@ -37,7 +34,7 @@ const config: SprocketConfig = {
 			description: "Runs the job",
 			preExecuteMsg: "\t⏳Running other job...",
 			preExecuteMsgColor: "gray",
-			func: async () => {
+			func: () => {
 				console.log("Getting status...");
 				console.log("Processing data...");
 				console.log("Finishing process...");
