@@ -266,3 +266,19 @@ jobs:
           github-token: "${{ secrets.CICD_TOKEN }}"
           milestone-title: "v${{ needs.get_and_validate_version.outputs.version }}"
           deno-version: "${{ vars.DENO_VERSION }}"
+
+      - name: Create VNext Milestone ${{ inputs.dry-run == true && '(Dry Run)' || '' }}
+        if: ${{ inputs.dry-run == false && inputs.release-type == 'Production' }}
+        env:
+          OWNER_NAME: "${{ vars.ORGANIZATION_NAME }}"
+          REPO_NAME: "${{ vars.PROJECT_NAME }}"
+          GITHUB_TOKEN: "${{ secrets.CICD_TOKEN }}"
+        run: |
+          $baseDirPath = "${{ github.workspace }}";
+          $scriptDirPath = ".github/cicd-scripts";
+          $scriptFileName = "create-vnext-milestone.ts";
+          $scriptFilePath = "$baseDirPath/$scriptDirPath/$scriptFileName";
+
+          Write-Host "::notice::Create VNext Milestone Script File Path: $scriptFilePath";
+
+          deno run -ENW $scriptFilePath --no-npm --lock;
