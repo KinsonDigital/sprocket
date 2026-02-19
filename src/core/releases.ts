@@ -455,8 +455,8 @@ export class ReleaseNotesGenerator {
 		const issueTypeNames: string[] = [];
 
 		// Collect all of the issue category names
-		for (const catName in settings.issueCategoryLabelMappings) {
-			issueCatLabels.push(settings.issueCategoryLabelMappings[catName].trim());
+		for (const catName in (settings.issueCategoryLabelMappings ?? {})) {
+			issueCatLabels.push(settings.issueCategoryLabelMappings?.[catName]?.trim() ?? "");
 		}
 
 		// Collect all of the issueType names
@@ -780,8 +780,8 @@ export class ReleaseNotesGenerator {
 
 		const sections = title.split(" ") ?? [];
 
-		for (const wordToReplace in settings.firstWordReplacements) {
-			const replacementWord = settings.firstWordReplacements[wordToReplace];
+		for (const wordToReplace in (settings.firstWordReplacements ?? {})) {
+			const replacementWord = settings.firstWordReplacements?.[wordToReplace] ?? "";
 
 			// Get the first word and trim all periods from the end
 			let firstWord = sections[0];
@@ -797,8 +797,8 @@ export class ReleaseNotesGenerator {
 		title = sections.join(" ");
 
 		// If there are any words that need to be bolded or italicized
-		for (const wordToStyle in settings.styledWordsList) {
-			const styleList = settings.styledWordsList[wordToStyle].toLowerCase().trim();
+		for (const wordToStyle in (settings.styledWordsList ?? {})) {
+			const styleList = (settings.styledWordsList?.[wordToStyle])?.toLowerCase().trim() ?? "";
 
 			const styles = styleList.split(",").filter((s) => s === "bold" || s === "italic");
 
