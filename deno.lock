@@ -9,7 +9,6 @@
     "jsr:@cliffy/prompt@1.0.0": "1.0.0",
     "jsr:@cliffy/table@1.0.0": "1.0.0",
     "jsr:@kinsondigital/kd-clients@1.0.0-preview.15": "1.0.0-preview.15",
-    "jsr:@kinsondigital/sprocket@2.0.0": "2.0.0",
     "jsr:@nexterias/twitter-api-fetch@3.0.1": "3.0.1",
     "jsr:@std/assert@1.0.15": "1.0.15",
     "jsr:@std/assert@^1.0.18": "1.0.18",
@@ -98,13 +97,6 @@
         "jsr:@std/encoding@1.0.5",
         "jsr:@std/fs@1.0.5",
         "jsr:@std/path@1.0.7"
-      ]
-    },
-    "@kinsondigital/sprocket@2.0.0": {
-      "integrity": "726292062a6a608133b8d15eb0af362dbc06db51545f9ba846e14a9397f94dcf",
-      "dependencies": [
-        "jsr:@kinsondigital/kd-clients",
-        "npm:zod"
       ]
     },
     "@nexterias/twitter-api-fetch@3.0.1": {
@@ -714,7 +706,7 @@
       "jsr:@cliffy/command@1.0.0",
       "jsr:@cliffy/prompt@1.0.0",
       "jsr:@kinsondigital/kd-clients@1.0.0-preview.15",
-      "jsr:@kinsondigital/sprocket@2.0.0",
+      "jsr:@kinsondigital/sprocket@2.2.0",
       "jsr:@std/assert@1.0.15",
       "jsr:@std/fs@1.0.19",
       "jsr:@std/path@1.1.2",

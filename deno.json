@@ -67,7 +67,7 @@
         "neverthrow": "npm:neverthrow@^6.2.2",
         "@kdclients": "jsr:@kinsondigital/kd-clients@1.0.0-preview.15",
         "@zod": "npm:zod@4.1.12",
-        "@sprocket": "jsr:@kinsondigital/sprocket@2.0.0"
+        "@sprocket": "jsr:@kinsondigital/sprocket@2.2.0"
     },
     "exports": {
         ".": "./src/main.ts",
@@ -80,6 +80,7 @@
         "./json": "./src/core/json.ts",
         "./utils": "./src/core/util-mods.ts",
         "./console": "./src/core/logging.ts",
-        "./install": "./installation/install.ts"
+        "./install": "./installation/install.ts",
+        "./releases": "./src/core/releases.ts"
     }
 }

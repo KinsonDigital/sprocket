@@ -1,4 +1,4 @@
-import { ReleaseNotesGenerator } from "../src/release-notes-generator.ts";
+import { ReleaseNotesGenerator } from "../mod.ts";
 
 const generator = new ReleaseNotesGenerator();
 
