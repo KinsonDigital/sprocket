@@ -460,7 +460,7 @@ export class ReleaseNotesGenerator {
 		}
 
 		// Collect all of the issueType names
-		for (const catName in settings.issueCategoryIssueTypeMappings) {
+		for (const catName in (settings.issueCategoryIssueTypeMappings ?? {})) {
 			issueTypeNames.push(catName.trim());
 		}
 
