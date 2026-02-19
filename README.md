@@ -1,5 +1,15 @@
 <h1 style="border:0;font-weight:bold" align="center">sprocket</h1>
 
+<div align="center">
+
+[![Version](https://jsr.io/badges/@kinsondigital/sprocket)](https://jsr.io/@kinsondigital/sprocket)
+[![Downloads](https://jsr.io/badges/@kinsondigital/sprocket/total-downloads)]([l.Velaptor](https://jsr.io/@kinsondigital/sprocket))
+
+[![Score](https://jsr.io/badges/@kinsondigital/sprocket/score)]([l.Velaptor](https://jsr.io/@kinsondigital/sprocket))
+
+
+</div>
+
 sprocket is a CLI application written in [deno](https://deno.com/) to simplify dev-related work in the KinsonDigital organization.
 
 ### Install/Update Using Latest Installer Version
