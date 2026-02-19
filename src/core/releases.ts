@@ -452,11 +452,17 @@ export class ReleaseNotesGenerator {
 		const prCatSections = this.buildCategoryLabelSections(settings.prCategoryLabelMappings ?? {}, prs);
 
 		const issueCatLabels: string[] = [];
+		const prCatLabels: string[] = [];
 		const issueTypeNames: string[] = [];
 
-		// Collect all of the issue category names
+		// Collect all of the issue category labels (values are the GitHub label names)
 		for (const catName in settings.issueCategoryLabelMappings) {
 			issueCatLabels.push(settings.issueCategoryLabelMappings[catName].trim());
+		}
+
+		// Collect all of the PR category labels (values are the GitHub label names)
+		for (const catName in settings.prCategoryLabelMappings) {
+			prCatLabels.push(settings.prCategoryLabelMappings[catName].trim());
 		}
 
 		// Collect all of the issueType names
@@ -472,12 +478,27 @@ export class ReleaseNotesGenerator {
 			return hasNoCategoryLabels && hasNoIssueType;
 		});
 
-		const otherCat: Record<string, string | undefined> = {};
-		otherCat[settings?.otherCategoryName ?? ""] = undefined;
+		// Get all of the PRs that do not have any of the labels in the PR category labels
+		const otherCatPrs = prs.filter((pr) => {
+			return pr.labels.every((label) => !prCatLabels.includes(label.name));
+		});
 
-		const otherIssueCatSection = this.buildCategoryLabelSections(otherCat, otherCatIssues);
+		const otherCatSection: Record<string, string[]> = {};
 
-		categorySections = { ...issueTypeCatSections, ...issueCatSections, ...prCatSections, ...otherIssueCatSection };
+		if (settings.otherCategoryName !== undefined) {
+			const otherItems: (IssueModel | PullRequestModel)[] = [...otherCatIssues, ...otherCatPrs];
+
+			if (otherItems.length > 0) {
+				const sectionName = settings.otherCategoryName;
+				otherCatSection[sectionName] = [`${this.createCategoryHeader(sectionName)}\n`];
+
+				for (let i = 0; i < otherItems.length; i++) {
+					otherCatSection[sectionName].push(this.buildLineItem(otherItems[i], i));
+				}
+			}
+		}
+
+		categorySections = { ...issueTypeCatSections, ...issueCatSections, ...prCatSections, ...otherCatSection };
 
 		for (const section in categorySections) {
 			const catSection = categorySections[section].join("\n");
@@ -540,14 +561,14 @@ export class ReleaseNotesGenerator {
 
 		// Validate the labels in the issue category to label mappings
 		if (settings.issueCategoryLabelMappings !== undefined) {
-			const labelsToCheck = Object.getOwnPropertyNames(settings.issueCategoryLabelMappings).map((p) => p.trim());
+			const labelsToCheck = Object.values(settings.issueCategoryLabelMappings).map((p) => p.trim());
 
 			await this.validateLabels("issueCategoryLabelMappings", labelsToCheck);
 		}
 
 		// Validate the labels in the pr category to label mappings
 		if (settings.prCategoryLabelMappings !== undefined) {
-			const labelsToCheck = Object.getOwnPropertyNames(settings.prCategoryLabelMappings).map((l) => l.trim());
+			const labelsToCheck = Object.values(settings.prCategoryLabelMappings).map((l) => l.trim());
 
 			await this.validateLabels("prCategoryLabelMappings", labelsToCheck);
 		}
@@ -650,11 +671,11 @@ export class ReleaseNotesGenerator {
 		for (const catName in categoryMappings) {
 			const catLabel = categoryMappings[catName];
 
-			const catIssues = issuesOrPrs.filter((issue) => issue.labels.some((label) => label.name === catName));
+			const catIssues = issuesOrPrs.filter((issue) => issue.labels.some((label) => label.name === catLabel));
 
 			if (catIssues.length > 0) {
 				if (categorySection[catName] === undefined) {
-					categorySection[catName] = [`${this.createCategoryHeader(catLabel)}\n`];
+					categorySection[catName] = [`${this.createCategoryHeader(catName)}\n`];
 				}
 
 				for (let i = 0; i < catIssues.length; i++) {
