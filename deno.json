@@ -51,7 +51,6 @@
         "singleQuote": false
     },
     "exclude": [
-        "./testing/",
         "./dev-tools/",
         "./tests/",
         "./.github/",
