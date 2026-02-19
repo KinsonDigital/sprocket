@@ -11,7 +11,7 @@ import type { PrepareReleaseSettings } from "./releases.ts";
 /**
  * Dotnet copyright update settings.
  */
-export interface DotnetCopyrightUpdate {
+export type DotnetCopyrightUpdate = {
 	/**
 	 * The directory to start the search from.
 	 */
@@ -27,7 +27,7 @@ export interface DotnetCopyrightUpdate {
 	 * The name of the company.
 	 */
 	companyName: string;
-}
+};
 
 /**
  * Updates copyright tags in a dotnet csproj file.

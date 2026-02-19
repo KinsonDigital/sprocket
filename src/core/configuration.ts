@@ -16,7 +16,7 @@ export type TaskType = "cmd" | "script" | "function";
 /**
  * Configuration for executing a command line program or executable.
  */
-export interface Command {
+export type Command = {
 	/**
 	 * The command or executable to run (e.g., "git", "npm", "deno")
 	 */
@@ -26,7 +26,7 @@ export interface Command {
 	 * Optional arguments to pass to the command
 	 */
 	args?: string[];
-}
+};
 
 /**
  * Function type for executing command-based tasks.
@@ -52,7 +52,7 @@ export type RunFunction = (func: (...args: unknown[]) => Promise<void>) => Promi
 /**
  * Configuration for executing a script file.
  */
-export interface Script {
+export type Script = {
 	/**
 	 * Path to the script file to execute
 	 */
@@ -62,7 +62,7 @@ export interface Script {
 	 * Optional arguments to pass to the script
 	 */
 	args?: string[];
-}
+};
 
 /**
  * Messaging options that can be applied to tasks before and after execution.
@@ -154,7 +154,7 @@ export type Task = CommandTask | ScriptTask | FunctionTask;
  * Represents a collection of tasks that are executed together as a unit.
  * Jobs provide a way to group related tasks and configure their execution environment.
  */
-export interface Job {
+export type Job = {
 	/**
 	 * Unique name for the job
 	 */
@@ -194,18 +194,18 @@ export interface Job {
 	 * Optional environment variables to set for all tasks in this job
 	 */
 	env?: Record<string, string>;
-}
+};
 
 /**
  * Main configuration interface for the sprocket tool.
  * This defines the complete structure for configuring jobs and their associated tasks.
  */
-export interface SprocketConfig {
+export type SprocketConfig = {
 	/**
 	 * Array of jobs that can be executed by the sprocket tool
 	 */
 	jobs: Job[];
-}
+};
 
 /**
  * Type guard to check if a configuration object is a {@link SprocketConfig}.

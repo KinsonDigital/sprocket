@@ -1,7 +1,7 @@
 /**
  * JSR meta data model from calling the 'https://jsr.io/@${scope}/${pkgName}/meta.json' API endpoint.
  */
-export interface JsrMetaModel {
+export type JsrMetaModel = {
 	/**
 	 * Gets the scope of the package.
 	 */
@@ -21,7 +21,7 @@ export interface JsrMetaModel {
 	 * Gets the versions of the package.
 	 */
 	versions: Record<string, unknown>;
-}
+};
 
 /**
  * Gets the meta data for a package with the given {@link scope} and {@link pkgName}.

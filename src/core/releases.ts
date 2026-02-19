@@ -8,7 +8,7 @@ import type { DotnetCopyrightUpdate } from "./dotnet.ts";
 /**
  * Represents the different settings.
  */
-export interface PrepareReleaseSettings {
+export type PrepareReleaseSettings = {
 	/**
 	 * Gets the owner of the repository.
 	 */
@@ -59,12 +59,12 @@ export interface PrepareReleaseSettings {
 	 * Gets the dotnet copyright update settings.
 	 */
 	dotnetCopyrightUpdate?: DotnetCopyrightUpdate;
-}
+};
 
 /**
  * Various settings for generating release notes.
  */
-export interface GeneratorSettings {
+export type GeneratorSettings = {
 	/**
 	 * The owner of the GitHub repository.
 	 *
@@ -340,12 +340,12 @@ export interface GeneratorSettings {
 	 * @example "Other Changes" or "Miscellaneous"
 	 */
 	otherCategoryName?: string;
-}
+};
 
 /**
  * Represents a release type that would create a release pull request from the head branch to the base branch.
  */
-export interface ReleaseType {
+export type ReleaseType = {
 	/**
 	 * Gets the name of the release type.
 	 */
@@ -395,4 +395,4 @@ export interface ReleaseType {
 	 * Gets the title of the pull request.
 	 */
 	prTitle: string;
-}
+};
