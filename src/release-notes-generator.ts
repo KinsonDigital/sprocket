@@ -415,16 +415,30 @@ export class ReleaseNotesGenerator {
 		}
 
 		// If versions are to be bolded and/or italicized
-		const versionRegex =
+		const withoutPrefixVersionRegex =
+			/(0|[1-9]\d*)(\.(0|[1-9]\d*))?(\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?/gm;
+		const withPrefixVersionRegex =
 			/v(0|[1-9]\d*)(\.(0|[1-9]\d*))?(\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?/gm;
 
 		const italicSyntax = settings.italicVersions ? "_" : "";
 		const boldSyntax = settings.boldedVersions ? "**" : "";
 
-		const versions = Array.from(title.match(versionRegex) ?? []);
+		const prefixedVersions = Array.from(title.match(withPrefixVersionRegex) ?? []);
 
-		for (const version of versions) {
-			title = title.replace(version, `${italicSyntax}${boldSyntax}${version}${boldSyntax}${italicSyntax}`);
+		// Remove the prefix "v" from the versions in the title
+		for (const version of prefixedVersions) {
+			const versionWithoutPrefix = version.startsWith("v") ? version.slice(1) : version;
+			title = title.replace(version, versionWithoutPrefix);
+		}
+
+		// Now that all versions in the title do not have the "v" prefix, find all
+		// unprefixed versions which should be all of the versions.
+		const notPrefixedVersions = Array.from(title.match(withoutPrefixVersionRegex) ?? []);
+
+		// Resolve, bold, and italicize all versions in the title
+		for (const version of notPrefixedVersions) {
+			const resolvedVersion = this.resolveVersionToFull(version);
+			title = title.replace(version, `${italicSyntax}${boldSyntax}v${resolvedVersion}${boldSyntax}${italicSyntax}`);
 		}
 
 		return title;
@@ -472,5 +486,46 @@ export class ReleaseNotesGenerator {
 	 */
 	private createMarkDownLink(issueOrPrNumber: number, url: string): string {
 		return `[#${issueOrPrNumber}](${url})`;
+	}
+
+	/**
+	 * Resolves the given {@link version} to a full version if it is not already a full version. A full version is in the
+	 * format of v{major}.{minor}.{patch}. If the given version is missing the patch or minor version,
+	 * it will be resolved to a full version by adding .0 for each missing part. For example, v1 will
+	 * be resolved to v1.0.0 and v1.2 will be resolved to v1.2.0.
+	 * @param version The version to resolve.
+	 * @returns Returns the full version. If the given version is already a full version, it will be returned as is.
+	 * If the given version is missing the patch or minor version, it will be resolved to a full version by adding .0 for each missing part. For example, v1 will be resolved to v1.0.0 and v1.2 will be resolved to v1.2.0.
+	 */
+	private resolveVersionToFull(version: string): string {
+		if (this.isFullVersion(version)) {
+			return version;
+		}
+
+		const split = version.split(".");
+
+		if (split.length === 1) {
+			return `${version}.0.0`;
+		} else if (split.length === 2) {
+			return `${version}.0`;
+		} else {
+			throw new Error(`Cannot resolve version: ${version} to full version`);
+		}
+	}
+
+	/**
+	 * Returns a value indicating whether the given {@link version} is a full version. A full version is in the format of
+	 * v{major}.{minor}.{patch}. For example, v1.2.3 is a full version, while v1 and v1.2 are not full versions.
+	 * @param version The version to check.
+	 * @returns A boolean value indicating whether the given {@link version} is a full version.
+	 */
+	private isFullVersion(version: string): boolean {
+		if (version === undefined || version === null || version === "") {
+			return false;
+		}
+
+		const split = version.split(".");
+
+		return split.length >= 3;
 	}
 }
