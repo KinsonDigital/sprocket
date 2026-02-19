@@ -295,7 +295,7 @@ export interface GeneratorSettings {
 	 *
 	 * @example { "API": "bold", "BREAKING": "bold,italic", "deprecated": "italic" }
 	 */
-	styleWordsList?: Record<string, string>;
+	styledWordsList?: Record<string, string>;
 
 	/**
 	 * Whether to apply bold formatting to version numbers in titles.

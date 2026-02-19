@@ -391,8 +391,8 @@ export class ReleaseNotesGenerator {
 		title = sections.join(" ");
 
 		// If there are any words that need to be bolded or italicized
-		for (const wordToStyle in settings.styleWordsList) {
-			const styleList = settings.styleWordsList[wordToStyle].toLowerCase().trim();
+		for (const wordToStyle in settings.styledWordsList) {
+			const styleList = settings.styledWordsList[wordToStyle].toLowerCase().trim();
 
 			const styles = styleList.split(",").filter((s) => s === "bold" || s === "italic");
 
