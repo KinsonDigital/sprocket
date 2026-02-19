@@ -2,13 +2,16 @@
 
 sprocket is a CLI application written in [deno](https://deno.com/) to simplify dev-related work in the KinsonDigital organization.
 
-### Install/Update
+### Install/Update Using Latest Installer Version
 ```bash
 # Installs or updates the tool using the latest version of the installer
 deno run -NRW jsr:@kinsondigital/sprocket/install
+```
 
+### Install/Update Using Specific Installer Version
+```bash
 # Installs or updates the tool using a specific version of the installer
-deno run -NRW jsr:@kinsondigital/sprocket@v1.2.3/install
+deno run -NRW jsr:@kinsondigital/sprocket@1.2.3/install
 ```
 
 ### Note:

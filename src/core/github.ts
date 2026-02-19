@@ -11,7 +11,7 @@ import { isLessThanOne, isNothing } from "./guards.ts";
 /**
  * Describes a GitHub API error.
  */
-export interface GitHubError {
+export type GitHubError = {
 	/**
 	 * The resource that caused the error.
 	 */
@@ -26,12 +26,12 @@ export interface GitHubError {
 	 * The error message.
 	 */
 	message: string;
-}
+};
 
 /**
  * Describes the structure of an error response from the GitHub API.
  */
-export interface ErrorData {
+export type ErrorData = {
 	/**
 	 * The error message.
 	 */
@@ -46,7 +46,7 @@ export interface ErrorData {
 	 * The URL to the documentation.
 	 */
 	documentation_url: string;
-}
+};
 
 /**
  * Checks if a GitHub issue exists.

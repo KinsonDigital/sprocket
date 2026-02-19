@@ -11,7 +11,7 @@ export type State = "open" | "closed";
 /**
  * Represents a GitHub label.
  */
-export interface LabelModel {
+export type LabelModel = {
 	/**
 	 * The name of the label.
 	 */
@@ -46,12 +46,12 @@ export interface LabelModel {
 	 * Gets or sets the default value of the label.
 	 */
 	default: false;
-}
+};
 
 /**
  * Represents a GitHub milestone.
  */
-export interface MilestoneModel {
+export type MilestoneModel = {
 	/**
 	 * Gets or sets the title of the milestone.
 	 */
@@ -76,12 +76,12 @@ export interface MilestoneModel {
 	 * Gets or sets the number of closed issues for the milestone.
 	 */
 	closed_issues: number;
-}
+};
 
 /**
  * Holds information about a pull requests head or base branches.
  */
-export interface PullRequestHeadOrBaseModel {
+export type PullRequestHeadOrBaseModel = {
 	/**
 	 * Gets or sets the ref.
 	 */
@@ -96,12 +96,12 @@ export interface PullRequestHeadOrBaseModel {
 	 * Gets or sets the repository info.
 	 */
 	repo: RepoModel;
-}
+};
 
 /**
  * Represents a GitHub user.
  */
-export interface UserModel {
+export type UserModel = {
 	/**
 	 * Gets or sets the user's ID.
 	 */
@@ -126,22 +126,22 @@ export interface UserModel {
 	 * Gets or sets the user's name.
 	 */
 	name: string;
-}
+};
 
 /**
  * Holds additional information about a pull request.
  */
-export interface PullRequestInfoModel {
+export type PullRequestInfoModel = {
 	/**
 	 * Gets or sets a value indicating the date and time of the merge.
 	 */
 	merged_at: string | null;
-}
+};
 
 /**
  * Represents a GitHub pull request.
  */
-export interface PullRequestModel {
+export type PullRequestModel = {
 	/**
 	 * Gets or sets the ID of the pull request.
 	 */
@@ -221,12 +221,12 @@ export interface PullRequestModel {
 	 * Gets or sets the base branch of the pull request.
 	 */
 	base: PullRequestHeadOrBaseModel;
-}
+};
 
 /**
  * Represents a GitHub repository.
  */
-export interface RepoModel {
+export type RepoModel = {
 	/**
 	 * Gets or sets the ID of the repository.
 	 */
@@ -256,12 +256,12 @@ export interface RepoModel {
 	 * Gets or sets the URL of the repository.
 	 */
 	url: string;
-}
+};
 
 /**
  * Represents an issue type returned by the GitHub API.
  */
-export interface IssueTypeModel {
+export type IssueTypeModel = {
 	/**
 	 * The unique identifier of the issue type.
 	 * Assigned by GitHub and unique across the repository.
@@ -305,4 +305,4 @@ export interface IssueTypeModel {
 	 * Indicates whether the issue type is enabled.
 	 */
 	is_enabled: boolean;
-}
+};

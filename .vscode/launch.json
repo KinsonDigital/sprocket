@@ -161,5 +161,28 @@
 			"attachSimplePort": 9229,
 			"console": "integratedTerminal"
 		},
+		{ // RELEASE NOTES GENERATOR TESTING
+			"name": "Release Notes Generator Testing",
+			"request": "launch"	,
+			"type": "node",
+			"program": "${workspaceFolder}/testing/release-notes-generator-testing.ts",
+			"cwd": "${workspaceFolder}",
+			"windows": {
+				"runtimeExecutable": "${userHome}/.deno/bin/deno.exe"
+			},
+			"linux": {
+				"runtimeExecutable": "${userHome}/.deno/bin/deno"
+			},
+			"runtimeArgs": [
+				"run",
+				"-A",
+				"--inspect-wait",
+			],
+			"args": [
+				"latest",
+			],
+			"attachSimplePort": 9229,
+			"console": "integratedTerminal"
+		},
 	]
 }
