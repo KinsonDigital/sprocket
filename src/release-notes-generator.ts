@@ -292,10 +292,10 @@ export class ReleaseNotesGenerator {
 	 * @param settings The settings to use to get the issues.
 	 * @returns The list of issues that belong to a milestone.
 	 */
-	private async getIssues(settings: GeneratorSettings): Promise<IssueModel[]> {
+	private async getIssues(settings: GeneratorSettings): Promise<IssueModelNew[]> {
 		const milestoneName = this.buildMilestoneName(settings);
 
-		const issues = await this.milestoneClient?.getIssues(milestoneName) ?? [];
+		const issues = (await this.milestoneClient?.getIssues(milestoneName) ?? []) as IssueModelNew[];
 
 		const ignoreLabels = settings.ignoreLabels ?? [];
 
@@ -342,7 +342,7 @@ export class ReleaseNotesGenerator {
 	 * @param title The title to sanitize.
 	 * @returns The sanitized title.
 	 */
-	private sanitizeIssueTitle(settings: GeneratorSettings, issue: IssueModel): IssueModel {
+	private sanitizeIssueTitle(settings: GeneratorSettings, issue: IssueModelNew): IssueModelNew {
 		issue.title = this.sanitizeTitle(settings, issue.title ?? "");
 
 		return issue;
