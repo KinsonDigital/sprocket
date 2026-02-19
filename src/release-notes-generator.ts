@@ -103,7 +103,7 @@ export class ReleaseNotesGenerator {
 		const githubToken = Deno.env.get(settings.githubTokenEnvVarName);
 
 		if (githubToken === undefined) {
-			const errorMsg = `The environment variable for the GitHub token was not found or is empty.`;
+			const errorMsg = `The environment variable '${settings.githubTokenEnvVarName}' was not found or is empty.`;
 			throw new Error(errorMsg);
 		}
 
