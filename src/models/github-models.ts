@@ -221,7 +221,7 @@ export type PullRequestModel = {
 	 * Gets or sets the base branch of the pull request.
 	 */
 	base: PullRequestHeadOrBaseModel;
-}
+};
 
 /**
  * Represents a GitHub repository.

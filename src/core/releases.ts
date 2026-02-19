@@ -437,7 +437,7 @@ export class ReleaseNotesGenerator {
 		let categorySections: Record<string, string[]> = {};
 
 		const issuesWithTypes: IssueModelNew[] = issues.map((issue) => {
-			return <IssueModelNew>issue;
+			return <IssueModelNew> issue;
 		});
 
 		const issueTypeCatSections = this.buildCategoryIssueTypeSections(
