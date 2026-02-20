@@ -54,7 +54,7 @@ export function isDenoConfigValid(denoConfig: unknown): [boolean, string] {
  * @returns `true` if the value is a string; otherwise, `false`.
  */
 export function isStandardTask(task: unknown): task is Task {
-	return typeof task === "string";
+	return task !== undefined && typeof task === "string";
 }
 
 /**
@@ -66,7 +66,6 @@ export function isStandardTask(task: unknown): task is Task {
 export function isTaskDefinition(taskDef: unknown): taskDef is TaskDefinition {
 	const schema = z.object({
 		description: z.string(),
-
 		command: z.string(),
 	});
 

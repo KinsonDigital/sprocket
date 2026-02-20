@@ -4,6 +4,7 @@ import { getLatestVersion } from "./core/jsr.ts";
 import { isDenoConfig, isStandardTask, isTaskDefinition } from "./core/validation.ts";
 import type { DenoConfig } from "./core/deno.ts";
 import detectIndent from "detect-indent";
+import { isNothing } from "../src/core/guards.ts";
 
 const cwd = Deno.cwd();
 const denoConfigPath = `${cwd}/deno.json`;
@@ -45,10 +46,10 @@ if (isDenoConfig(denoConfig)) {
 	// Create the tasks property if it doesn't exist
 	if (denoConfig.tasks === undefined) {
 		denoConfig["tasks"] = {
-			sprocket: `${command} jsr:@${scope}/${pkgName}@${latestVersion} run-job ./dev-tools/sprocket-config.ts`,
+			"run-sprocket-job": `${command} jsr:@${scope}/${pkgName}@${latestVersion} run-job ./dev-tools/sprocket-config.ts`,
 		};
 
-		const updatedConfigContent = JSON.stringify(denoConfig, null, indent);
+		const updatedConfigContent = JSON.stringify(denoConfig, null, isNothing(indent) ? 4 : indent);
 		Deno.writeTextFileSync(denoConfigPath, updatedConfigContent);
 		Deno.exit();
 	}
@@ -70,7 +71,7 @@ if (isDenoConfig(denoConfig)) {
 		}
 	}
 
-	const updatedConfigContent = JSON.stringify(denoConfig, null, indent);
+	const updatedConfigContent = JSON.stringify(denoConfig, null, isNothing(indent) ? 4 : indent);
 	Deno.writeTextFileSync(denoConfigPath, updatedConfigContent);
 
 	console.log(`Sprocket has been installed with version 'v${latestVersion}'.`);
