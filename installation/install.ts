@@ -63,7 +63,9 @@ if (isDenoConfig(denoConfig)) {
 		} else if (isTaskDefinition(denoConfig.tasks[taskName])) {
 			denoConfig.tasks[taskName].command = updateSprocketVersion(denoConfig.tasks[taskName].command, latestVersion);
 		} else {
-			console.error(`The task '${taskName}' in the deno.json file is not valid. Please ensure all tasks are either a string or an object with 'description' and 'command' properties.`);
+			console.error(
+				`The task '${taskName}' in the deno.json file is not valid. Please ensure all tasks are either a string or an object with 'description' and 'command' properties.`,
+			);
 			Deno.exit(1);
 		}
 	}

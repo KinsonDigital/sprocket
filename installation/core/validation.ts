@@ -20,14 +20,17 @@ export function isDenoConfig(denoConfig: unknown): denoConfig is DenoConfig {
  */
 export function isDenoConfigValid(denoConfig: unknown): [boolean, string] {
 	const schema = z.object({
-		tasks: z.record(z.string(), z.union([
+		tasks: z.record(
 			z.string(),
-			z.object({
-				description: z.string(),
-				command: z.string(),
-				dependencies: z.array(z.string()).optional()
-			})
-		])).optional()
+			z.union([
+				z.string(),
+				z.object({
+					description: z.string(),
+					command: z.string(),
+					dependencies: z.array(z.string()).optional(),
+				}),
+			]),
+		).optional(),
 	});
 
 	const validationResult = schema.safeParse(denoConfig);
@@ -68,4 +71,4 @@ export function isTaskDefinition(taskDef: unknown): taskDef is TaskDefinition {
 	});
 
 	return schema.safeParse(taskDef).success;
-} 
+}
