@@ -1,6 +1,6 @@
 {
     "name": "@kinsondigital/sprocket",
-    "version": "2.2.0",
+    "version": "3.0.0",
     "license": "MIT",
     "tasks": {
         "check": "deno check **/*.ts",
@@ -19,8 +19,8 @@
             "command": "deno uninstall -g sprocket"
         },
         "check-publish": "deno publish --dry-run",
-        "prep-prod-release": "deno run -A jsr:@kinsondigital/sprocket@2.2.0 run-job ./dev-tools/sprocket-config.ts --job-name Prep-Prod-Release",
-        "create-pr": "deno run -A jsr:@kinsondigital/sprocket@2.2.0 run-job ./dev-tools/sprocket-config.ts --job-name Create-PR"
+        "prep-prod-release": "deno run -A jsr:@kinsondigital/sprocket@3.0.0 run-job ./dev-tools/sprocket-config.ts --job-name Prep-Prod-Release",
+        "create-pr": "deno run -A jsr:@kinsondigital/sprocket@3.0.0 run-job ./dev-tools/sprocket-config.ts --job-name Create-PR"
     },
     "lint": {
         "include": [
@@ -53,7 +53,6 @@
     "exclude": [
         "./dev-tools/",
         "./tests/",
-        "./.github/",
         "./.vscode/",
         "./release-notes/"
     ],

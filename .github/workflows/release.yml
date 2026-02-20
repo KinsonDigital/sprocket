@@ -41,7 +41,7 @@ jobs:
         id: validate-version
         uses: KinsonDigital/Infrastructure/actions/validate-version@v16.0.0
         with:
-          version: "${{ steps.get-version.outputs.version}}"
+          version: "v${{ steps.get-version.outputs.version}}"
           release-type: "${{ inputs.release-type }}"
           deno-version: "${{ vars.DENO_VERSION }}"
 

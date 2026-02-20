@@ -20,6 +20,9 @@
         "Tech-Debt": "Tech Debt 📉",
         "Dependency-Update": "Dependency Updates 📦"
     },
+    "issueCategoryLabelMappings": {
+        "breaking-changes": "Breaking Changes 🧨"
+    },
     "prCategoryLabelMappings": {
         "Dependency Updates 📦": "dependency-update"
     },
