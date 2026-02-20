@@ -2,7 +2,7 @@
 import { existsSync } from "jsr:@std/fs@1.0.19";
 import { getLatestVersion } from "./core/jsr.ts";
 import { isDenoConfig, isStandardTask, isTaskDefinition } from "./core/validation.ts";
-import { DenoConfig } from "./core/deno.ts";
+import type { DenoConfig } from "./core/deno.ts";
 import detectIndent from "detect-indent";
 
 const cwd = Deno.cwd();

@@ -1,5 +1,5 @@
 import z from "@zod";
-import { DenoConfig, Task, TaskDefinition, Tasks } from "./deno.ts";
+import type { DenoConfig, Task, TaskDefinition } from "./deno.ts";
 
 /**
  * Checks whether the given value is a valid {@link DenoConfig} object.
