@@ -58,11 +58,12 @@ if (isDenoConfig(denoConfig)) {
 
 	for (let i = 0; i < taskNames.length; i++) {
 		const taskName = taskNames[i];
+		const task = denoConfig.tasks[taskName];
 
-		if (isStandardTask(denoConfig.tasks[taskName])) {
-			denoConfig.tasks[taskName] = updateSprocketVersion(denoConfig.tasks[taskName] as string, latestVersion);
-		} else if (isTaskDefinition(denoConfig.tasks[taskName])) {
-			denoConfig.tasks[taskName].command = updateSprocketVersion(denoConfig.tasks[taskName].command, latestVersion);
+		if (isStandardTask(task)) {
+			denoConfig.tasks[taskName] = updateSprocketVersion(task as string, latestVersion);
+		} else if (isTaskDefinition(task)) {
+			task.command = updateSprocketVersion(task.command, latestVersion);
 		} else {
 			console.error(
 				`The task '${taskName}' in the deno.json file is not valid. Please ensure all tasks are either a string or an object with 'description' and 'command' properties.`,

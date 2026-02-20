@@ -27,7 +27,7 @@ export type TaskDefinition = {
  * A record of task names mapped to either a command string, a {@link Task}, or a {@link TaskDefinition}.
  */
 export type Tasks = {
-	[key: string]: string | Task | TaskDefinition;
+	[key: string]: Task | TaskDefinition;
 };
 
 /**
