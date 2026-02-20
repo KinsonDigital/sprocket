@@ -75,10 +75,20 @@ if (isDenoConfig(denoConfig)) {
 	Deno.writeTextFileSync(denoConfigPath, updatedConfigContent);
 
 	console.log(`Sprocket has been installed with version 'v${latestVersion}'.`);
+} else {
+	console.error(`The existing deno.json file is not valid. Please ensure it conforms to the expected schema.`);
+	Deno.exit(1);
 }
 
+/**
+ * Updates the version of the Sprocket package in a given task value.
+ * @param taskValue The task value containing the Sprocket package reference.
+ * @param newVersion The new version to update the Sprocket package to.
+ * @returns The updated task value with the new Sprocket version.
+ * @remarks If no sprocket package reference is found in the task value, the original task value is returned unchanged.
+ */
 function updateSprocketVersion(taskValue: string, newVersion: string): string {
-	const sprocketPkgPathRegex = /jsr:@kinsondigital\/sprocket@[0-9]\.[0-9]\.[0-9]/;
+	const sprocketPkgPathRegex = /jsr:@kinsondigital\/sprocket@[0-9]+\.[0-9]+\.[0-9]+/;
 
 	// Pull the sprocket package reference from the task value
 	const pkgRefMatch = Array.from(taskValue.match(sprocketPkgPathRegex) || []);
@@ -88,7 +98,7 @@ function updateSprocketVersion(taskValue: string, newVersion: string): string {
 	}
 
 	const pkgRef = pkgRefMatch[0];
-	const versionRegex = /[0-9]\.[0-9]\.[0-9]/;
+	const versionRegex = /[0-9]+\.[0-9]+\.[0-9]+/;
 
 	const pkgRefSections = pkgRef.split("@");
 
