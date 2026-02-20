@@ -3,8 +3,6 @@ const _ownerName = Deno.env.get("OWNER_NAME") ?? "";
 const _repoName = Deno.env.get("REPO_NAME") ?? "";
 const _token = Deno.env.get("GITHUB_TOKEN") ?? "";
 
-const versionRegex = /[0-9]+\.[0-9]+\.[0-9]+/;
-
 
 
 debugger;

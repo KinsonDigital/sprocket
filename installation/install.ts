@@ -93,7 +93,7 @@ function updateSprocketVersion(taskValue: string, newVersion: string): string {
 	// Pull the sprocket package reference from the task value
 	const pkgRefMatch = Array.from(taskValue.match(sprocketPkgPathRegex) || []);
 
-	if (pkgRefMatch.length === 0) {
+	if (pkgRefMatch.length === 0 || !taskValue.includes("run-job")) {
 		return taskValue;
 	}
 
