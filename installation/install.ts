@@ -1,23 +1,10 @@
 // deno-lint-ignore no-import-prefix
 import { existsSync } from "jsr:@std/fs@1.0.19";
-// deno-lint-ignore no-import-prefix
-import { promptSelect } from "jsr:@std/cli@1.0.23/unstable-prompt-select";
 import { getLatestVersion } from "./core/jsr.ts";
-
-/**
- * Represents a Deno configuration file.
- */
-interface DenoConfig {
-	/**
-	 * The tasks defined in the Deno configuration.
-	 */
-	tasks: {
-		/**
-		 * The sprocket task command.
-		 */
-		sprocket?: string;
-	};
-}
+import { isDenoConfig, isStandardTask, isTaskDefinition } from "./core/validation.ts";
+import type { DenoConfig } from "./core/deno.ts";
+import detectIndent from "detect-indent";
+import { isNothing } from "../src/core/guards.ts";
 
 const cwd = Deno.cwd();
 const denoConfigPath = `${cwd}/deno.json`;
@@ -27,80 +14,104 @@ const pkgName = "sprocket";
 
 // Get the latest version of sprocket
 const latestVersion = await getLatestVersion(scope, pkgName);
-const newDefaultTaskValue = `${command} jsr:@${scope}/${pkgName}@${latestVersion} run-job ./dev-tools/sprocket-config.ts`;
 
 // If the deno.json does not exist, create it.
 if (!existsSync(denoConfigPath)) {
+	const newDefaultTaskValue = `${command} jsr:@${scope}/${pkgName}@${latestVersion} run-job ./dev-tools/sprocket-config.ts`;
 	const newConfigFile: DenoConfig = {
 		tasks: {
-			sprocket: `${command} jsr:@${scope}/${pkgName}@${latestVersion} run-job ./dev-tools/sprocket-config.ts`,
+			"run-sprocket-job": newDefaultTaskValue,
 		},
 	};
 
-	updateTaskValue(newConfigFile, newDefaultTaskValue);
-
+	Deno.writeTextFileSync(denoConfigPath, JSON.stringify(newConfigFile, null, 4));
 	console.log(`Sprocket has been installed with version 'v${latestVersion}'.`);
 	Deno.exit();
 }
 
 const configFileContent = await Deno.readTextFile(denoConfigPath);
-const denoConfig = JSON.parse(configFileContent) as DenoConfig;
+const indent = detectIndent(configFileContent).indent;
 
-// Create the tasks property if it doesn't exist
-if (!denoConfig["tasks"]) {
-	denoConfig["tasks"] = {};
+let denoConfig: unknown;
+
+try {
+	denoConfig = JSON.parse(configFileContent);
+} catch (error) {
+	const errorMsg = error instanceof Error ? error.message : String(error);
+	console.error(`An error occurred while parsing the deno.json file: ${errorMsg}`);
+	Deno.exit(1);
 }
 
-// If the sprocket task exists
-if (denoConfig["tasks"]["sprocket"]) {
-	const sprocketPkgPathRegex =
-		/deno run .+ jsr:@kinsondigital\/sprocket@[0-9]\.[0-9]\.[0-9] run-job .\/dev-tools\/sprocket-config.ts/gm;
-	const sprocketPropValue = denoConfig.tasks.sprocket;
-	const taskSections = sprocketPropValue.split(" ").map((section) => section.trim());
+if (isDenoConfig(denoConfig)) {
+	// Create the tasks property if it doesn't exist
+	if (denoConfig.tasks === undefined) {
+		denoConfig["tasks"] = {
+			"run-sprocket-job": `${command} jsr:@${scope}/${pkgName}@${latestVersion} run-job ./dev-tools/sprocket-config.ts`,
+		};
 
-	if (sprocketPkgPathRegex.test(sprocketPropValue)) {
-		const pgkRefIndex = taskSections.findIndex((section) => {
-			const regex = /jsr:@kinsondigital\/sprocket@[0-2]\.[0-2]\.[0-2]/gm;
+		const updatedConfigContent = JSON.stringify(denoConfig, null, isNothing(indent) ? 4 : indent);
+		Deno.writeTextFileSync(denoConfigPath, updatedConfigContent);
+		Deno.exit();
+	}
 
-			return regex.test(section);
-		});
+	const taskNames = Object.getOwnPropertyNames(denoConfig.tasks);
 
-		if (pgkRefIndex === -1) {
-			console.error("An error occurred while parsing the sprocket package reference from the deno.json file.");
+	for (let i = 0; i < taskNames.length; i++) {
+		const taskName = taskNames[i];
+		const task = denoConfig.tasks[taskName];
+
+		if (isStandardTask(task)) {
+			denoConfig.tasks[taskName] = updateSprocketVersion(task as string, latestVersion);
+		} else if (isTaskDefinition(task)) {
+			task.command = updateSprocketVersion(task.command, latestVersion);
+		} else {
+			console.error(
+				`The task '${taskName}' in the deno.json file is not valid. Please ensure all tasks are either a string or an object with 'description' and 'command' properties.`,
+			);
 			Deno.exit(1);
 		}
-
-		const version = taskSections[pgkRefIndex].split("@").pop();
-
-		if (version !== latestVersion) {
-			const selectionResult = promptSelect(`Are you sure you want to update sprocket to 'v${latestVersion}':`, [
-				"Yes",
-				"No",
-			], { clear: true });
-
-			const selectedOption: "Yes" | "No" = selectionResult === "Yes" ? selectionResult : "No";
-
-			if (selectedOption === "Yes") {
-				taskSections[pgkRefIndex] = `jsr:@${scope}/${pkgName}@${latestVersion}`;
-
-				updateTaskValue(denoConfig, taskSections.join(" "));
-			}
-		}
-	} else {
-		updateTaskValue(denoConfig, newDefaultTaskValue);
 	}
+
+	const updatedConfigContent = JSON.stringify(denoConfig, null, isNothing(indent) ? 4 : indent);
+	Deno.writeTextFileSync(denoConfigPath, updatedConfigContent);
+
+	console.log(`Sprocket has been installed with version 'v${latestVersion}'.`);
 } else {
-	updateTaskValue(denoConfig, newDefaultTaskValue);
+	console.error(`The existing deno.json file is not valid. Please ensure it conforms to the expected schema.`);
+	Deno.exit(1);
 }
 
 /**
- * Updates the sprocket task value in the Deno configuration file.
- * @param denoConfig The Deno configuration object.
- * @param taskValue The new task value for sprocket.
+ * Updates the version of the Sprocket package in a given task value.
+ * @param taskValue The task value containing the Sprocket package reference.
+ * @param newVersion The new version to update the Sprocket package to.
+ * @returns The updated task value with the new Sprocket version.
+ * @remarks If no sprocket package reference is found in the task value, the original task value is returned unchanged.
  */
-function updateTaskValue(denoConfig: DenoConfig, taskValue: string): void {
-	denoConfig["tasks"]["sprocket"] = taskValue;
+function updateSprocketVersion(taskValue: string, newVersion: string): string {
+	const sprocketPkgPathRegex = /jsr:@kinsondigital\/sprocket@[0-9]+\.[0-9]+\.[0-9]+/;
 
-	// Write the updated config back to the file
-	Deno.writeTextFileSync(denoConfigPath, `${JSON.stringify(denoConfig, null, 4)}\n`);
+	// Pull the sprocket package reference from the task value
+	const pkgRefMatch = Array.from(taskValue.match(sprocketPkgPathRegex) || []);
+
+	if (pkgRefMatch.length === 0 || !taskValue.includes("run-job")) {
+		return taskValue;
+	}
+
+	const pkgRef = pkgRefMatch[0];
+	const versionRegex = /[0-9]+\.[0-9]+\.[0-9]+/;
+
+	const pkgRefSections = pkgRef.split("@");
+
+	const versionSectionIndex = pkgRefSections.findIndex((section) => versionRegex.test(section));
+
+	if (versionSectionIndex === -1) {
+		throw new Error("An error occurred while parsing the sprocket package reference from the deno.json file.");
+	}
+
+	pkgRefSections[versionSectionIndex] = newVersion;
+
+	const updatedPkgRef = pkgRefSections.join("@");
+
+	return taskValue.replace(pkgRef, updatedPkgRef);
 }

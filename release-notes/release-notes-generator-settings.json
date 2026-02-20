@@ -21,9 +21,9 @@
         "Dependency-Update": "Dependency Updates 📦"
     },
     "prCategoryLabelMappings": {
-        "Dependency Updates 📦": "📦dependency-update"
+        "Dependency Updates 📦": "dependency-update"
     },
-    "ignoreLabels": ["🚀production-release"],
+    "ignoreLabels": ["production-release"],
     "wordReplacements": {
 		"chore(deps): ": ""
 	},

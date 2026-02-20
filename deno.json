@@ -58,15 +58,16 @@
         "./release-notes/"
     ],
     "imports": {
-        "@std/fs": "jsr:@std/fs@1.0.19",
-        "@std/path": "jsr:@std/path@1.1.2",
-        "@std/assert": "jsr:@std/assert@1.0.15",
-        "@std/streams": "jsr:@std/streams@1.0.13",
+        "@std/fs": "jsr:@std/fs@1.0.23",
+        "@std/path": "jsr:@std/path@1.1.4",
+        "@std/assert": "jsr:@std/assert@1.0.19",
+        "@std/streams": "jsr:@std/streams@1.0.17",
         "@cliffy/command": "jsr:@cliffy/command@1.0.0",
         "@cliffy/prompt": "jsr:@cliffy/prompt@1.0.0",
-        "neverthrow": "npm:neverthrow@^6.2.2",
+        "detect-indent": "npm:detect-indent@^7.0.2",
+        "neverthrow": "npm:neverthrow@^8.2.0",
         "@kdclients": "jsr:@kinsondigital/kd-clients@1.0.0-preview.15",
-        "@zod": "npm:zod@4.1.12",
+        "@zod": "npm:zod@^4.3.6",
         "@sprocket": "jsr:@kinsondigital/sprocket@2.2.0"
     },
     "exports": {

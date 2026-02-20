@@ -26,7 +26,7 @@ if (token === "") {
 
 const ownerName = "KinsonDigital";
 const repoName = "sprocket";
-const prodLabel = "🚀production-release";
+const prodLabel = "production-release";
 const baseBranch = "main";
 
 const releaseType = await Select.prompt<string>({
