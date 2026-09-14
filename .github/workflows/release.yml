@@ -1,4 +1,4 @@
-name: 🚀Release
+name: Release
 run-name: ${{ vars.PROJECT_NAME }} ${{ inputs.release-type }} Release ${{ inputs.dry-run == true && '(Dry Run)' || '' }}
 
 
@@ -251,7 +251,6 @@ jobs:
         with: 
           name: "🚀${{ inputs.release-type }} Release - v${{ needs.get_and_validate_version.outputs.version }}" 
           body_path: "${{ github.workspace }}/release-notes/${{ steps.release-type.outputs.release-type }}-releases/Release-Notes-v${{ needs.get_and_validate_version.outputs.version }}.md"
-          files: "${{ github.workspace }}/release-notes/${{ steps.release-type.outputs.release-type }}-releases/Release-Notes-v${{ needs.get_and_validate_version.outputs.version }}.md"
           tag_name: "v${{ needs.get_and_validate_version.outputs.version }}"
           prerelease: ${{ inputs.release-type == 'Preview' }}
           draft: false
@@ -272,7 +271,7 @@ jobs:
         env:
           OWNER_NAME: "${{ vars.ORGANIZATION_NAME }}"
           REPO_NAME: "${{ vars.PROJECT_NAME }}"
-          GITHUB_TOKEN: "${{ secrets.CICD_TOKEN }}"
+          CICD_TOKEN: "${{ secrets.CICD_TOKEN }}"
         run: |
           $baseDirPath = "${{ github.workspace }}";
           $scriptDirPath = ".github/cicd-scripts";
