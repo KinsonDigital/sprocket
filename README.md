@@ -14,13 +14,11 @@ sprocket is a CLI application written in [deno](https://deno.com/) to simplify d
 
 ### Install/Update Using Latest Installer Version
 ```bash
-# Installs or updates the tool using the latest version of the installer
 deno run -NRW jsr:@kinsondigital/sprocket/install
 ```
 
 ### Install/Update Using Specific Installer Version
 ```bash
-# Installs or updates the tool using a specific version of the installer
 deno run -NRW jsr:@kinsondigital/sprocket@1.2.3/install
 ```
 
